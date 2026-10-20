@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+  --font-bengali: "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+  --color-cream: #fdf8f1;
+  --color-cream-dark: #f7ecdd;
+  --color-brand: #ff1a1a;
+  --color-brand-dark: #cc1414;
+  --color-ink: #2b2118;
+  --color-ink-soft: #6b5d4f;
+}
+
+html {
+  font-family: var(--font-bengali);
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* thin scrollbars for chip rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes sos-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(255, 26, 26, 0);
+  }
+}
+.sos-pulse {
+  animation: sos-pulse 1.8s ease-out infinite;
+}
+
+@keyframes blink-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.blink-dot {
+  animation: blink-dot 1.2s ease-in-out infinite;
+}
