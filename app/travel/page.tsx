@@ -9,7 +9,7 @@ export default async function TravelPage() {
   const [guides, shelters] = await Promise.all([getGuides(), getShelters()]);
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6">
+      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-ink">ভ্রমণ মোড</h1>
@@ -19,7 +19,7 @@ export default async function TravelPage() {
         </div>
 
         <h2 className="mb-3 mt-6 font-bold text-ink">যাচাইকৃত গাইড</h2>
-        <div className="space-y-3">
+        <div className="grid gap-3 md:grid-cols-2">
           {guides.map((g) => (
             <div key={g.id} className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
               <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ export default async function TravelPage() {
         </div>
 
         <h2 className="mb-3 mt-6 font-bold text-ink">নিরাপদ আশ্রয়</h2>
-        <div className="space-y-3">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {shelters.map((s) => (
             <div
               key={s.id}

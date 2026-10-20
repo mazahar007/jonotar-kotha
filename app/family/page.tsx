@@ -10,7 +10,7 @@ export default async function FamilyPage() {
   const members = await getFamily();
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6">
+      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <h1 className="text-xl font-bold text-ink">পরিবার ট্র্যাকিং</h1>
         <p className="mt-1 text-sm text-ink-soft">আপনার প্রিয়জনরা এখন কোথায়</p>
 
@@ -21,7 +21,7 @@ export default async function FamilyPage() {
           <p className="text-sm font-semibold text-amber-800">{mockFamilyNote}</p>
         </div>
 
-        <div className="mt-4 space-y-3">
+        <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {members.map((m) => (
             <div
               key={m.id}

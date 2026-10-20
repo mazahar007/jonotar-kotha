@@ -37,12 +37,13 @@ function LoginForm() {
 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-cream px-6">
+      <div className="flex w-full max-w-xs flex-col items-center lg:max-w-md lg:rounded-3xl lg:bg-white lg:p-10 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <span className="flex h-16 w-16 items-center justify-center rounded-full bg-ink text-white">
         <IconLock className="h-8 w-8" />
       </span>
       <h1 className="mt-4 text-xl font-bold text-ink">অ্যাডমিন লগইন</h1>
       <p className="mt-1 text-sm text-ink-soft">প্যানেল খুলতে পাসকোড দিন</p>
-      <form onSubmit={submit} className="mt-6 w-full max-w-xs space-y-3">
+      <form onSubmit={submit} className="mt-6 w-full max-w-xs space-y-3 lg:max-w-none">
         <input
           type="password"
           value={passcode}
@@ -63,6 +64,7 @@ function LoginForm() {
       <p className="mt-4 text-xs text-ink-soft">
         ডেমো পাসকোড: <span className="font-bold">{DEMO_HINT}</span> (Supabase সেট না থাকলে)
       </p>
+      </div>
     </main>
   );
 }

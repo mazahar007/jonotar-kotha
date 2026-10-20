@@ -19,6 +19,45 @@ export interface Report {
   evidence_url: string | null;
   created_at: string;
   time_ago: string;
+  // Phase 2 — administrative location hierarchy + uploaded media
+  division_id?: number | null;
+  district_id?: number | null;
+  upazila_id?: number | null;
+  thana_id?: number | null;
+  union_id?: number | null;
+  media_urls?: string[];
+  // Names resolved server-side for the breadcrumb (union, upazila, district)
+  union_name?: string | null;
+  upazila_name?: string | null;
+  district_name?: string | null;
+}
+
+/* ---------- Bangladesh administrative hierarchy (Phase 2) ---------- */
+
+export interface LocationNode {
+  id: number;
+  name_bn: string;
+  name_en: string;
+  slug: string;
+  sort_order: number;
+}
+
+export interface Division extends LocationNode {}
+
+export interface District extends LocationNode {
+  division_id: number;
+}
+
+export interface Upazila extends LocationNode {
+  district_id: number;
+}
+
+export interface Thana extends LocationNode {
+  upazila_id: number;
+}
+
+export interface UnionParishad extends LocationNode {
+  upazila_id: number;
 }
 
 export interface Volunteer {

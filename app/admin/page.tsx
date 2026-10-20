@@ -4,8 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { STATUS_LABEL, STATUS_OPTIONS, type ReportStatus } from '@/lib/types';
 import { IconCheck, IconLogout, IconX } from '@/components/icons';
+import AdminLocations from '@/components/AdminLocations';
 
-type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters';
+type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations';
 
 const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'reports', label: 'রিপোর্ট', endpoint: '/api/reports' },
@@ -16,6 +17,7 @@ const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'evidence', label: 'প্রমাণ', endpoint: '/api/evidence' },
   { id: 'guides', label: 'গাইড', endpoint: '/api/guides' },
   { id: 'shelters', label: 'আশ্রয়', endpoint: '/api/shelters' },
+  { id: 'locations', label: 'লোকেশন', endpoint: '' },
 ];
 
 // editable fields per tab (excluding id)
@@ -63,6 +65,8 @@ const FIELDS: Record<Tab, { key: string; label: string; type?: 'text' | 'number'
     { key: 'shelter_type', label: 'ধরন' },
     { key: 'distance_m', label: 'দূরত্ব (মি)', type: 'number' },
   ],
+  // Managed by the dedicated hierarchical UI (AdminLocations), not the generic form.
+  locations: [],
 };
 
 interface Row {
@@ -82,6 +86,12 @@ export default function AdminPage() {
   const endpoint = TABS.find((t) => t.id === tab)!.endpoint;
 
   const load = useCallback(async () => {
+    if (!endpoint) {
+      // Locations tab uses its own component & data flow.
+      setRows([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch(endpoint, { cache: 'no-store' });
@@ -167,7 +177,7 @@ export default function AdminPage() {
         </button>
       </header>
 
-      <div className="no-scrollbar sticky top-[52px] z-30 flex gap-2 overflow-x-auto bg-cream px-4 py-3">
+      <div className="no-scrollbar sticky top-[52px] z-30 mx-auto flex w-full max-w-7xl gap-2 overflow-x-auto bg-cream px-4 py-3">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -181,7 +191,11 @@ export default function AdminPage() {
         ))}
       </div>
 
-      <div className="px-4 pb-10">
+      <div className="mx-auto w-full max-w-7xl px-4 pb-10">
+        {tab === 'locations' ? (
+          <AdminLocations />
+        ) : (
+          <>
         <button
           onClick={openAdd}
           className="mb-3 w-full rounded-2xl border-2 border-dashed border-[#e0d2bd] py-3 text-sm font-bold text-ink-soft"
@@ -191,18 +205,28 @@ export default function AdminPage() {
 
         {loading && <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
 
-        <div className="space-y-2">
+        <div className="grid gap-2 lg:grid-cols-2">
           {rows.map((r) => (
             <div key={r.id} className="rounded-2xl bg-white p-4 shadow-sm">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-bold text-ink">{rowTitle(r)}</p>
                   {tab === 'reports' && (
-                    <p className="mt-0.5 text-xs text-ink-soft">
-                      {String(r.category ?? '')} · {String(r.location_name ?? '')} ·{' '}
-                      {STATUS_LABEL[(r.status as ReportStatus) ?? 'pending']}
-                      {r.is_anonymous ? ' · গোপন বাক্স' : ''}
-                    </p>
+                    <>
+                      <p className="mt-0.5 text-xs text-ink-soft">
+                        {String(r.category ?? '')} · {String(r.location_name ?? '')} ·{' '}
+                        {STATUS_LABEL[(r.status as ReportStatus) ?? 'pending']}
+                        {r.is_anonymous ? ' · গোপন বাক্স' : ''}
+                      </p>
+                      {(r.union_name || r.upazila_name || r.district_name) && (
+                        <p className="mt-0.5 text-xs font-semibold text-ink-soft">
+                          {[r.union_name, r.upazila_name, r.district_name]
+                            .filter(Boolean)
+                            .map(String)
+                            .join(', ')}
+                        </p>
+                      )}
+                    </>
                   )}
                   {tab === 'sos' && (
                     <p className="mt-0.5 text-xs text-ink-soft">
@@ -247,6 +271,8 @@ export default function AdminPage() {
 
         {!loading && rows.length === 0 && (
           <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">কোনো ডেটা নেই।</p>
+        )}
+          </>
         )}
       </div>
 

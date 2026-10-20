@@ -5,7 +5,7 @@ import { IconChevronRight, IconLock, IconShield, IconUser, IconUsers } from '@/c
 export default function ProfilePage() {
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6">
+      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <div className="flex items-center gap-4 rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream-dark text-2xl font-bold text-ink">
             <IconUser className="h-8 w-8" />
@@ -16,7 +16,7 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           <Link
             href="/login?next=/admin"
             className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"

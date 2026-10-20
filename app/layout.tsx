@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import Sidebar from '@/components/Sidebar';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,8 +26,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <div className="mx-auto min-h-dvh w-full max-w-md bg-cream shadow-[0_0_40px_rgba(0,0,0,0.06)]">
-          {children}
+        {/* Mobile (<lg): the original phone-width column, unchanged.
+            Desktop (lg+): sidebar + wide content column (max-w-7xl). */}
+        <div className="mx-auto flex min-h-dvh w-full max-w-md bg-cream shadow-[0_0_40px_rgba(0,0,0,0.06)] lg:max-w-none lg:shadow-none">
+          <Sidebar />
+          <div className="mx-auto w-full min-w-0 max-w-md flex-1 lg:max-w-7xl">{children}</div>
         </div>
       </body>
     </html>

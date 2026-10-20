@@ -3,7 +3,7 @@ import { IconBell, IconPin } from './icons';
 export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-[#efe3d3] bg-cream/95 backdrop-blur">
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex items-center justify-between px-4 py-3 lg:px-6">
         <div>
           <h1 className="text-xl font-bold leading-tight text-ink">জনতার কথা</h1>
           <p className="flex items-center gap-1 text-xs text-ink-soft">

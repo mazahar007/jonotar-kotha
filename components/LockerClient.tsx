@@ -11,7 +11,7 @@ export default function LockerClient({ items }: { items: EvidenceItem[] }) {
 
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6">
+      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white">
             <IconLock className="h-6 w-6" />
@@ -39,9 +39,9 @@ export default function LockerClient({ items }: { items: EvidenceItem[] }) {
             লকার খুলুন
           </button>
         ) : (
-          <div className="mt-5 space-y-3">
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
             {items.length === 0 && (
-              <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+              <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft md:col-span-2">
                 লকারে এখনো কোনো প্রমাণ সংরক্ষিত নেই।
               </p>
             )}
@@ -68,13 +68,15 @@ export default function LockerClient({ items }: { items: EvidenceItem[] }) {
                 )}
               </div>
             ))}
-            <button
-              onClick={() => setUnlocked(false)}
-              className="w-full rounded-2xl bg-stone-200 py-3 text-sm font-bold text-ink"
-            >
-              লকার বন্ধ করুন
-            </button>
           </div>
+        )}
+        {unlocked && (
+          <button
+            onClick={() => setUnlocked(false)}
+            className="mt-3 w-full rounded-2xl bg-stone-200 py-3 text-sm font-bold text-ink"
+          >
+            লকার বন্ধ করুন
+          </button>
         )}
 
         <Link href="/" className="mt-6 block text-center text-sm font-bold text-brand">

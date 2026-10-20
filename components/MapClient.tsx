@@ -39,7 +39,7 @@ export default function MapClient({
   return (
     <>
       <main className="min-h-dvh bg-cream">
-        <div className="flex items-center justify-between px-4 py-4">
+        <div className="flex items-center justify-between px-4 py-4 lg:px-6">
           <h1 className="text-xl font-bold text-ink">লাইভ ম্যাপ</h1>
           <span className="flex items-center gap-1.5 rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">
             <span className="blink-dot inline-block h-2 w-2 rounded-full bg-red-600" />
@@ -47,8 +47,10 @@ export default function MapClient({
           </span>
         </div>
 
+        {/* Desktop: map left, legend + ratings panel right. Mobile: stacked. */}
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-6 lg:px-6 lg:pb-6">
         {/* Stylized map (CSS/SVG illustration — no external map tiles) */}
-        <div className="relative mx-4 overflow-hidden rounded-3xl bg-[#e8dfd2]" style={{ height: 340 }}>
+        <div className="relative mx-4 h-[340px] overflow-hidden rounded-3xl bg-[#e8dfd2] lg:mx-0 lg:h-[540px]">
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 400 340" aria-label="এলাকার মানচিত্র">
             <path d="M-20 240 C 80 220, 140 260, 220 240 S 360 200, 430 230 L 430 360 L -20 360 Z" fill="#cfe3f5" opacity="0.9" />
             <path d="M-20 90 C 60 70, 120 110, 200 90 S 340 60, 430 100" stroke="#ffffff" strokeWidth="14" fill="none" opacity="0.9" />
@@ -94,8 +96,9 @@ export default function MapClient({
           )}
         </div>
 
+        <div className="min-w-0">
         {/* Legend */}
-        <div className="mt-4 flex flex-wrap gap-2 px-4">
+        <div className="mt-4 flex flex-wrap gap-2 px-4 lg:mt-0 lg:px-0">
           {Object.entries(kindStyle).map(([k, s]) => (
             <span
               key={k}
@@ -110,7 +113,7 @@ export default function MapClient({
         </div>
 
         {/* Area safety rating */}
-        <section className="mx-4 mb-6 mt-5 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="mx-4 mb-6 mt-5 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] lg:mx-0 lg:mb-0">
           <h2 className="font-bold text-ink">এলাকা নিরাপত্তা রেটিং</h2>
           <p className="text-xs text-ink-soft">আপনার এলাকা রেট করুন</p>
           <div className="mt-3 space-y-2">
@@ -134,6 +137,8 @@ export default function MapClient({
             ))}
           </div>
         </section>
+        </div>
+        </div>
       </main>
       <BottomNav />
     </>

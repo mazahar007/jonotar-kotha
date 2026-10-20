@@ -11,7 +11,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
 
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6">
+      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <h1 className="text-xl font-bold text-ink">রক্তদাতা এখনই</h1>
         <p className="mt-1 text-sm text-ink-soft">
           আপনার আশেপাশে <span className="font-bold text-brand">{active.length} জন</span> দাতা সক্রিয়
@@ -33,7 +33,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
           </div>
         )}
 
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {active.map((d) => (
             <div
               key={d.id}

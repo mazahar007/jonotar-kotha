@@ -36,7 +36,8 @@ export async function middleware(req: NextRequest) {
       req.method === 'POST' &&
       (pathname === '/api/reports' ||
         pathname === '/api/sos-alerts' ||
-        pathname === '/api/area-ratings');
+        pathname === '/api/area-ratings' ||
+        pathname === '/api/upload');
     if (req.method === 'GET' || publicPost) return NextResponse.next();
     const ok = await verifySession(req.cookies.get(SESSION_COOKIE)?.value);
     if (ok) return NextResponse.next();
