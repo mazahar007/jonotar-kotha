@@ -2,22 +2,31 @@ import { getSupabase } from './supabase';
 import { getDistricts, getUnions, getUpazilas } from './store';
 import { roadsDemoDb, type RoadRow, type RoadUpdateRow } from './roads-fallback';
 import { timeAgoBn } from './time';
-import type { LocationIds, Road, RoadDetail, RoadStatus, RoadUpdate } from './types';
+import type { LocationIds, Road, RoadDetail, RoadKind, RoadStatus, RoadUpdate } from './types';
 
 /**
- * Phase 4 data layer: roads + road updates.
- * Supabase first (service role); ANY failure (including schema-v4 not yet
+ * Phase 4 data layer: roads + road updates. Phase 5: spots (kind) + presets.
+ * Supabase first (service role); ANY failure (including schema-v4/v5 not yet
  * run) falls back to the in-memory demo store so the app never 500s.
  */
 
 /* ---------- raw rows ---------- */
+
+/** Rows from a pre-v5 database lack kind/locality_name/preset_key — default them. */
+function normalizeRoad(r: RoadRow): RoadRow {
+  return { ...r, kind: r.kind === 'spot' ? 'spot' : 'road', locality_name: r.locality_name ?? null };
+}
+
+function normalizeUpdate(u: RoadUpdateRow): RoadUpdateRow {
+  return { ...u, preset_key: u.preset_key ?? null };
+}
 
 export async function getRoadRows(): Promise<RoadRow[]> {
   const supa = getSupabase();
   if (supa) {
     try {
       const { data, error } = await supa.from('roads').select('*').order('id', { ascending: true });
-      if (!error && data) return data as RoadRow[];
+      if (!error && data) return (data as RoadRow[]).map(normalizeRoad);
     } catch {
       /* fall through to demo */
     }
@@ -32,7 +41,7 @@ export async function getRoadUpdateRows(roadId?: number): Promise<RoadUpdateRow[
       let q = supa.from('road_updates').select('*').order('created_at', { ascending: false });
       if (roadId) q = q.eq('road_id', roadId);
       const { data, error } = await q;
-      if (!error && data) return data as RoadUpdateRow[];
+      if (!error && data) return (data as RoadUpdateRow[]).map(normalizeUpdate);
     } catch {
       /* fall through to demo */
     }
@@ -74,7 +83,8 @@ async function attachNames(roads: Road[]): Promise<Road[]> {
 }
 
 /** A road matches when every provided filter equals its stored hierarchy. */
-function matches(road: RoadRow, f: Partial<LocationIds>): boolean {
+function matches(road: RoadRow, f: Partial<LocationIds> & { kind?: RoadKind }): boolean {
+  if (f.kind != null && road.kind !== f.kind) return false;
   if (f.division_id != null && road.division_id !== f.division_id) return false;
   if (f.district_id != null && road.district_id !== f.district_id) return false;
   if (f.upazila_id != null && road.upazila_id !== f.upazila_id) return false;
@@ -83,7 +93,9 @@ function matches(road: RoadRow, f: Partial<LocationIds>): boolean {
   return true;
 }
 
-export async function getRoads(filters: Partial<LocationIds> = {}): Promise<Road[]> {
+export async function getRoads(
+  filters: Partial<LocationIds> & { kind?: RoadKind } = {}
+): Promise<Road[]> {
   const [roads, updates] = await Promise.all([getRoadRows(), getRoadUpdateRows()]);
   const composed = roads.filter((r) => matches(r, filters)).map((r) => compose(r, updates));
   // Liveliest first: most recent update on top; roads without updates last.
@@ -108,16 +120,30 @@ export async function getRoadDetail(id: number): Promise<RoadDetail | null> {
 
 export async function createRoadUpdate(
   roadId: number,
-  input: { status: RoadStatus; note: string; media_url: string | null; reporter_name: string | null }
+  input: {
+    status: RoadStatus;
+    note: string;
+    media_url: string | null;
+    reporter_name: string | null;
+    preset_key?: string | null;
+  }
 ): Promise<RoadUpdate | null> {
   const roads = await getRoadRows();
   if (!roads.some((r) => r.id === roadId)) return null;
-  const row = { road_id: roadId, ...input, created_at: new Date().toISOString() };
+  const row = {
+    road_id: roadId,
+    status: input.status,
+    note: input.note,
+    media_url: input.media_url,
+    reporter_name: input.reporter_name,
+    preset_key: input.preset_key ?? null,
+    created_at: new Date().toISOString(),
+  };
   const supa = getSupabase();
   if (supa) {
     try {
       const { data, error } = await supa.from('road_updates').insert(row).select().single();
-      if (!error && data) return toUpdate(data as RoadUpdateRow);
+      if (!error && data) return toUpdate(normalizeUpdate(data as RoadUpdateRow));
     } catch {
       /* fall through to demo */
     }
@@ -130,6 +156,8 @@ export async function createRoadUpdate(
 
 export interface RoadInput {
   name: string;
+  kind: RoadKind;
+  locality_name: string | null;
   from_place: string | null;
   to_place: string | null;
   division_id: number | null;
@@ -145,7 +173,7 @@ export async function createRoad(input: RoadInput): Promise<RoadRow> {
   if (supa) {
     try {
       const { data, error } = await supa.from('roads').insert(row).select().single();
-      if (!error && data) return data as RoadRow;
+      if (!error && data) return normalizeRoad(data as RoadRow);
     } catch {
       /* fall through to demo */
     }
@@ -161,7 +189,7 @@ export async function updateRoad(id: number, patch: Partial<RoadInput>): Promise
   if (supa) {
     try {
       const { data, error } = await supa.from('roads').update(patch).eq('id', id).select().single();
-      if (!error && data) return data as RoadRow;
+      if (!error && data) return normalizeRoad(data as RoadRow);
     } catch {
       /* fall through to demo */
     }

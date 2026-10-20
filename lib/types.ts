@@ -214,6 +214,9 @@ export interface AmarElakaData {
 }
 
 /* ---------- Roads (Phase 4) — area road conditions with live updates ---------- */
+/* Phase 5 adds spot support (kind) and one-tap preset statuses.                */
+
+export type RoadKind = 'road' | 'spot';
 
 export type RoadStatus =
   | 'good'
@@ -221,8 +224,17 @@ export type RoadStatus =
   | 'bad'
   | 'repair'
   | 'traffic'
+  | 'traffic_light'
   | 'waterlogged'
-  | 'closed';
+  | 'closed'
+  | 'incident'
+  | 'accident'
+  | 'power_out'
+  | 'power_back'
+  | 'gas_out'
+  | 'gas_back'
+  | 'water_out'
+  | 'water_back';
 
 export const ROAD_STATUS_LABEL: Record<RoadStatus, string> = {
   good: 'ভালো',
@@ -230,8 +242,17 @@ export const ROAD_STATUS_LABEL: Record<RoadStatus, string> = {
   bad: 'ভাঙা / ঝুঁকিপূর্ণ',
   repair: 'মেরামত চলছে',
   traffic: 'যানজট',
+  traffic_light: 'হালকা জ্যাম',
   waterlogged: 'জলাবদ্ধ',
   closed: 'বন্ধ',
+  incident: 'ঝামেলা চলতেছে',
+  accident: 'দুর্ঘটনা',
+  power_out: 'বিদ্যুৎ নাই',
+  power_back: 'বিদ্যুৎ এসেছে',
+  gas_out: 'গ্যাস নাই',
+  gas_back: 'গ্যাস এসেছে',
+  water_out: 'পানি নাই',
+  water_back: 'পানি এসেছে',
 };
 
 export const ROAD_STATUS_OPTIONS: { value: RoadStatus; label: string }[] = [
@@ -240,8 +261,17 @@ export const ROAD_STATUS_OPTIONS: { value: RoadStatus; label: string }[] = [
   { value: 'bad', label: 'ভাঙা / ঝুঁকিপূর্ণ' },
   { value: 'repair', label: 'মেরামত চলছে' },
   { value: 'traffic', label: 'যানজট' },
+  { value: 'traffic_light', label: 'হালকা জ্যাম' },
   { value: 'waterlogged', label: 'জলাবদ্ধ' },
   { value: 'closed', label: 'বন্ধ' },
+  { value: 'incident', label: 'ঝামেলা চলতেছে' },
+  { value: 'accident', label: 'দুর্ঘটনা' },
+  { value: 'power_out', label: 'বিদ্যুৎ নাই' },
+  { value: 'power_back', label: 'বিদ্যুৎ এসেছে' },
+  { value: 'gas_out', label: 'গ্যাস নাই' },
+  { value: 'gas_back', label: 'গ্যাস এসেছে' },
+  { value: 'water_out', label: 'পানি নাই' },
+  { value: 'water_back', label: 'পানি এসেছে' },
 ];
 
 export const ROAD_STATUSES = ROAD_STATUS_OPTIONS.map((o) => o.value) as RoadStatus[];
@@ -253,6 +283,8 @@ export interface RoadUpdate {
   note: string;
   media_url: string | null;
   reporter_name: string | null;
+  /** Phase 5 — set when the update came from a one-tap preset chip. */
+  preset_key: string | null;
   created_at: string;
   time_ago: string;
 }
@@ -260,6 +292,10 @@ export interface RoadUpdate {
 export interface Road {
   id: number;
   name: string;
+  /** Phase 5 — 'road' = a road; 'spot' = an important place / মোড়. */
+  kind: RoadKind;
+  /** Phase 5 — এলাকার নাম for spots (e.g. "চরপাড়া"); optional. */
+  locality_name: string | null;
   from_place: string | null;
   to_place: string | null;
   division_id: number | null;

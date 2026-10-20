@@ -1,26 +1,16 @@
+import { ROAD_STATUS_META } from '@/lib/road-status';
 import type { RoadStatus } from '@/lib/types';
 import { ROAD_STATUS_LABEL } from '@/lib/types';
 
-export const ROAD_STATUS_STYLES: Record<RoadStatus, string> = {
-  good: 'bg-emerald-100 text-emerald-800',
-  fair: 'bg-amber-200 text-amber-900',
-  bad: 'bg-red-100 text-red-700',
-  repair: 'bg-blue-100 text-blue-800',
-  traffic: 'bg-orange-100 text-orange-800',
-  waterlogged: 'bg-sky-100 text-sky-800',
-  closed: 'bg-stone-900 text-white',
-};
+/** Badge classes per status — sourced from the shared meta in lib/road-status.ts. */
+export const ROAD_STATUS_STYLES: Record<RoadStatus, string> = Object.fromEntries(
+  Object.entries(ROAD_STATUS_META).map(([k, v]) => [k, v.badge])
+) as Record<RoadStatus, string>;
 
-/** Timeline dot color per status (detail page). */
-export const ROAD_STATUS_DOT: Record<RoadStatus, string> = {
-  good: 'bg-emerald-500',
-  fair: 'bg-amber-400',
-  bad: 'bg-red-500',
-  repair: 'bg-blue-500',
-  traffic: 'bg-orange-500',
-  waterlogged: 'bg-sky-500',
-  closed: 'bg-stone-900',
-};
+/** Timeline dot color per status (detail page) — from the shared meta. */
+export const ROAD_STATUS_DOT: Record<RoadStatus, string> = Object.fromEntries(
+  Object.entries(ROAD_STATUS_META).map(([k, v]) => [k, v.dot])
+) as Record<RoadStatus, string>;
 
 export default function RoadStatusBadge({
   status,
@@ -37,11 +27,10 @@ export default function RoadStatusBadge({
       </span>
     );
   }
+  const meta = ROAD_STATUS_META[status];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full font-bold ${ROAD_STATUS_STYLES[status]} ${cls}`}>
-      {(status === 'bad' || status === 'closed') && (
-        <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-current" />
-      )}
+    <span className={`inline-flex items-center gap-1 rounded-full font-bold ${meta.badge} ${cls}`}>
+      {meta.alert && <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-current" />}
       {ROAD_STATUS_LABEL[status]}
     </span>
   );

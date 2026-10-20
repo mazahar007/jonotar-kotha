@@ -10,16 +10,27 @@ const inputCls =
 
 interface RoadForm {
   name: string;
+  kind: 'road' | 'spot';
+  locality_name: string;
   from_place: string;
   to_place: string;
   loc: LocationSelection;
 }
 
-const EMPTY_FORM: RoadForm = { name: '', from_place: '', to_place: '', loc: EMPTY_LOCATION };
+const EMPTY_FORM: RoadForm = {
+  name: '',
+  kind: 'road',
+  locality_name: '',
+  from_place: '',
+  to_place: '',
+  loc: EMPTY_LOCATION,
+};
 
 function formOf(r: Road): RoadForm {
   return {
     name: r.name,
+    kind: r.kind,
+    locality_name: r.locality_name ?? '',
     from_place: r.from_place ?? '',
     to_place: r.to_place ?? '',
     loc: {
@@ -79,14 +90,16 @@ export default function AdminRoads() {
 
   async function save() {
     if (!form.name.trim()) {
-      alert('রোডের নাম লিখুন');
+      alert('নাম লিখুন');
       return;
     }
     setSaving(true);
     const payload = {
       name: form.name.trim(),
-      from_place: form.from_place.trim() || null,
-      to_place: form.to_place.trim() || null,
+      kind: form.kind,
+      locality_name: form.kind === 'spot' ? form.locality_name.trim() || null : null,
+      from_place: form.kind === 'road' ? form.from_place.trim() || null : null,
+      to_place: form.kind === 'road' ? form.to_place.trim() || null : null,
       division_id: form.loc.division_id,
       district_id: form.loc.district_id,
       upazila_id: form.loc.upazila_id,
@@ -108,7 +121,7 @@ export default function AdminRoads() {
   }
 
   async function remove(id: number) {
-    if (!confirm('রোডটি মুছে ফেলবেন? এর সব আপডেটও মুছে যাবে।')) return;
+    if (!confirm('এটি মুছে ফেলবেন? এর সব আপডেটও মুছে যাবে।')) return;
     const res = await fetch(`/api/roads/${id}`, { method: 'DELETE' });
     if (res.ok) {
       if (openId === id) setOpenId(null);
@@ -140,30 +153,58 @@ export default function AdminRoads() {
 
   const formBlock = (
     <div className="rounded-2xl bg-white p-4 shadow-sm">
-      <h2 className="font-bold text-ink">{adding ? 'নতুন রোড যোগ করুন' : 'রোড এডিট করুন'}</h2>
+      <h2 className="font-bold text-ink">{adding ? 'নতুন রোড/স্থান যোগ করুন' : 'রোড/স্থান এডিট করুন'}</h2>
       <div className="mt-3 space-y-3">
+        <div className="flex rounded-full bg-cream p-1">
+          {(
+            [
+              { value: 'road', label: 'রোড' },
+              { value: 'spot', label: 'গুরুত্বপূর্ণ স্থান / মোড়' },
+            ] as { value: 'road' | 'spot'; label: string }[]
+          ).map((t) => (
+            <button
+              key={t.value}
+              type="button"
+              onClick={() => setForm({ ...form, kind: t.value })}
+              className={`flex-1 rounded-full px-4 py-2 text-sm font-bold transition ${
+                form.kind === t.value ? 'bg-ink text-white shadow' : 'text-ink-soft'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
         <input
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
-          placeholder="রোডের নাম (যেমন: ব্রিজ রোড)"
+          placeholder={form.kind === 'spot' ? 'স্থানের নাম (যেমন: চরপাড়া মোড়)' : 'রোডের নাম (যেমন: ব্রিজ রোড)'}
           className={inputCls}
         />
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {form.kind === 'spot' ? (
           <input
-            value={form.from_place}
-            onChange={(e) => setForm({ ...form, from_place: e.target.value })}
-            placeholder="শুরু (যেমন: গাঙ্গিনাপাড় মোড়)"
+            value={form.locality_name}
+            onChange={(e) => setForm({ ...form, locality_name: e.target.value })}
+            placeholder="এলাকার নাম (ঐচ্ছিক, যেমন: চরপাড়া)"
             className={inputCls}
           />
-          <input
-            value={form.to_place}
-            onChange={(e) => setForm({ ...form, to_place: e.target.value })}
-            placeholder="শেষ (যেমন: ব্রহ্মপুত্র ব্রিজ)"
-            className={inputCls}
-          />
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <input
+              value={form.from_place}
+              onChange={(e) => setForm({ ...form, from_place: e.target.value })}
+              placeholder="শুরু (যেমন: গাঙ্গিনাপাড় মোড়)"
+              className={inputCls}
+            />
+            <input
+              value={form.to_place}
+              onChange={(e) => setForm({ ...form, to_place: e.target.value })}
+              placeholder="শেষ (যেমন: ব্রহ্মপুত্র ব্রিজ)"
+              className={inputCls}
+            />
+          </div>
+        )}
         <div className="rounded-xl bg-cream p-3">
-          <p className="mb-2 text-xs font-bold text-ink-soft">রোডের এলাকা</p>
+          <p className="mb-2 text-xs font-bold text-ink-soft">{form.kind === 'spot' ? 'স্থানটির এলাকা' : 'রোডের এলাকা'}</p>
           <LocationPicker value={form.loc} onChange={(loc) => setForm({ ...form, loc })} />
         </div>
         <div className="flex gap-2">
@@ -191,7 +232,7 @@ export default function AdminRoads() {
           onClick={openAdd}
           className="mb-3 w-full rounded-2xl border-2 border-dashed border-[#e0d2bd] py-3 text-sm font-bold text-ink-soft"
         >
-          + নতুন রোড যোগ করুন
+          + নতুন রোড/স্থান যোগ করুন
         </button>
       )}
 
@@ -202,9 +243,22 @@ export default function AdminRoads() {
           <div key={r.id} className="rounded-2xl bg-white p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold text-ink">{r.name}</p>
+                <p className="text-sm font-bold text-ink">
+                  {r.name}
+                  <span
+                    className={`ml-2 inline-block rounded-full px-2 py-0.5 align-middle text-[10px] font-bold ${
+                      r.kind === 'spot' ? 'bg-violet-100 text-violet-700' : 'bg-sky-100 text-sky-700'
+                    }`}
+                  >
+                    {r.kind === 'spot' ? 'স্থান' : 'রোড'}
+                  </span>
+                </p>
                 <p className="mt-0.5 text-xs text-ink-soft">
-                  {[r.from_place, r.to_place].filter(Boolean).join(' → ') || 'রুট দেওয়া হয়নি'}
+                  {r.kind === 'spot'
+                    ? r.locality_name
+                      ? `এলাকা: ${r.locality_name}`
+                      : 'এলাকার নাম দেওয়া হয়নি'
+                    : [r.from_place, r.to_place].filter(Boolean).join(' → ') || 'রুট দেওয়া হয়নি'}
                 </p>
                 {(r.union_name || r.upazila_name || r.district_name) && (
                   <p className="mt-0.5 text-xs font-semibold text-ink-soft">
@@ -274,7 +328,7 @@ export default function AdminRoads() {
       </div>
 
       {!loading && roads.length === 0 && (
-        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">কোনো রোড নেই।</p>
+        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">কোনো রোড বা স্থান নেই।</p>
       )}
     </div>
   );

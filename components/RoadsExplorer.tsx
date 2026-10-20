@@ -6,10 +6,11 @@ import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/compon
 import RoadCard from '@/components/RoadCard';
 import { IconChevronRight, IconRoute } from '@/components/icons';
 import { bnNum } from '@/lib/time';
-import { ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
+import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadKind, type RoadStatus } from '@/lib/types';
 
-function queryOf(sel: LocationSelection): string {
+function queryOf(sel: LocationSelection, kind: RoadKind): string {
   const p = new URLSearchParams();
+  p.set('kind', kind);
   if (sel.division_id) p.set('division_id', String(sel.division_id));
   if (sel.district_id) p.set('district_id', String(sel.district_id));
   if (sel.upazila_id) p.set('upazila_id', String(sel.upazila_id));
@@ -26,13 +27,14 @@ function queryOf(sel: LocationSelection): string {
  */
 export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' | 'full' }) {
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
+  const [kind, setKind] = useState<RoadKind>('road');
   const [roads, setRoads] = useState<Road[] | null>(null);
 
   useEffect(() => {
     let alive = true;
     (async () => {
       try {
-        const res = await fetch(`/api/roads${queryOf(area)}`, { cache: 'no-store' });
+        const res = await fetch(`/api/roads${queryOf(area, kind)}`, { cache: 'no-store' });
         const data = await res.json();
         if (alive) setRoads(Array.isArray(data) ? data : []);
       } catch {
@@ -42,7 +44,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     return () => {
       alive = false;
     };
-  }, [area]);
+  }, [area, kind]);
 
   const summary = useMemo(() => {
     const counts = new Map<RoadStatus | 'none', number>();
@@ -53,21 +55,45 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     return counts;
   }, [roads]);
 
+  const kindToggle = (
+    <div className="flex rounded-full bg-cream p-1">
+      {(
+        [
+          { value: 'road', label: 'রোডসমূহ' },
+          { value: 'spot', label: 'মোড় ও স্থান' },
+        ] as { value: RoadKind; label: string }[]
+      ).map((t) => (
+        <button
+          key={t.value}
+          type="button"
+          onClick={() => setKind(t.value)}
+          className={`flex-1 rounded-full px-4 py-2 text-sm font-bold transition ${
+            kind === t.value ? 'bg-ink text-white shadow' : 'text-ink-soft'
+          }`}
+        >
+          {t.label}
+        </button>
+      ))}
+    </div>
+  );
+
   const grid = (
     <>
+      {kindToggle}
+
       {/* Area filter */}
       <div className="rounded-2xl bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
 
-      {/* Status summary for the selected area */}
+      {/* Status summary for the selected area + active tab */}
       {roads !== null && roads.length > 0 && (
         <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
           <span className="shrink-0 rounded-full bg-ink px-3 py-1.5 text-xs font-bold text-white">
-            মোট {bnNum(roads.length)}টি রোড
+            {kind === 'road' ? `মোট ${bnNum(roads.length)}টি রোড` : `মোট ${bnNum(roads.length)}টি স্থান`}
           </span>
-          {(['good', 'fair', 'bad', 'repair', 'traffic', 'waterlogged', 'closed'] as RoadStatus[]).map(
+          {ROAD_STATUSES.map(
             (s) =>
               (summary.get(s) ?? 0) > 0 && (
                 <span key={s} className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-ink shadow-sm">
@@ -83,12 +109,14 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
         </div>
       )}
 
-      {/* Road cards */}
+      {/* Road / spot cards */}
       {roads === null ? (
         <p className="py-8 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       ) : roads.length === 0 ? (
         <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
-          এই এলাকায় এখনো কোনো রোড যোগ হয়নি।
+          {kind === 'road'
+            ? 'এই এলাকায় এখনো কোনো রোড যোগ হয়নি।'
+            : 'এই এলাকায় এখনো কোনো গুরুত্বপূর্ণ স্থান যোগ হয়নি।'}
         </p>
       ) : (
         <div className={`grid gap-3 md:grid-cols-2 ${variant === 'full' ? 'xl:grid-cols-3' : ''}`}>

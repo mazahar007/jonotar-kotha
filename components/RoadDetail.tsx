@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import MediaPicker, { type MediaItem } from '@/components/MediaPicker';
+import { QuickPresetPanel } from '@/components/QuickChips';
 import RoadStatusBadge, { ROAD_STATUS_DOT } from '@/components/RoadStatusBadge';
 import { IconClock, IconPin, IconRoute, IconSend } from '@/components/icons';
 import { useMember } from '@/lib/member';
@@ -94,7 +95,7 @@ export default function RoadDetail({ id }: { id: number }) {
   if (notFound) {
     return (
       <main className="px-4 py-10">
-        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">রোডটি পাওয়া যায়নি।</p>
+        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
       </main>
     );
   }
@@ -108,6 +109,7 @@ export default function RoadDetail({ id }: { id: number }) {
 
   const route = [road.from_place, road.to_place].filter(Boolean).join(' → ');
   const breadcrumb = [road.union_name, road.upazila_name, road.district_name].filter(Boolean) as string[];
+  const isSpot = road.kind === 'spot';
 
   return (
     <main className="px-4 pb-8 pt-4 lg:px-6">
@@ -115,12 +117,24 @@ export default function RoadDetail({ id }: { id: number }) {
         {/* Header */}
         <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="flex flex-wrap items-start justify-between gap-3">
-            <h1 className="min-w-0 flex-1 text-xl font-bold leading-snug text-ink">{road.name}</h1>
+            <h1 className="min-w-0 flex-1 text-xl font-bold leading-snug text-ink">
+              {road.name}
+              {isSpot && (
+                <span className="ml-2 inline-block rounded-full bg-violet-100 px-2.5 py-0.5 align-middle text-[11px] font-bold text-violet-700">
+                  গুরুত্বপূর্ণ স্থান
+                </span>
+              )}
+            </h1>
             <RoadStatusBadge status={road.current_status} size="lg" />
           </div>
-          {route && (
+          {!isSpot && route && (
             <p className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-ink-soft">
               <IconRoute className="h-4 w-4 shrink-0 text-brand" /> {route}
+            </p>
+          )}
+          {isSpot && road.locality_name && (
+            <p className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-ink-soft">
+              <IconPin className="h-4 w-4 shrink-0 text-brand" /> এলাকা: {road.locality_name}
             </p>
           )}
           {breadcrumb.length > 0 && (
@@ -139,7 +153,19 @@ export default function RoadDetail({ id }: { id: number }) {
         {/* Post an update */}
         <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">আপডেট দিন</h2>
-          <p className="mt-0.5 text-xs text-ink-soft">এই রোডের বর্তমান অবস্থা জানান — সবার কাছে লাইভ দেখা যাবে।</p>
+          <p className="mt-0.5 text-xs text-ink-soft">
+            {isSpot
+              ? 'এই স্থানের বর্তমান অবস্থা জানান — সবার কাছে লাইভ দেখা যাবে।'
+              : 'এই রোডের বর্তমান অবস্থা জানান — সবার কাছে লাইভ দেখা যাবে।'}
+          </p>
+
+          {/* Phase 5 — one-tap quick updates */}
+          <div className="mt-4 rounded-2xl bg-cream p-4">
+            <p className="mb-2 text-sm font-bold text-ink">
+              এক ট্যাপে জানান <span className="font-semibold text-ink-soft">(ট্যাপ করলেই আপডেট হয়ে যাবে)</span>
+            </p>
+            <QuickPresetPanel roadId={road.id} onUpdated={(d) => setRoad(d)} />
+          </div>
 
           <div className="mt-4 space-y-4">
             <div>
@@ -235,6 +261,7 @@ export default function RoadDetail({ id }: { id: number }) {
                     ))}
                   <p className="mt-1 text-xs text-ink-soft">
                     — {u.reporter_name || 'বেনামী'} · {ROAD_STATUS_LABEL[u.status]}
+                    {u.preset_key ? ' · এক-ট্যাপ আপডেট' : ''}
                   </p>
                 </li>
               ))}

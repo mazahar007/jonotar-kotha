@@ -13,6 +13,8 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
 
 const EDITABLE: (keyof RoadInput)[] = [
   'name',
+  'kind',
+  'locality_name',
   'from_place',
   'to_place',
   'division_id',
@@ -22,7 +24,7 @@ const EDITABLE: (keyof RoadInput)[] = [
   'union_id',
 ];
 
-/** PATCH /api/roads/[id] — admin edits a road. */
+/** PATCH /api/roads/[id] — admin edits a road/spot. */
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   if (!(await requireAdmin())) return err('অনুমতি নেই', 401);
   const { id } = await params;
@@ -30,7 +32,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const patch: Partial<RoadInput> = {};
   for (const k of EDITABLE) {
     if (body[k] === undefined) continue;
-    if (k === 'name' || k === 'from_place' || k === 'to_place') {
+    if (k === 'kind') {
+      patch.kind = body.kind === 'spot' ? 'spot' : 'road';
+    } else if (k === 'name' || k === 'from_place' || k === 'to_place' || k === 'locality_name') {
       const v = String(body[k] ?? '').trim();
       patch[k] = (k === 'name' ? v : v || null) as never;
     } else {

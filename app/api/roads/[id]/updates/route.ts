@@ -6,7 +6,8 @@ import { ROAD_STATUSES, type RoadStatus } from '@/lib/types';
 /**
  * POST /api/roads/[id]/updates — public "লাইভ আপডেট দিন".
  * Same openness as report submission: anyone may post; a member session is
- * optional. The new update becomes the road's current status.
+ * optional. The new update becomes the road's/spot's current status.
+ * Phase 5: one-tap presets post here too, carrying `preset_key`.
  */
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,11 +18,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const note = String(body.note || '').trim();
   if (!note) return err('আপডেটের বিবরণ লিখুন');
   const reporter = String(body.reporter_name || '').trim();
+  const presetKey = body.preset_key ? String(body.preset_key).slice(0, 64) : null;
   const update = await createRoadUpdate(roadId, {
     status,
     note,
     media_url: body.media_url ? String(body.media_url) : null,
     reporter_name: reporter || 'বেনামী',
+    preset_key: presetKey,
   });
   if (!update) return err('রোড পাওয়া যায়নি', 404);
   // Return the refreshed detail so the client updates status + timeline at once.
