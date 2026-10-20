@@ -10,6 +10,7 @@ import {
   IconMap,
   IconMegaphone,
   IconPin,
+  IconRoute,
   IconUser,
   IconUsers,
 } from './icons';
@@ -21,6 +22,7 @@ const links = [
   { href: '/travel', label: 'ভ্রমণ', Icon: IconMegaphone },
   { href: '/family', label: 'পরিবার', Icon: IconUsers },
   { href: '/surveys', label: 'জরিপ', Icon: IconCheck },
+  { href: '/roads', label: 'রোডের অবস্থা', Icon: IconRoute },
   { href: '/amar-elaka', label: 'আমার এলাকার মানুষ', Icon: IconPin },
   { href: '/locker', label: 'প্রমাণ লকার', Icon: IconLock },
   { href: '/profile', label: 'প্রোফাইল', Icon: IconUser },

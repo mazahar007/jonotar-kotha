@@ -213,6 +213,75 @@ export interface AmarElakaData {
   i_am_away: boolean;
 }
 
+/* ---------- Roads (Phase 4) — area road conditions with live updates ---------- */
+
+export type RoadStatus =
+  | 'good'
+  | 'fair'
+  | 'bad'
+  | 'repair'
+  | 'traffic'
+  | 'waterlogged'
+  | 'closed';
+
+export const ROAD_STATUS_LABEL: Record<RoadStatus, string> = {
+  good: 'ভালো',
+  fair: 'মোটামুটি',
+  bad: 'ভাঙা / ঝুঁকিপূর্ণ',
+  repair: 'মেরামত চলছে',
+  traffic: 'যানজট',
+  waterlogged: 'জলাবদ্ধ',
+  closed: 'বন্ধ',
+};
+
+export const ROAD_STATUS_OPTIONS: { value: RoadStatus; label: string }[] = [
+  { value: 'good', label: 'ভালো' },
+  { value: 'fair', label: 'মোটামুটি' },
+  { value: 'bad', label: 'ভাঙা / ঝুঁকিপূর্ণ' },
+  { value: 'repair', label: 'মেরামত চলছে' },
+  { value: 'traffic', label: 'যানজট' },
+  { value: 'waterlogged', label: 'জলাবদ্ধ' },
+  { value: 'closed', label: 'বন্ধ' },
+];
+
+export const ROAD_STATUSES = ROAD_STATUS_OPTIONS.map((o) => o.value) as RoadStatus[];
+
+export interface RoadUpdate {
+  id: number;
+  road_id: number;
+  status: RoadStatus;
+  note: string;
+  media_url: string | null;
+  reporter_name: string | null;
+  created_at: string;
+  time_ago: string;
+}
+
+export interface Road {
+  id: number;
+  name: string;
+  from_place: string | null;
+  to_place: string | null;
+  division_id: number | null;
+  district_id: number | null;
+  upazila_id: number | null;
+  thana_id: number | null;
+  union_id: number | null;
+  created_at: string;
+  /** Latest update's status; null when the road has no updates yet. */
+  current_status: RoadStatus | null;
+  latest_update: RoadUpdate | null;
+  update_count: number;
+  // Names resolved server-side for the breadcrumb (union, upazila, district)
+  union_name?: string | null;
+  upazila_name?: string | null;
+  district_name?: string | null;
+}
+
+export interface RoadDetail extends Road {
+  updates: RoadUpdate[];
+}
+
 export const STATUS_LABEL: Record<ReportStatus, string> = {
   pending: 'যাচাইয়ের জন্য যাবে',
   verified: 'যাচাইকৃত',

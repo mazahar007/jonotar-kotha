@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/types';
 import ReportCard from './ReportCard';
 import HomeMemberSections from './HomeMemberSections';
+import RoadsExplorer from './RoadsExplorer';
 import { IconChevronRight, IconMegaphone, IconPhone } from './icons';
 
 export default function HomeFeed({
@@ -93,6 +94,9 @@ export default function HomeFeed({
               <ReportCard key={r.id} report={r} />
             ))}
           </div>
+
+          {/* Phase 4 — রোডের অবস্থা (এলাকাভিত্তিক লাইভ আপডেট), main column */}
+          <RoadsExplorer variant="home" />
         </div>
 
         {/* Right rail on xl (সমাধান ট্র্যাকার + লিডারবোর্ড + জরুরি নম্বর);

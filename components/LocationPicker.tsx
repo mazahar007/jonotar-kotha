@@ -32,17 +32,23 @@ async function fetchList<T>(url: string): Promise<T[]> {
 const selectCls =
   'w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand disabled:opacity-50';
 
+const selectCompactCls =
+  'w-full rounded-xl border border-[#efe3d3] bg-white px-3 py-2.5 text-sm outline-none focus:border-brand disabled:opacity-50';
+
 /**
  * Cascading picker: বিভাগ → জেলা → উপজেলা → থানা → ইউনিয়ন.
  * Each level unlocks after its parent is chosen; changing a parent
  * resets all children. Preselects ময়মনসিংহ → ময়মনসিংহ → ময়মনসিংহ সদর.
+ * `compact` renders a horizontal filter-bar form (used by রোডের অবস্থা).
  */
 export default function LocationPicker({
   value,
   onChange,
+  compact = false,
 }: {
   value: LocationSelection;
   onChange: (v: LocationSelection) => void;
+  compact?: boolean;
 }) {
   const [divisions, setDivisions] = useState<Division[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
@@ -155,14 +161,19 @@ export default function LocationPicker({
 
   const num = (v: string) => (v === '' ? null : Number(v));
 
+  const sel = compact ? selectCompactCls : selectCls;
+  const labelCls = compact ? 'sr-only' : 'mb-1.5 block text-sm font-bold text-ink';
+  const fieldCls = compact ? 'min-w-[128px] flex-1' : undefined;
+
   return (
-    <div className="space-y-3">
-      <div>
-        <label className="mb-1.5 block text-sm font-bold text-ink">বিভাগ</label>
+    <div className={compact ? 'flex flex-wrap gap-2' : 'space-y-3'}>
+      <div className={fieldCls}>
+        <label className={labelCls}>বিভাগ</label>
         <select
           value={value.division_id ?? ''}
           onChange={(e) => pickDivision(num(e.target.value))}
-          className={selectCls}
+          className={sel}
+          aria-label="বিভাগ"
         >
           <option value="">বিভাগ বেছে নিন</option>
           {divisions.map((d) => (
@@ -173,14 +184,15 @@ export default function LocationPicker({
         </select>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div>
-          <label className="mb-1.5 block text-sm font-bold text-ink">জেলা</label>
+      <div className={compact ? 'contents' : 'grid grid-cols-1 gap-3 sm:grid-cols-2'}>
+        <div className={fieldCls}>
+          <label className={labelCls}>জেলা</label>
           <select
             value={value.district_id ?? ''}
             onChange={(e) => pickDistrict(num(e.target.value))}
             disabled={!value.division_id}
-            className={selectCls}
+            className={sel}
+            aria-label="জেলা"
           >
             <option value="">জেলা বেছে নিন</option>
             {districts.map((d) => (
@@ -190,13 +202,14 @@ export default function LocationPicker({
             ))}
           </select>
         </div>
-        <div>
-          <label className="mb-1.5 block text-sm font-bold text-ink">উপজেলা</label>
+        <div className={fieldCls}>
+          <label className={labelCls}>উপজেলা</label>
           <select
             value={value.upazila_id ?? ''}
             onChange={(e) => pickUpazila(num(e.target.value))}
             disabled={!value.district_id}
-            className={selectCls}
+            className={sel}
+            aria-label="উপজেলা"
           >
             <option value="">উপজেলা বেছে নিন</option>
             {upazilas.map((u) => (
@@ -206,13 +219,14 @@ export default function LocationPicker({
             ))}
           </select>
         </div>
-        <div>
-          <label className="mb-1.5 block text-sm font-bold text-ink">থানা</label>
+        <div className={fieldCls}>
+          <label className={labelCls}>থানা</label>
           <select
             value={value.thana_id ?? ''}
             onChange={(e) => onChange({ ...value, thana_id: num(e.target.value) })}
             disabled={!value.upazila_id}
-            className={selectCls}
+            className={sel}
+            aria-label="থানা"
           >
             <option value="">থানা বেছে নিন (ঐচ্ছিক)</option>
             {thanas.map((t) => (
@@ -222,13 +236,14 @@ export default function LocationPicker({
             ))}
           </select>
         </div>
-        <div>
-          <label className="mb-1.5 block text-sm font-bold text-ink">ইউনিয়ন</label>
+        <div className={fieldCls}>
+          <label className={labelCls}>ইউনিয়ন</label>
           <select
             value={value.union_id ?? ''}
             onChange={(e) => onChange({ ...value, union_id: num(e.target.value) })}
             disabled={!value.upazila_id}
-            className={selectCls}
+            className={sel}
+            aria-label="ইউনিয়ন"
           >
             <option value="">ইউনিয়ন বেছে নিন (ঐচ্ছিক)</option>
             {unions.map((u) => (
@@ -239,9 +254,11 @@ export default function LocationPicker({
           </select>
         </div>
       </div>
-      <p className="text-xs text-ink-soft">
-        ধাপে ধাপে পুরো বাংলাদেশের তথ্য যোগ হচ্ছে — এখন ময়মনসিংহ বিভাগ সক্রিয় আছে।
-      </p>
+      {!compact && (
+        <p className="text-xs text-ink-soft">
+          ধাপে ধাপে পুরো বাংলাদেশের তথ্য যোগ হচ্ছে — এখন ময়মনসিংহ বিভাগ সক্রিয় আছে।
+        </p>
+      )}
     </div>
   );
 }

@@ -6,9 +6,10 @@ import { STATUS_LABEL, STATUS_OPTIONS, type ReportStatus } from '@/lib/types';
 import { IconCheck, IconLogout, IconX } from '@/components/icons';
 import AdminLocations from '@/components/AdminLocations';
 import AdminMembers from '@/components/AdminMembers';
+import AdminRoads from '@/components/AdminRoads';
 import AdminSurveys from '@/components/AdminSurveys';
 
-type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members';
+type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members' | 'roads';
 
 const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'reports', label: 'রিপোর্ট', endpoint: '/api/reports' },
@@ -22,6 +23,7 @@ const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'locations', label: 'লোকেশন', endpoint: '' },
   { id: 'surveys', label: 'জরিপ', endpoint: '' },
   { id: 'members', label: 'সদস্য', endpoint: '' },
+  { id: 'roads', label: 'রোড', endpoint: '' },
 ];
 
 // editable fields per tab (excluding id)
@@ -69,10 +71,11 @@ const FIELDS: Record<Tab, { key: string; label: string; type?: 'text' | 'number'
     { key: 'shelter_type', label: 'ধরন' },
     { key: 'distance_m', label: 'দূরত্ব (মি)', type: 'number' },
   ],
-  // Managed by dedicated UIs (AdminLocations / AdminSurveys / AdminMembers), not the generic form.
+  // Managed by dedicated UIs (AdminLocations / AdminSurveys / AdminMembers / AdminRoads), not the generic form.
   locations: [],
   surveys: [],
   members: [],
+  roads: [],
 };
 
 interface Row {
@@ -204,6 +207,8 @@ export default function AdminPage() {
           <AdminSurveys />
         ) : tab === 'members' ? (
           <AdminMembers />
+        ) : tab === 'roads' ? (
+          <AdminRoads />
         ) : (
           <>
         <button
