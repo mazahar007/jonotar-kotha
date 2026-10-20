@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
+import SectionHeader from '@/components/SectionHeader';
 import { IconLock, IconShield, IconVideo } from '@/components/icons';
 import type { EvidenceItem } from '@/lib/types';
 
@@ -12,17 +13,18 @@ export default function LockerClient({ items }: { items: EvidenceItem[] }) {
   return (
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
-        <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white">
-            <IconLock className="h-6 w-6" />
-          </span>
-          <div>
-            <h1 className="text-xl font-bold text-ink">প্রমাণ লকার</h1>
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700">
+        <SectionHeader
+          as="h1"
+          icon={<IconLock className="h-6 w-6" />}
+          tileClassName="bg-ink text-white"
+          title="প্রমাণ লকার"
+          subtitle="গোপন প্রমাণ নিরাপদে সংরক্ষণ করুন"
+          action={
+            <span className="mt-1.5 shrink-0 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700">
               এনক্রিপ্টেড
             </span>
-          </div>
-        </div>
+          }
+        />
 
         <div className="mt-4 rounded-2xl bg-ink p-4 text-white">
           <p className="flex items-start gap-2 text-sm leading-relaxed text-white/85">

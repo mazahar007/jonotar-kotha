@@ -49,11 +49,14 @@ function Tab({
   return (
     <Link
       href={href}
-      className={`flex w-16 flex-col items-center gap-0.5 rounded-xl py-2 text-xs font-semibold ${
-        active ? 'text-brand' : 'text-ink-soft'
+      className={`relative flex min-h-[56px] w-16 flex-col items-center justify-center gap-1 rounded-xl py-2 text-xs ${
+        active ? 'font-bold text-brand' : 'font-semibold text-ink-soft'
       }`}
     >
-      <Icon className="h-6 w-6" />
+      {active && (
+        <span className="absolute inset-x-3 top-0 h-[3px] rounded-full bg-brand" aria-hidden />
+      )}
+      <Icon className="h-7 w-7" />
       {label}
     </Link>
   );

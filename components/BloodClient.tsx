@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import SectionHeader from '@/components/SectionHeader';
 import { IconDroplet, IconPin, IconSend } from '@/components/icons';
 import type { BloodDonor } from '@/lib/types';
 
@@ -12,10 +13,18 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
   return (
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
-        <h1 className="text-xl font-bold text-ink">রক্তদাতা এখনই</h1>
-        <p className="mt-1 text-sm text-ink-soft">
-          আপনার আশেপাশে <span className="font-bold text-brand">{active.length} জন</span> দাতা সক্রিয়
-        </p>
+        <SectionHeader
+          as="h1"
+          icon={<IconDroplet className="h-6 w-6" />}
+          tileClassName="bg-red-100 text-brand"
+          title="রক্তদাতা এখনই"
+          subtitle={
+            <>
+              আপনার আশেপাশে <span className="font-bold text-brand">{active.length} জন</span> দাতা
+              সক্রিয়
+            </>
+          }
+        />
 
         {!requested ? (
           <button

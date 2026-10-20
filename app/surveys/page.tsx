@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import BottomNav from '@/components/BottomNav';
 import Header from '@/components/Header';
+import SectionHeader from '@/components/SectionHeader';
 import SurveyCard from '@/components/SurveyCard';
+import { IconCheck } from '@/components/icons';
 import { getStoredToken, useMember } from '@/lib/member';
 import type { SurveyWithState } from '@/lib/types';
 
@@ -32,8 +34,14 @@ export default function SurveysPage() {
     <>
       <Header />
       <main className="mx-auto w-full max-w-2xl px-4 py-6 lg:max-w-3xl">
-        <h1 className="text-xl font-bold text-ink">এলাকার জরিপ</h1>
-        <p className="mt-1 text-sm text-ink-soft">
+        <SectionHeader
+          as="h1"
+          icon={<IconCheck className="h-6 w-6" />}
+          tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+          title="এলাকার জরিপ"
+          subtitle="আপনার এলাকার প্রশ্নে মত দিন"
+        />
+        <p className="mt-3 text-sm text-ink-soft">
           আপনার নিজ এলাকার জরিপে মতামত দিন। প্রতিটি জরিপে একজন সদস্য একবারই ভোট দিতে পারেন।
         </p>
 

@@ -1,14 +1,16 @@
 'use client';
 
-import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import RoadCard from '@/components/RoadCard';
-import { IconChevronRight, IconRoute } from '@/components/icons';
+import SectionHeader, { SectionActionLink } from '@/components/SectionHeader';
+import { IconPin, IconRoute } from '@/components/icons';
 import { bnNum } from '@/lib/time';
-import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadKind, type RoadStatus } from '@/lib/types';
+import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
 
-function queryOf(sel: LocationSelection, kind: RoadKind): string {
+type StatusFilter = RoadStatus | 'none' | null;
+
+function queryOf(sel: LocationSelection, kind: 'road' | 'spot'): string {
   const p = new URLSearchParams();
   p.set('kind', kind);
   if (sel.division_id) p.set('division_id', String(sel.division_id));
@@ -20,133 +22,202 @@ function queryOf(sel: LocationSelection, kind: RoadKind): string {
   return q ? `?${q}` : '';
 }
 
+async function fetchRoads(area: LocationSelection, kind: 'road' | 'spot'): Promise<Road[]> {
+  try {
+    const res = await fetch(`/api/roads${queryOf(area, kind)}`, { cache: 'no-store' });
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
 /**
- * Area-filtered road explorer: compact cascading area filter (defaults to
- * ময়মনসিংহ সদর via LocationPicker), status summary chips and road cards.
- * `home` variant = the dedicated হোম section; `full` variant = /roads page.
+ * One kind group (রোডসমূহ / মোড় ও গুরুত্বপূর্ণ স্থান): own SectionHeader,
+ * clickable status summary chips that FILTER this group's cards, and the
+ * card grid. Chip counts always come from the group's full (unfiltered)
+ * list for the selected area; tapping the active chip — or the মোট chip —
+ * clears the filter.
+ */
+function RoadGroup({
+  icon,
+  tileClassName,
+  title,
+  subtitle,
+  items,
+  totalLabel,
+  emptyText,
+  gridClassName,
+}: {
+  icon: ReactNode;
+  tileClassName: string;
+  title: string;
+  subtitle: string;
+  items: Road[] | null;
+  totalLabel: string;
+  emptyText: string;
+  gridClassName: string;
+}) {
+  const [filter, setFilter] = useState<StatusFilter>(null);
+
+  // New area data → back to showing everything.
+  useEffect(() => {
+    setFilter(null);
+  }, [items]);
+
+  const counts = useMemo(() => {
+    const map = new Map<RoadStatus | 'none', number>();
+    for (const r of items ?? []) {
+      const k = r.current_status ?? 'none';
+      map.set(k, (map.get(k) ?? 0) + 1);
+    }
+    return map;
+  }, [items]);
+
+  const visible = useMemo(() => {
+    if (!items) return null;
+    if (filter === null) return items;
+    if (filter === 'none') return items.filter((r) => !r.current_status);
+    return items.filter((r) => r.current_status === filter);
+  }, [items, filter]);
+
+  const chipCls = (active: boolean) =>
+    `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold shadow-sm transition ${
+      active ? 'bg-ink text-white' : 'bg-white text-ink hover:bg-cream-dark'
+    }`;
+
+  return (
+    <section className="space-y-4">
+      <SectionHeader icon={icon} tileClassName={tileClassName} title={title} subtitle={subtitle} />
+
+      {items !== null && items.length > 0 && (
+        <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
+          <button
+            type="button"
+            onClick={() => setFilter(null)}
+            aria-pressed={filter === null}
+            className={chipCls(filter === null)}
+          >
+            মোট {bnNum(items.length)}টি {totalLabel}
+          </button>
+          {ROAD_STATUSES.map(
+            (s) =>
+              (counts.get(s) ?? 0) > 0 && (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setFilter(filter === s ? null : s)}
+                  aria-pressed={filter === s}
+                  className={chipCls(filter === s)}
+                >
+                  {ROAD_STATUS_LABEL[s]}: {bnNum(counts.get(s) ?? 0)}টি
+                </button>
+              )
+          )}
+          {(counts.get('none') ?? 0) > 0 && (
+            <button
+              type="button"
+              onClick={() => setFilter(filter === 'none' ? null : 'none')}
+              aria-pressed={filter === 'none'}
+              className={chipCls(filter === 'none')}
+            >
+              আপডেট নেই: {bnNum(counts.get('none') ?? 0)}টি
+            </button>
+          )}
+        </div>
+      )}
+
+      {visible === null ? (
+        <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
+      ) : items !== null && items.length === 0 ? (
+        <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">{emptyText}</p>
+      ) : visible.length === 0 ? (
+        <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+          এই অবস্থায় কোনো {totalLabel} নেই।
+        </p>
+      ) : (
+        <div className={gridClassName}>
+          {visible.map((r) => (
+            <RoadCard key={r.id} road={r} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/**
+ * Area-filtered road explorer: ONE shared cascading area filter (defaults
+ * to ময়মনসিংহ সদর via LocationPicker), then TWO clearly separated sections —
+ * রোডসমূহ and মোড় ও গুরুত্বপূর্ণ স্থান — each with its own header, clickable
+ * status-filter chips and cards. `home` variant adds the umbrella
+ * "রোডের অবস্থা" header; `full` variant is the /roads page body.
  */
 export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' | 'full' }) {
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
-  const [kind, setKind] = useState<RoadKind>('road');
   const [roads, setRoads] = useState<Road[] | null>(null);
+  const [spots, setSpots] = useState<Road[] | null>(null);
 
   useEffect(() => {
     let alive = true;
     (async () => {
-      try {
-        const res = await fetch(`/api/roads${queryOf(area, kind)}`, { cache: 'no-store' });
-        const data = await res.json();
-        if (alive) setRoads(Array.isArray(data) ? data : []);
-      } catch {
-        if (alive) setRoads([]);
+      const [r, s] = await Promise.all([fetchRoads(area, 'road'), fetchRoads(area, 'spot')]);
+      if (alive) {
+        setRoads(r);
+        setSpots(s);
       }
     })();
     return () => {
       alive = false;
     };
-  }, [area, kind]);
+  }, [area]);
 
-  const summary = useMemo(() => {
-    const counts = new Map<RoadStatus | 'none', number>();
-    for (const r of roads ?? []) {
-      const k = r.current_status ?? 'none';
-      counts.set(k, (counts.get(k) ?? 0) + 1);
-    }
-    return counts;
-  }, [roads]);
+  const gridClassName = `grid gap-3 md:grid-cols-2 ${variant === 'full' ? 'xl:grid-cols-3' : ''}`;
 
-  const kindToggle = (
-    <div className="flex rounded-full bg-cream p-1">
-      {(
-        [
-          { value: 'road', label: 'রোডসমূহ' },
-          { value: 'spot', label: 'মোড় ও স্থান' },
-        ] as { value: RoadKind; label: string }[]
-      ).map((t) => (
-        <button
-          key={t.value}
-          type="button"
-          onClick={() => setKind(t.value)}
-          className={`flex-1 rounded-full px-4 py-2 text-sm font-bold transition ${
-            kind === t.value ? 'bg-ink text-white shadow' : 'text-ink-soft'
-          }`}
-        >
-          {t.label}
-        </button>
-      ))}
-    </div>
-  );
-
-  const grid = (
+  const body = (
     <>
-      {kindToggle}
-
-      {/* Area filter */}
+      {/* Shared area filter */}
       <div className="rounded-2xl bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
 
-      {/* Status summary for the selected area + active tab */}
-      {roads !== null && roads.length > 0 && (
-        <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
-          <span className="shrink-0 rounded-full bg-ink px-3 py-1.5 text-xs font-bold text-white">
-            {kind === 'road' ? `মোট ${bnNum(roads.length)}টি রোড` : `মোট ${bnNum(roads.length)}টি স্থান`}
-          </span>
-          {ROAD_STATUSES.map(
-            (s) =>
-              (summary.get(s) ?? 0) > 0 && (
-                <span key={s} className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-ink shadow-sm">
-                  {ROAD_STATUS_LABEL[s]}: {bnNum(summary.get(s) ?? 0)}টি
-                </span>
-              )
-          )}
-          {(summary.get('none') ?? 0) > 0 && (
-            <span className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-ink-soft shadow-sm">
-              আপডেট নেই: {bnNum(summary.get('none') ?? 0)}টি
-            </span>
-          )}
-        </div>
-      )}
+      <RoadGroup
+        icon={<IconRoute className="h-6 w-6" />}
+        tileClassName="bg-orange-100 text-orange-700"
+        title="রোডসমূহ"
+        subtitle="কোন রোডের কী অবস্থা — লাইভ আপডেট"
+        items={roads}
+        totalLabel="রোড"
+        emptyText="এই এলাকায় এখনো কোনো রোড যোগ হয়নি।"
+        gridClassName={gridClassName}
+      />
 
-      {/* Road / spot cards */}
-      {roads === null ? (
-        <p className="py-8 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
-      ) : roads.length === 0 ? (
-        <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
-          {kind === 'road'
-            ? 'এই এলাকায় এখনো কোনো রোড যোগ হয়নি।'
-            : 'এই এলাকায় এখনো কোনো গুরুত্বপূর্ণ স্থান যোগ হয়নি।'}
-        </p>
-      ) : (
-        <div className={`grid gap-3 md:grid-cols-2 ${variant === 'full' ? 'xl:grid-cols-3' : ''}`}>
-          {roads.map((r) => (
-            <RoadCard key={r.id} road={r} />
-          ))}
-        </div>
-      )}
+      <RoadGroup
+        icon={<IconPin className="h-6 w-6" />}
+        tileClassName="bg-violet-100 text-violet-700"
+        title="মোড় ও গুরুত্বপূর্ণ স্থান"
+        subtitle="মোড় ও গুরুত্বপূর্ণ জায়গার লাইভ অবস্থা"
+        items={spots}
+        totalLabel="স্থান"
+        emptyText="এই এলাকায় এখনো কোনো গুরুত্বপূর্ণ স্থান যোগ হয়নি।"
+        gridClassName={gridClassName}
+      />
     </>
   );
 
-  if (variant === 'full') return <div className="space-y-4">{grid}</div>;
+  if (variant === 'full') return <div className="space-y-8">{body}</div>;
 
   return (
-    <section className="space-y-3">
-      <div className="flex items-end justify-between gap-2">
-        <div>
-          <h2 className="flex items-center gap-2 text-lg font-bold text-ink">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-orange-700">
-              <IconRoute className="h-5 w-5" />
-            </span>
-            রোডের অবস্থা
-          </h2>
-          <p className="mt-1 text-xs text-ink-soft">এলাকাভিত্তিক লাইভ আপডেট — কোন রোডের কী অবস্থা</p>
-        </div>
-        <Link href="/roads" className="flex shrink-0 items-center gap-0.5 text-sm font-bold text-brand">
-          সব রোড দেখুন <IconChevronRight className="h-4 w-4" />
-        </Link>
-      </div>
-      {grid}
+    <section className="space-y-5">
+      <SectionHeader
+        icon={<IconRoute className="h-6 w-6" />}
+        tileClassName="bg-orange-100 text-orange-700"
+        title="রোডের অবস্থা"
+        subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
+        action={<SectionActionLink href="/roads">সব রোড দেখুন</SectionActionLink>}
+      />
+      <div className="space-y-8">{body}</div>
     </section>
   );
 }

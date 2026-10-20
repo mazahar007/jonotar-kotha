@@ -6,7 +6,8 @@ import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/type
 import ReportCard from './ReportCard';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
-import { IconChevronRight, IconMegaphone, IconPhone } from './icons';
+import SectionHeader from './SectionHeader';
+import { IconChevronRight, IconMegaphone, IconPhone, IconShield, IconStar } from './icons';
 
 export default function HomeFeed({
   categories,
@@ -26,11 +27,13 @@ export default function HomeFeed({
   );
 
   return (
-    <div className="px-4 pb-6 lg:px-6">
+    <div className="px-4 pb-10 lg:px-6">
       {/* Desktop (xl): main column + right rail. Mobile: single stacked column,
-          in the exact original order. */}
+          in the exact original order. One uniform vertical rhythm
+          (space-y-10 / lg:space-y-12) separates every section so two
+          sections can never visually merge. */}
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-6">
-        <div className="min-w-0 space-y-5">
+        <div className="min-w-0 space-y-10 lg:space-y-12">
           {/* Emergency call strip */}
           <Link
             href="/sos"
@@ -68,32 +71,42 @@ export default function HomeFeed({
           {/* Phase 3 — amar-elaka card (members) + newest survey */}
           <HomeMemberSections />
 
-          {/* Category chips */}
-          <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:-mx-6 lg:px-6">
-            {categories.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => setActive(c.name)}
-                className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  active === c.name ? 'bg-ink text-white' : 'bg-white text-ink-soft shadow-sm'
-                }`}
-              >
-                {c.name}
-              </button>
-            ))}
-          </div>
+          {/* Report feed — জনতার রিপোর্ট */}
+          <section className="space-y-4">
+            <SectionHeader
+              icon={<IconMegaphone className="h-6 w-6" />}
+              tileClassName="bg-red-100 text-brand"
+              title="জনতার রিপোর্ট"
+              subtitle="এলাকার সমস্যা ও ঘটনার আপডেট"
+            />
 
-          {/* Report cards — 1 col mobile, 2 col from md up */}
-          <div className="grid gap-3 md:grid-cols-2">
-            {filtered.length === 0 && (
-              <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft md:col-span-2">
-                এই ক্যাটাগরিতে এখনো কোনো রিপোর্ট নেই।
-              </p>
-            )}
-            {filtered.map((r) => (
-              <ReportCard key={r.id} report={r} />
-            ))}
-          </div>
+            {/* Category chips */}
+            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:-mx-6 lg:px-6">
+              {categories.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setActive(c.name)}
+                  className={`flex min-h-11 shrink-0 items-center rounded-full px-4 text-sm font-semibold transition ${
+                    active === c.name ? 'bg-ink text-white' : 'bg-white text-ink-soft shadow-sm'
+                  }`}
+                >
+                  {c.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Report cards — 1 col mobile, 2 col from md up */}
+            <div className="grid gap-3 md:grid-cols-2">
+              {filtered.length === 0 && (
+                <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft md:col-span-2">
+                  এই ক্যাটাগরিতে এখনো কোনো রিপোর্ট নেই।
+                </p>
+              )}
+              {filtered.map((r) => (
+                <ReportCard key={r.id} report={r} />
+              ))}
+            </div>
+          </section>
 
           {/* Phase 4 — রোডের অবস্থা (এলাকাভিত্তিক লাইভ আপডেট), main column */}
           <RoadsExplorer variant="home" />
@@ -101,12 +114,17 @@ export default function HomeFeed({
 
         {/* Right rail on xl (সমাধান ট্র্যাকার + লিডারবোর্ড + জরুরি নম্বর);
             stacked below the feed on smaller screens, same order as before. */}
-        <div className="mt-5 min-w-0 space-y-5 xl:mt-0">
+        <div className="mt-10 min-w-0 space-y-10 lg:space-y-12 xl:mt-0">
           {/* Resolution tracker */}
           {updates.length > 0 && (
-            <section className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-              <h2 className="mb-2 font-bold text-ink">সমাধান ট্র্যাকার</h2>
-              <div className="space-y-2">
+            <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+              <SectionHeader
+                icon={<IconShield className="h-6 w-6" />}
+                tileClassName="bg-emerald-100 text-emerald-700"
+                title="সমাধান ট্র্যাকার"
+                subtitle="পৌরসভা কোন রিপোর্টে কী করল"
+              />
+              <div className="mt-4 space-y-2">
                 {updates.slice(0, 3).map((u) => (
                   <div key={u.id} className="flex gap-3 rounded-xl bg-cream p-3 text-sm">
                     <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
@@ -121,9 +139,14 @@ export default function HomeFeed({
           )}
 
           {/* Volunteer leaderboard */}
-          <section className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-            <h2 className="mb-3 font-bold text-ink">স্বেচ্ছাসেবক লিডারবোর্ড</h2>
-            <div className="space-y-2">
+          <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+            <SectionHeader
+              icon={<IconStar className="h-6 w-6" />}
+              tileClassName="bg-amber-100 text-amber-600"
+              title="স্বেচ্ছাসেবক লিডারবোর্ড"
+              subtitle="এলাকার সেরা স্বেচ্ছাসেবকগণ"
+            />
+            <div className="mt-4 space-y-2">
               {volunteers.slice(0, 3).map((v, i) => (
                 <div key={v.id} className="flex items-center gap-3 rounded-xl bg-cream p-3">
                   <span
@@ -145,9 +168,15 @@ export default function HomeFeed({
 
           {/* Emergency numbers (existing SOS hotlines, surfaced in the rail on xl only
               so the mobile stack stays exactly as before) */}
-          <section className="hidden rounded-2xl bg-ink p-4 text-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] xl:block">
-            <h2 className="mb-3 font-bold">জরুরি নম্বর</h2>
-            <div className="space-y-2 text-sm">
+          <section className="hidden rounded-3xl bg-ink p-5 text-white shadow-[0_2px_12px_rgba(0,0,0,0.08)] xl:block">
+            <SectionHeader
+              dark
+              icon={<IconPhone className="h-6 w-6" />}
+              tileClassName="bg-white/10 text-white"
+              title="জরুরি নম্বর"
+              subtitle="১ ট্যাপে সরাসরি কল করুন"
+            />
+            <div className="mt-4 space-y-2 text-sm">
               <a href="tel:999" className="flex items-center justify-between rounded-xl bg-white/10 px-3 py-2.5">
                 <span>জাতীয় জরুরি সেবা</span>
                 <span className="font-bold">৯৯৯</span>

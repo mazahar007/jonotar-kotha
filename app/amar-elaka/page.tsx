@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import BottomNav from '@/components/BottomNav';
 import Header from '@/components/Header';
+import SectionHeader from '@/components/SectionHeader';
 import { getStoredToken, useMember } from '@/lib/member';
 import type { AmarElakaData } from '@/lib/types';
 import { IconPin, IconUsers } from '@/components/icons';
@@ -45,8 +46,14 @@ export default function AmarElakaPage() {
     <>
       <Header />
       <main className="mx-auto w-full max-w-2xl px-4 py-6 lg:max-w-3xl">
-        <h1 className="text-xl font-bold text-ink">আমার এলাকার মানুষ</h1>
-        <p className="mt-1 text-sm text-ink-soft">
+        <SectionHeader
+          as="h1"
+          icon={<IconUsers className="h-6 w-6" />}
+          tileClassName="bg-emerald-100 text-emerald-700"
+          title="আমার এলাকার মানুষ"
+          subtitle="নিজ এলাকার কে কোথায় আছেন"
+        />
+        <p className="mt-3 text-sm text-ink-soft">
           নিবন্ধিত সদস্যদের তথ্য থেকে স্বয়ংক্রিয়ভাবে তৈরি। এলাকা = সদস্যের নিজের দেওয়া বর্তমান এলাকা (GPS নয়)।
         </p>
 

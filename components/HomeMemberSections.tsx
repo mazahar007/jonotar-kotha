@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { getStoredToken, useMember } from '@/lib/member';
 import type { AmarElakaData, SurveyWithState } from '@/lib/types';
 import SurveyCard from './SurveyCard';
-import { IconChevronRight, IconUsers } from './icons';
+import SectionHeader from './SectionHeader';
+import { IconCheck, IconChevronRight, IconUsers } from './icons';
 
 /**
  * Phase 3 home sections: newest active survey (everyone) + an
@@ -41,45 +42,69 @@ export default function HomeMemberSections() {
   return (
     <>
       {member && elaka && (
-        <Link
-          href="/amar-elaka"
-          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
-        >
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
-            <IconUsers className="h-6 w-6" />
-          </span>
-          <span className="flex-1">
-            <span className="block font-bold text-ink">আমার এলাকার মানুষ</span>
-            <span className="block text-xs text-ink-soft">
-              {elaka.area_label} — মোট {elaka.total} জন সদস্য, {elaka.away} জন অন্য এলাকায় আছেন
+        <section className="space-y-3">
+          <SectionHeader
+            icon={<IconUsers className="h-6 w-6" />}
+            tileClassName="bg-emerald-100 text-emerald-700"
+            title="আমার এলাকার মানুষ"
+            subtitle="নিজ এলাকার কে কোথায় আছেন"
+          />
+          <Link
+            href="/amar-elaka"
+            className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+          >
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+              <IconUsers className="h-6 w-6" />
             </span>
-          </span>
-          <IconChevronRight className="h-5 w-5 text-ink-soft" />
-        </Link>
+            <span className="flex-1">
+              <span className="block font-bold text-ink">আমার এলাকার মানুষ</span>
+              <span className="block text-xs text-ink-soft">
+                {elaka.area_label} — মোট {elaka.total} জন সদস্য, {elaka.away} জন অন্য এলাকায় আছেন
+              </span>
+            </span>
+            <IconChevronRight className="h-5 w-5 text-ink-soft" />
+          </Link>
+        </section>
       )}
 
       {survey && (
-        <SurveyCard
-          survey={survey}
-          isMember={!!member}
-          onVoted={(updated) => setSurvey(updated)}
-        />
+        <section className="space-y-3">
+          <SectionHeader
+            icon={<IconCheck className="h-6 w-6" />}
+            tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+            title="এলাকার জরিপ"
+            subtitle="আপনার এলাকার প্রশ্নে মত দিন"
+          />
+          <SurveyCard
+            survey={survey}
+            isMember={!!member}
+            onVoted={(updated) => setSurvey(updated)}
+          />
+        </section>
       )}
 
       {member === null && (
-        <Link
-          href="/surveys"
-          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
-        >
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
-            <IconUsers className="h-6 w-6" />
-          </span>
-          <span className="flex-1">
-            <span className="block font-bold text-ink">এলাকার জরিপ</span>
-            <span className="block text-xs text-ink-soft">চলমান জরিপ দেখুন — ভোট দিতে নিবন্ধন লাগবে</span>
-          </span>
-          <IconChevronRight className="h-5 w-5 text-ink-soft" />
-        </Link>
+        <section className="space-y-3">
+          <SectionHeader
+            icon={<IconCheck className="h-6 w-6" />}
+            tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+            title="এলাকার জরিপ"
+            subtitle="আপনার এলাকার প্রশ্নে মত দিন"
+          />
+          <Link
+            href="/surveys"
+            className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+          >
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+              <IconUsers className="h-6 w-6" />
+            </span>
+            <span className="flex-1">
+              <span className="block font-bold text-ink">এলাকার জরিপ</span>
+              <span className="block text-xs text-ink-soft">চলমান জরিপ দেখুন — ভোট দিতে নিবন্ধন লাগবে</span>
+            </span>
+            <IconChevronRight className="h-5 w-5 text-ink-soft" />
+          </Link>
+        </section>
       )}
     </>
   );

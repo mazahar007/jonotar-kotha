@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
+import SectionHeader from '@/components/SectionHeader';
 import { IconPin, IconUsers } from '@/components/icons';
 import { getFamily } from '@/lib/store';
 import { mockFamilyNote } from '@/lib/mock';
@@ -11,8 +12,13 @@ export default async function FamilyPage() {
   return (
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
-        <h1 className="text-xl font-bold text-ink">পরিবার ট্র্যাকিং</h1>
-        <p className="mt-1 text-sm text-ink-soft">আপনার প্রিয়জনরা এখন কোথায়</p>
+        <SectionHeader
+          as="h1"
+          icon={<IconUsers className="h-6 w-6" />}
+          tileClassName="bg-amber-100 text-amber-700"
+          title="পরিবার ট্র্যাকিং"
+          subtitle="আপনার প্রিয়জনরা এখন কোথায়"
+        />
 
         <div className="mt-4 flex items-center gap-3 rounded-2xl bg-amber-50 p-4">
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">

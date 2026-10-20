@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import BottomNav from '@/components/BottomNav';
-import { IconChevronRight, IconPhone, IconPin, IconShield, IconStar } from '@/components/icons';
+import SectionHeader from '@/components/SectionHeader';
+import { IconChevronRight, IconMegaphone, IconPhone, IconPin, IconShield, IconStar } from '@/components/icons';
 import { getGuides, getShelters } from '@/lib/store';
 
 export const dynamic = 'force-dynamic';
@@ -10,13 +11,18 @@ export default async function TravelPage() {
   return (
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-ink">ভ্রমণ মোড</h1>
-            <p className="mt-1 text-sm text-ink-soft">আশেপাশে বিশ্বস্ত গাইড ও নিরাপদ আশ্রয় দেখুন</p>
-          </div>
-          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">চালু</span>
-        </div>
+        <SectionHeader
+          as="h1"
+          icon={<IconMegaphone className="h-6 w-6" />}
+          tileClassName="bg-sky-100 text-sky-700"
+          title="ভ্রমণ মোড"
+          subtitle="আশেপাশে বিশ্বস্ত গাইড ও নিরাপদ আশ্রয় দেখুন"
+          action={
+            <span className="mt-1.5 shrink-0 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
+              চালু
+            </span>
+          }
+        />
 
         <h2 className="mb-3 mt-6 font-bold text-ink">যাচাইকৃত গাইড</h2>
         <div className="grid gap-3 md:grid-cols-2">

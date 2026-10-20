@@ -38,7 +38,7 @@ export default function Sidebar() {
     <aside className="sticky top-0 hidden h-dvh w-72 shrink-0 flex-col border-r border-[#efe3d3] bg-cream px-5 py-6 lg:flex">
       <Link href="/" className="block">
         <span className="text-2xl font-bold leading-tight text-ink">জনতার কথা</span>
-        <span className="mt-0.5 block text-xs text-ink-soft">নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং</span>
+        <span className="mt-0.5 block text-[13px] text-ink-soft">নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং</span>
       </Link>
 
       <nav className="mt-8 flex flex-col gap-1">
@@ -48,11 +48,11 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
-              className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-[15px] font-semibold transition ${
+              className={`flex min-h-12 items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold transition ${
                 active ? 'bg-ink text-white' : 'text-ink-soft hover:bg-white hover:text-ink'
               }`}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-6 w-6" />
               {label}
             </Link>
           );

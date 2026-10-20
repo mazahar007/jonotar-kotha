@@ -176,7 +176,7 @@ export default function RoadDetail({ id }: { id: number }) {
                     key={o.value}
                     type="button"
                     onClick={() => setStatus(o.value)}
-                    className={`rounded-full px-3.5 py-2 text-sm font-bold transition ${
+                    className={`inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-bold transition ${
                       status === o.value
                         ? 'bg-ink text-white'
                         : 'bg-cream text-ink-soft hover:bg-cream-dark'
