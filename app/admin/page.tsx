@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { STATUS_LABEL, STATUS_OPTIONS, type ReportStatus } from '@/lib/types';
 import { IconCheck, IconLogout, IconX } from '@/components/icons';
 import AdminLocations from '@/components/AdminLocations';
+import AdminMembers from '@/components/AdminMembers';
+import AdminSurveys from '@/components/AdminSurveys';
 
-type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations';
+type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members';
 
 const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'reports', label: 'রিপোর্ট', endpoint: '/api/reports' },
@@ -18,6 +20,8 @@ const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'guides', label: 'গাইড', endpoint: '/api/guides' },
   { id: 'shelters', label: 'আশ্রয়', endpoint: '/api/shelters' },
   { id: 'locations', label: 'লোকেশন', endpoint: '' },
+  { id: 'surveys', label: 'জরিপ', endpoint: '' },
+  { id: 'members', label: 'সদস্য', endpoint: '' },
 ];
 
 // editable fields per tab (excluding id)
@@ -65,8 +69,10 @@ const FIELDS: Record<Tab, { key: string; label: string; type?: 'text' | 'number'
     { key: 'shelter_type', label: 'ধরন' },
     { key: 'distance_m', label: 'দূরত্ব (মি)', type: 'number' },
   ],
-  // Managed by the dedicated hierarchical UI (AdminLocations), not the generic form.
+  // Managed by dedicated UIs (AdminLocations / AdminSurveys / AdminMembers), not the generic form.
   locations: [],
+  surveys: [],
+  members: [],
 };
 
 interface Row {
@@ -194,6 +200,10 @@ export default function AdminPage() {
       <div className="mx-auto w-full max-w-7xl px-4 pb-10">
         {tab === 'locations' ? (
           <AdminLocations />
+        ) : tab === 'surveys' ? (
+          <AdminSurveys />
+        ) : tab === 'members' ? (
+          <AdminMembers />
         ) : (
           <>
         <button

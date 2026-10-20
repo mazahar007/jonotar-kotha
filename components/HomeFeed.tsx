@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/types';
 import ReportCard from './ReportCard';
+import HomeMemberSections from './HomeMemberSections';
 import { IconChevronRight, IconMegaphone, IconPhone } from './icons';
 
 export default function HomeFeed({
@@ -62,6 +63,9 @@ export default function HomeFeed({
             </span>
             <IconChevronRight className="h-5 w-5 text-ink-soft" />
           </Link>
+
+          {/* Phase 3 — amar-elaka card (members) + newest survey */}
+          <HomeMemberSections />
 
           {/* Category chips */}
           <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:-mx-6 lg:px-6">

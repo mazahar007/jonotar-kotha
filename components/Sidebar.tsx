@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  IconCheck,
   IconDroplet,
   IconHome,
   IconLock,
   IconMap,
   IconMegaphone,
+  IconPin,
   IconUser,
   IconUsers,
 } from './icons';
@@ -18,6 +20,8 @@ const links = [
   { href: '/blood', label: 'রক্তদাতা', Icon: IconDroplet },
   { href: '/travel', label: 'ভ্রমণ', Icon: IconMegaphone },
   { href: '/family', label: 'পরিবার', Icon: IconUsers },
+  { href: '/surveys', label: 'জরিপ', Icon: IconCheck },
+  { href: '/amar-elaka', label: 'আমার এলাকার মানুষ', Icon: IconPin },
   { href: '/locker', label: 'প্রমাণ লকার', Icon: IconLock },
   { href: '/profile', label: 'প্রোফাইল', Icon: IconUser },
 ];

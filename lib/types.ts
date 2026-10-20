@@ -141,6 +141,78 @@ export interface MunicipalityUpdate {
   created_at: string;
 }
 
+/* ---------- Members, surveys (Phase 3) ---------- */
+
+/** The 5 location IDs of one place (home or current). */
+export interface LocationIds {
+  division_id: number | null;
+  district_id: number | null;
+  upazila_id: number | null;
+  thana_id: number | null;
+  union_id: number | null;
+}
+
+export interface Member {
+  id: number;
+  name: string;
+  phone: string;
+  home: LocationIds;
+  current: LocationIds;
+  is_visible: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Member as shown to other members / the public — never includes phone. */
+export interface PublicMember {
+  id: number;
+  name: string;
+  home_breadcrumb: string;
+  current_breadcrumb: string;
+}
+
+export type SurveyTargetLevel = 'all' | 'division' | 'district' | 'upazila' | 'thana' | 'union';
+
+export interface Survey {
+  id: number;
+  question: string;
+  options: string[];
+  target_level: SurveyTargetLevel;
+  target_id: number | null;
+  target_label: string;
+  status: 'active' | 'closed';
+  created_at: string;
+}
+
+export interface SurveyResults {
+  total: number;
+  per_option: { option: string; count: number; pct: number }[];
+}
+
+/** Admin-only breakdown of responses by the voter's home থানা / ইউনিয়ন. */
+export interface SurveyBreakdown {
+  by_thana: { name: string; total: number; per_option: number[] }[];
+  by_union: { name: string; total: number; per_option: number[] }[];
+}
+
+export interface SurveyWithState extends Survey {
+  my_vote: number | null;
+  in_scope: boolean | null; // null when the requester is not a member
+  results: SurveyResults | null; // shown after voting / when closed / admin
+  breakdown?: SurveyBreakdown;
+}
+
+export interface AmarElakaData {
+  area_label: string;
+  total: number;
+  at_home: number;
+  away: number;
+  away_list: { id: number; name: string; current_breadcrumb: string }[];
+  near_me: { id: number; name: string; current_breadcrumb: string }[];
+  my_current_breadcrumb: string;
+  i_am_away: boolean;
+}
+
 export const STATUS_LABEL: Record<ReportStatus, string> = {
   pending: 'যাচাইয়ের জন্য যাবে',
   verified: 'যাচাইকৃত',

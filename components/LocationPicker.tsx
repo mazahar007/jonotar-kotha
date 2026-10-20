@@ -50,15 +50,22 @@ export default function LocationPicker({
   const [thanas, setThanas] = useState<Thana[]>([]);
   const [unions, setUnions] = useState<UnionParishad[]>([]);
   const initDone = useRef(false);
+  const initialValue = useRef(value);
+  const loadedDiv = useRef<number | null>(null);
+  const loadedDist = useRef<number | null>(null);
+  const loadedUpa = useRef<number | null>(null);
 
   // Load districts whenever the division changes (not on preselect-only mounts)
   const loadDistricts = useCallback(async (divisionId: number) => {
+    loadedDiv.current = divisionId;
     setDistricts(await fetchList<District>(`/api/locations/districts?division_id=${divisionId}`));
   }, []);
   const loadUpazilas = useCallback(async (districtId: number) => {
+    loadedDist.current = districtId;
     setUpazilas(await fetchList<Upazila>(`/api/locations/upazilas?district_id=${districtId}`));
   }, []);
   const loadThanasUnions = useCallback(async (upazilaId: number) => {
+    loadedUpa.current = upazilaId;
     const [t, u] = await Promise.all([
       fetchList<Thana>(`/api/locations/thanas?upazila_id=${upazilaId}`),
       fetchList<UnionParishad>(`/api/locations/unions?upazila_id=${upazilaId}`),
@@ -67,16 +74,20 @@ export default function LocationPicker({
     setUnions(u);
   }, []);
 
-  // Initial load + preselect ময়মনসিংহ বিভাগ → ময়মনসিংহ জেলা → ময়মনসিংহ সদর
+  // Initial load + preselect ময়মনসিংহ বিভাগ → ময়মনসিংহ জেলা → ময়মনসিংহ সদর.
+  // When the parent already supplies a value (e.g. profile editing), keep it —
+  // the sync effects below load the matching lists instead.
   useEffect(() => {
     if (initDone.current) return;
     initDone.current = true;
     (async () => {
       const divs = await fetchList<Division>('/api/locations/divisions');
       setDivisions(divs);
+      if (initialValue.current.division_id) return;
       const div = divs.find((d) => d.slug === 'mymensingh');
       if (!div) return;
       const dists = await fetchList<District>(`/api/locations/districts?division_id=${div.id}`);
+      loadedDiv.current = div.id;
       setDistricts(dists);
       const dist = dists.find((d) => d.slug === 'mymensingh');
       if (!dist) {
@@ -84,6 +95,7 @@ export default function LocationPicker({
         return;
       }
       const ups = await fetchList<Upazila>(`/api/locations/upazilas?district_id=${dist.id}`);
+      loadedDist.current = dist.id;
       setUpazilas(ups);
       const sadar = ups.find((u) => u.slug === 'mymensingh-sadar');
       onChange({
@@ -98,12 +110,24 @@ export default function LocationPicker({
           fetchList<Thana>(`/api/locations/thanas?upazila_id=${sadar.id}`),
           fetchList<UnionParishad>(`/api/locations/unions?upazila_id=${sadar.id}`),
         ]);
+        loadedUpa.current = sadar.id;
         setThanas(t);
         setUnions(u);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Sync child lists when the parent sets the value externally (profile edit etc.)
+  useEffect(() => {
+    if (value.division_id && loadedDiv.current !== value.division_id) loadDistricts(value.division_id);
+  }, [value.division_id, loadDistricts]);
+  useEffect(() => {
+    if (value.district_id && loadedDist.current !== value.district_id) loadUpazilas(value.district_id);
+  }, [value.district_id, loadUpazilas]);
+  useEffect(() => {
+    if (value.upazila_id && loadedUpa.current !== value.upazila_id) loadThanasUnions(value.upazila_id);
+  }, [value.upazila_id, loadThanasUnions]);
 
   function pickDivision(id: number | null) {
     onChange({ ...EMPTY_LOCATION, division_id: id });

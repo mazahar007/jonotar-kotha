@@ -34,6 +34,11 @@ export const fallbackDistricts: District[] = [
   { id: 2, division_id: 8, name_bn: 'জামালপুর', name_en: 'Jamalpur', slug: 'jamalpur', sort_order: 2 },
   { id: 3, division_id: 8, name_bn: 'শেরপুর', name_en: 'Sherpur', slug: 'sherpur', sort_order: 3 },
   { id: 4, division_id: 8, name_bn: 'নেত্রকোণা', name_en: 'Netrokona', slug: 'netrokona', sort_order: 4 },
+  // Phase 3 demo extension: a couple of metro districts so members can declare
+  // ঢাকা / চট্টগ্রাম as their current area in the people-finder demo. On a real
+  // database these rows come from the admin লোকেশন tab, like every other phase.
+  { id: 5, division_id: 1, name_bn: 'ঢাকা', name_en: 'Dhaka', slug: 'dhaka', sort_order: 5 },
+  { id: 6, division_id: 2, name_bn: 'চট্টগ্রাম', name_en: 'Chattogram', slug: 'chattogram', sort_order: 6 },
 ];
 
 export const fallbackUpazilas: Upazila[] = [
@@ -50,6 +55,13 @@ export const fallbackUpazilas: Upazila[] = [
   { id: 11, district_id: 1, name_bn: 'ফুলপুর', name_en: 'Phulpur', slug: 'phulpur', sort_order: 11 },
   { id: 12, district_id: 1, name_bn: 'তারাকান্দা', name_en: 'Tarakanda', slug: 'tarakanda', sort_order: 12 },
   { id: 13, district_id: 1, name_bn: 'ত্রিশাল', name_en: 'Trishal', slug: 'trishal', sort_order: 13 },
+  // Phase 3 demo extension (ঢাকা + চট্টগ্রাম districts above).
+  { id: 14, district_id: 5, name_bn: 'সাভার', name_en: 'Savar', slug: 'savar', sort_order: 14 },
+  { id: 15, district_id: 5, name_bn: 'কেরানীগঞ্জ', name_en: 'Keraniganj', slug: 'keraniganj', sort_order: 15 },
+  { id: 16, district_id: 5, name_bn: 'ধামরাই', name_en: 'Dhamrai', slug: 'dhamrai', sort_order: 16 },
+  { id: 17, district_id: 6, name_bn: 'পটিয়া', name_en: 'Patiya', slug: 'patiya', sort_order: 17 },
+  { id: 18, district_id: 6, name_bn: 'সীতাকুণ্ড', name_en: 'Sitakunda', slug: 'sitakunda', sort_order: 18 },
+  { id: 19, district_id: 6, name_bn: 'রাঙ্গুনিয়া', name_en: 'Rangunia', slug: 'rangunia', sort_order: 19 },
 ];
 
 export const fallbackThanas: Thana[] = [
