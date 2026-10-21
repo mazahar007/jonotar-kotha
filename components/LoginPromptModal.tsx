@@ -6,15 +6,19 @@ import Link from 'next/link';
  * Phase 14 — friendly login prompt shown when a logged-out member taps a
  * post action (one-tap presets, road update form). Points to /register,
  * which also hosts login + OTP verification (Phase 13).
+ * Phase 17 — `returnTo`: after login/verification the member lands directly
+ * on the submit page (with any prefill query params preserved).
  */
 export default function LoginPromptModal({
   open,
   onClose,
   message,
+  returnTo = '/roads/submit',
 }: {
   open: boolean;
   onClose: () => void;
   message?: string;
+  returnTo?: string;
 }) {
   if (!open) return null;
   return (
@@ -34,7 +38,7 @@ export default function LoginPromptModal({
           {message ?? 'রোডের অবস্থা জানাতে প্রথমে লগিন বা রেজিস্ট্রেশন করুন — এক মিনিটেই হয়ে যাবে।'}
         </p>
         <Link
-          href="/register"
+          href={`/register?returnTo=${encodeURIComponent(returnTo)}`}
           className="mt-5 flex min-h-12 items-center justify-center rounded-2xl bg-brand px-4 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
         >
           লগিন / রেজিস্টার করুন

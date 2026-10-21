@@ -8,6 +8,7 @@ import { IconClock, IconPin, IconRoute } from './icons';
 import { QuickChips } from './QuickChips';
 import LoginPromptModal from './LoginPromptModal';
 import RoadStatusBadge from './RoadStatusBadge';
+import type { Preset } from '@/lib/presets';
 
 const VIDEO_EXT = ['.mp4', '.webm', '.mov', '.m4v'];
 
@@ -19,6 +20,8 @@ function isVideoUrl(url: string): boolean {
 export default function RoadCard({ road: initial }: { road: Road }) {
   const [road, setRoad] = useState<Road>(initial);
   const [showLogin, setShowLogin] = useState(false);
+  // Phase 17 — preset tapped while logged out → prefill /roads/submit.
+  const [pendingPreset, setPendingPreset] = useState<Preset | null>(null);
 
   // Refresh when the parent list refetches (area filter change etc.).
   useEffect(() => {
@@ -49,7 +52,7 @@ export default function RoadCard({ road: initial }: { road: Road }) {
               {road.name}
               {isSpot && (
                 <span className="ml-2 inline-block rounded-full bg-violet-100 px-2 py-0.5 align-middle text-[10px] font-bold text-violet-700">
-                  গুরুত্বপূর্ণ স্থান
+                  📍 মোড়
                 </span>
               )}
             </h3>
@@ -97,10 +100,20 @@ export default function RoadCard({ road: initial }: { road: Road }) {
           roadId={road.id}
           kind={road.kind}
           onUpdated={applyDetail}
-          onLoginRequired={() => setShowLogin(true)}
+          onLoginRequired={(p) => {
+            setPendingPreset(p);
+            setShowLogin(true);
+          }}
         />
       </div>
-      <LoginPromptModal open={showLogin} onClose={() => setShowLogin(false)} />
+      <LoginPromptModal
+        open={showLogin}
+        onClose={() => {
+          setShowLogin(false);
+          setPendingPreset(null);
+        }}
+        returnTo={`/roads/submit?road_id=${road.id}${pendingPreset ? `&preset=${pendingPreset.key}` : ''}`}
+      />
     </div>
   );
 }

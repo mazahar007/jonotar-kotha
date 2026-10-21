@@ -11,6 +11,7 @@ import { IconClock, IconPin, IconRoute, IconSend } from '@/components/icons';
 import { useMember } from '@/lib/member';
 import { bnNum } from '@/lib/time';
 import { ROAD_STATUS_LABEL, ROAD_STATUS_OPTIONS, type RoadDetail as RoadDetailData, type RoadStatus } from '@/lib/types';
+import type { Preset } from '@/lib/presets';
 
 const VIDEO_EXT = ['.mp4', '.webm', '.mov', '.m4v'];
 const isVideoUrl = (url: string) => VIDEO_EXT.some((e) => url.split('?')[0].toLowerCase().endsWith(e));
@@ -28,6 +29,8 @@ export default function RoadDetail({ id }: { id: number }) {
   const [error, setError] = useState('');
   const [posted, setPosted] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  // Phase 17 — preset tapped while logged out → prefill /roads/submit.
+  const [pendingPreset, setPendingPreset] = useState<Preset | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -181,7 +184,10 @@ export default function RoadDetail({ id }: { id: number }) {
             <QuickPresetPanel
               roadId={road.id}
               onUpdated={(d) => setRoad(d)}
-              onLoginRequired={() => setShowLogin(true)}
+              onLoginRequired={(p) => {
+                setPendingPreset(p);
+                setShowLogin(true);
+              }}
             />
           </div>
 
@@ -250,7 +256,14 @@ export default function RoadDetail({ id }: { id: number }) {
           </div>
         </section>
 
-        <LoginPromptModal open={showLogin} onClose={() => setShowLogin(false)} />
+        <LoginPromptModal
+          open={showLogin}
+          onClose={() => {
+            setShowLogin(false);
+            setPendingPreset(null);
+          }}
+          returnTo={`/roads/submit?road_id=${road.id}${pendingPreset ? `&preset=${pendingPreset.key}` : ''}`}
+        />
 
         {/* Phase 15 — স্টার রেটিং: রোড/মোড়ের তথ্য কতটা সঠিক */}
         <StarRating targetType={isSpot ? 'spot' : 'road'} targetId={road.id} />

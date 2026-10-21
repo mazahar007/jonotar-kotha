@@ -54,6 +54,9 @@ export async function middleware(req: NextRequest) {
     // Phase 14 — "⚡ এক ট্যাপে জানান" one-tap quick post is a member-session
     // write; the handler itself returns 401 when there is no session.
     const isQuickPost = req.method === 'POST' && pathname === '/api/roads/quick-post';
+    // Phase 17 — "অবস্থা জানান" submit page (member-session write;
+    // the handler itself returns 401 when there is no session).
+    const isRoadSubmit = req.method === 'POST' && pathname === '/api/roads/submit';
     // Phase 6 — live location share create + owner ping/stop are public writes
     // (ping/stop are secured by the owner_token inside the handlers).
     const isLiveShareWrite =
@@ -71,6 +74,7 @@ export async function middleware(req: NextRequest) {
         pathname === '/api/upload' ||
         isRoadUpdate ||
         isQuickPost ||
+        isRoadSubmit ||
         isLiveShareWrite ||
         isCommentPost ||
         isVerifyPost ||

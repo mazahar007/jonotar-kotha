@@ -60,6 +60,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
   const [pickerSel, setPickerSel] = useState<LocationSelection>(EMPTY_LOCATION);
 
   const [showLogin, setShowLogin] = useState(false);
+  const [pendingPreset, setPendingPreset] = useState<Preset | null>(null);
   const [posting, setPosting] = useState(false);
   const [optimisticKey, setOptimisticKey] = useState<string | null>(null);
   const [successId, setSuccessId] = useState<number | null>(null);
@@ -105,6 +106,9 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
   async function post(preset: Preset) {
     if (member === undefined) return; // still resolving session
     if (!member) {
+      // Phase 17 — logged-out tap → login → land on /roads/submit with this
+      // preset + area prefilled (returnTo preserves the query params).
+      setPendingPreset(preset);
       setShowLogin(true);
       return;
     }
@@ -145,23 +149,41 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
 
   const loading = member === undefined;
 
+  // Phase 17 — login redirect target: submit page with the tapped preset +
+  // effective area prefilled.
+  const loginReturnTo = (() => {
+    const q = areaQuery(effectiveArea);
+    const base = pendingPreset ? `preset=${pendingPreset.key}` : '';
+    const query = [base, q].filter(Boolean).join('&');
+    return `/roads/submit${query ? `?${query}` : ''}`;
+  })();
+
   return (
     <div className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-[15px] font-bold text-ink">⚡ এক ট্যাপে জানান</h3>
-        <p className="flex items-center gap-1 text-xs font-semibold text-ink-soft">
-          <IconPin className="h-3.5 w-3.5 text-brand" />
-          <span>
-            📍 {targetLabel}-এ পোস্ট হবে
-          </span>
-          <button
-            type="button"
-            onClick={openPicker}
-            className="min-h-11 rounded-full px-2 font-bold text-brand underline underline-offset-2 transition active:scale-95"
+        <div className="flex items-center gap-2">
+          {/* Phase 17 — full submit page */}
+          <Link
+            href="/roads/submit"
+            className="flex min-h-11 items-center rounded-full bg-cream px-3.5 text-xs font-bold text-ink transition hover:bg-cream-dark"
           >
-            বদলাও
-          </button>
-        </p>
+            ✍️ বিস্তারিত পোস্ট করুন
+          </Link>
+          <p className="flex items-center gap-1 text-xs font-semibold text-ink-soft">
+            <IconPin className="h-3.5 w-3.5 text-brand" />
+            <span>
+              📍 {targetLabel}-এ পোস্ট হবে
+            </span>
+            <button
+              type="button"
+              onClick={openPicker}
+              className="min-h-11 rounded-full px-2 font-bold text-brand underline underline-offset-2 transition active:scale-95"
+            >
+              বদলাও
+            </button>
+          </p>
+        </div>
       </div>
 
       <div className="mt-3 grid grid-cols-3 gap-2">
@@ -220,8 +242,13 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
         </div>
       )}
 
-      {/* Login prompt */}
-      <LoginPromptModal open={showLogin} onClose={() => setShowLogin(false)} />
+      {/* Login prompt — Phase 17: after login, land on /roads/submit with
+          the tapped preset + area prefilled. */}
+      <LoginPromptModal
+        open={showLogin}
+        onClose={() => { setShowLogin(false); setPendingPreset(null); }}
+        returnTo={loginReturnTo}
+      />
 
       {/* Success sheet — exact user wording, no edit affordance */}
       {successId !== null && (

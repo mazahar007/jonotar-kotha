@@ -24,7 +24,7 @@ import type { RoadDetail, RoadKind } from '@/lib/types';
 function usePresetPost(
   roadId: number,
   onUpdated?: (detail: RoadDetail) => void,
-  onLoginRequired?: () => void
+  onLoginRequired?: (preset: Preset) => void
 ) {
   const { member } = useMember();
   const [postingKey, setPostingKey] = useState<string | null>(null);
@@ -40,7 +40,8 @@ function usePresetPost(
     if (postingKey) return;
     if (member === undefined) return; // session still resolving — ignore tap
     if (member === null) {
-      onLoginRequired?.();
+      // Phase 17 — pass the tapped preset so the caller can prefill /roads/submit.
+      onLoginRequired?.(preset);
       return;
     }
     setPostingKey(preset.key);
@@ -57,7 +58,7 @@ function usePresetPost(
         }),
       });
       if (res.status === 401) {
-        onLoginRequired?.();
+        onLoginRequired?.(preset);
         return;
       }
       const data = await res.json().catch(() => null);
@@ -124,7 +125,7 @@ export function QuickChips({
   roadId: number;
   kind: RoadKind;
   onUpdated?: (detail: RoadDetail) => void;
-  onLoginRequired?: () => void;
+  onLoginRequired?: (preset: Preset) => void;
 }) {
   const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated, onLoginRequired);
   const presets = kind === 'spot' ? QUICK_CHIPS_SPOT : QUICK_CHIPS_ROAD;
@@ -155,7 +156,7 @@ export function QuickPresetPanel({
 }: {
   roadId: number;
   onUpdated?: (detail: RoadDetail) => void;
-  onLoginRequired?: () => void;
+  onLoginRequired?: (preset: Preset) => void;
 }) {
   const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated, onLoginRequired);
   return (
