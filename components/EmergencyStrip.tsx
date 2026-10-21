@@ -15,10 +15,11 @@ const DISMISS_KEY = 'jk-dismissed-broadcasts';
 
 /**
  * Phase 21d — unified emergency quick-action strip (user-annotated correction).
- * ONE rounded-3xl red container, 4 equal columns with hairline dividers
- * (sample's stats-section pattern): বন্যা সতর্কতা / জরুরি কল / ভ্রমণ মোড /
- * সমাধান ট্র্যাকার. Deep-red in dark theme, light-red in light theme.
- * Replaces the old separate BroadcastBanner + emergency strip + travel teaser.
+ * Phase 21q: ALL 4 columns follow the সমাধান ট্র্যাকার card style per user
+ * ("সবগুলো এই স্টাইলে হবে। টেক্সট এন্ড ডিজাইন। বক্সের ৪ কোনা ২০ pixels radio"):
+ * icon-left header row + dark inner box (rounded 20px) + blue link.
+ * Tracker column's strip-level anchor was removed with the right-rail card;
+ * its inner box now links to /reports.
  */
 export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdate[] }) {
   const [broadcasts, setBroadcasts] = useState<Broadcast[]>([]);
@@ -54,24 +55,33 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
   const latestUpdate = updates[0];
 
   return (
-    <section aria-label="জরুরি সেবা" className="emergency-strip overflow-hidden rounded-3xl">
+    <section aria-label="জরুরি সেবা" className="emergency-strip overflow-hidden rounded-[20px]">
       <div className="grid grid-cols-2 divide-x divide-y divide-[var(--strip-divide)] lg:grid-cols-4 lg:divide-y-0">
-        {/* 1 — সতর্কতা (active broadcast, dismissible) */}
-        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
+        {/* 1 — জরুরি সতর্কতা (active broadcast, dismissible) */}
+        <div className="emergency-strip-col relative flex min-h-[168px] flex-col gap-3 px-4 py-5 text-left">
+          <div className="flex items-start gap-3">
+            <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
+              <IconAlert className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[22px] font-bold leading-snug text-ink">জরুরি সতর্কতা</h2>
+              <p className="mt-0.5 text-sm leading-snug text-ink-soft">এলাকার জরুরি ঘোষণা</p>
+            </div>
+          </div>
           <Link
             href={b ? `/broadcasts/${b.id}` : '/broadcasts'}
             aria-label={b ? `সতর্কতা: ${b.title}` : 'জরুরি সতর্কতা'}
-            className="absolute inset-0 z-0"
-          />
-          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
-            <IconAlert className="h-6 w-6" />
-          </span>
-          <span className="emergency-strip-title line-clamp-2 text-base font-bold leading-snug">
-            {b ? b.title : 'জরুরি সতর্কতা'}
-          </span>
-          <span className="emergency-strip-sub line-clamp-2 max-w-full text-sm leading-snug">
-            {b ? b.body : 'সক্রিয় সতর্কতা নেই'}
-          </span>
+            className="flex w-full gap-3 rounded-[20px] bg-cream p-3 text-sm"
+          >
+            <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-amber-500" />
+            <p className="text-ink-soft">{b ? `${b.title} — ${b.body}` : 'সক্রিয় সতর্কতা নেই'}</p>
+          </Link>
+          <Link
+            href="/broadcasts"
+            className="block text-center text-sm font-bold text-brand"
+          >
+            সব সতর্কতা দেখুন →
+          </Link>
           {b && (
             <button
               type="button"
@@ -85,33 +95,57 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
         </div>
 
         {/* 2 — জরুরি কল */}
-        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
+        <div className="emergency-strip-col flex min-h-[168px] flex-col gap-3 px-4 py-5 text-left">
+          <div className="flex items-start gap-3">
+            <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-500/15 text-red-400">
+              <IconPhone className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[22px] font-bold leading-snug text-ink">জরুরি কল</h2>
+              <p className="mt-0.5 text-sm leading-snug text-ink-soft">১ ট্যাপে কল করুন</p>
+            </div>
+          </div>
           <Link
             href="/sos"
             aria-label="জরুরি কল — ১ ট্যাপে কল"
-            className="absolute inset-0 z-0"
-          />
-          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-red-500/15 text-red-400">
-            <IconPhone className="h-6 w-6" />
-          </span>
-          <span className="emergency-strip-title text-base font-bold leading-snug">জরুরি কল</span>
-          <span className="emergency-strip-sub text-sm leading-snug">১ ট্যাপে কল করুন</span>
+            className="flex w-full gap-3 rounded-[20px] bg-cream p-3 text-sm"
+          >
+            <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-red-500" />
+            <p className="text-ink-soft">জরুরি হটলাইন: ৯৯৯ · ১০৯ · ৩৩৩</p>
+          </Link>
+          <Link
+            href="/sos"
+            className="block text-center text-sm font-bold text-brand"
+          >
+            এখনই কল করুন →
+          </Link>
         </div>
 
         {/* 3 — ভ্রমণ মোড */}
-        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
+        <div className="emergency-strip-col flex min-h-[168px] flex-col gap-3 px-4 py-5 text-left">
+          <div className="flex items-start gap-3">
+            <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
+              <IconMegaphone className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[22px] font-bold leading-snug text-ink">ভ্রমণ মোড</h2>
+              <p className="mt-0.5 text-sm leading-snug text-ink-soft">গাইড ও নিরাপদ আশ্রয়</p>
+            </div>
+          </div>
           <Link
             href="/travel"
             aria-label="ভ্রমণ মোড"
-            className="absolute inset-0 z-0"
-          />
-          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
-            <IconMegaphone className="h-6 w-6" />
-          </span>
-          <span className="emergency-strip-title text-base font-bold leading-snug">ভ্রমণ মোড</span>
-          <span className="emergency-strip-sub line-clamp-2 text-xs leading-snug">
-            গাইড ও নিরাপদ আশ্রয়
-          </span>
+            className="flex w-full gap-3 rounded-[20px] bg-cream p-3 text-sm"
+          >
+            <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-blue-500" />
+            <p className="text-ink-soft">পরিবারের সাথে লাইভ লোকেশন শেয়ার করুন</p>
+          </Link>
+          <Link
+            href="/travel"
+            className="block text-center text-sm font-bold text-brand"
+          >
+            ভ্রমণ শুরু করুন →
+          </Link>
         </div>
 
         {/* 4 — সমাধান ট্র্যাকার: exact tracker-card style (user 2026-10-22) */}
@@ -128,7 +162,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
           <Link
             href="/reports"
             aria-label="সমাধান ট্র্যাকার দেখুন"
-            className="flex w-full gap-3 rounded-xl bg-cream p-3 text-sm"
+            className="flex w-full gap-3 rounded-[20px] bg-cream p-3 text-sm"
           >
             <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
             <p className="text-ink-soft">
