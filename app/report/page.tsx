@@ -118,7 +118,7 @@ export default function ReportPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="শিরোনাম লিখুন..."
-              className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
+              className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
             />
           </div>
 
@@ -146,12 +146,12 @@ export default function ReportPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="বিস্তারিত বর্ণনা..."
               rows={4}
-              className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
+              className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
             />
           </div>
 
           {/* Administrative location — বিভাগ → জেলা → উপজেলা → থানা → ইউনিয়ন */}
-          <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none">
+          <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm lg:bg-cream lg:shadow-none">
             <p className="mb-3 text-sm font-bold text-ink">এলাকা নির্বাচন করুন</p>
             <LocationPicker value={location} onChange={setLocation} />
           </div>
@@ -164,14 +164,14 @@ export default function ReportPage() {
 
           <button
             onClick={() => setAnonymous(!anonymous)}
-            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none"
+            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-line p-4 shadow-sm lg:bg-cream lg:shadow-none"
           >
             <span className="text-left text-sm font-bold text-ink">
               বেনামী নাগরিক
               <span className="block text-xs font-normal text-ink-soft">পরিচয় গোপন থাকবে</span>
             </span>
             <span
-              className={`relative h-7 w-12 shrink-0 rounded-full transition ${anonymous ? 'btn-gradient' : 'bg-white/20'}`}
+              className={`relative h-7 w-12 shrink-0 rounded-full transition ${anonymous ? 'btn-gradient' : 'bg-overlay-strong'}`}
             >
               <span
                 className={`absolute top-1 h-5 w-5 rounded-full bg-surface shadow transition-all ${
@@ -183,14 +183,14 @@ export default function ReportPage() {
 
           <button
             onClick={() => setSaveToLocker(!saveToLocker)}
-            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none"
+            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-line p-4 shadow-sm lg:bg-cream lg:shadow-none"
           >
             <span className="flex items-center gap-2 text-sm font-bold text-ink">
               <IconLock className="h-5 w-5 text-ink-soft" />
               প্রমাণ লকারে সংরক্ষণ
             </span>
             <span
-              className={`relative h-7 w-12 shrink-0 rounded-full transition ${saveToLocker ? 'btn-gradient' : 'bg-white/20'}`}
+              className={`relative h-7 w-12 shrink-0 rounded-full transition ${saveToLocker ? 'btn-gradient' : 'bg-overlay-strong'}`}
             >
               <span
                 className={`absolute top-1 h-5 w-5 rounded-full bg-surface shadow transition-all ${

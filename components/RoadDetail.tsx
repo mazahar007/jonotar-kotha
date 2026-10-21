@@ -113,7 +113,7 @@ export default function RoadDetail({ id }: { id: number }) {
   if (notFound) {
     return (
       <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
-        <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
+        <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
       </main>
     );
   }
@@ -133,7 +133,7 @@ export default function RoadDetail({ id }: { id: number }) {
     <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
       <div className="mx-auto w-full max-w-3xl space-y-4">
         {/* Header */}
-        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <h1 className="min-w-0 flex-1 text-xl font-bold leading-snug text-ink">
               {road.name}
@@ -173,7 +173,7 @@ export default function RoadDetail({ id }: { id: number }) {
         </section>
 
         {/* Post an update */}
-        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">আপডেট দিন</h2>
           <p className="mt-0.5 text-xs text-ink-soft">
             {isSpot
@@ -224,7 +224,7 @@ export default function RoadDetail({ id }: { id: number }) {
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="কী অবস্থা দেখলেন? যেমন: বড় গর্ত হয়েছে, পানি জমে আছে..."
                 rows={3}
-                className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
+                className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
               />
             </div>
 
@@ -239,7 +239,7 @@ export default function RoadDetail({ id }: { id: number }) {
                 value={reporter}
                 onChange={(e) => setReporter(e.target.value)}
                 placeholder={member ? member.name : 'নাম না দিলে বেনামী হিসেবে যাবে'}
-                className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
+                className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
               />
             </div>
 
@@ -274,7 +274,7 @@ export default function RoadDetail({ id }: { id: number }) {
         <StarRating targetType={isSpot ? 'spot' : 'road'} targetId={road.id} />
 
         {/* Live timeline */}
-        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="mb-4 font-bold text-ink">লাইভ আপডেট টাইমলাইন</h2>
           {road.updates.length === 0 ? (
             <p className="py-4 text-center text-sm text-ink-soft">এখনো কোনো আপডেট নেই।</p>
@@ -283,7 +283,7 @@ export default function RoadDetail({ id }: { id: number }) {
               {road.updates.map((u) => (
                 <li key={u.id} className="relative">
                   <span
-                    className={`absolute -left-[27px] top-1 h-3 w-3 rounded-full ring-4 ring-white ${ROAD_STATUS_DOT[u.status]}`}
+                    className={`absolute -left-[27px] top-1 h-3 w-3 rounded-full ring-4 ring-surface ${ROAD_STATUS_DOT[u.status]}`}
                   />
                   <div className="flex flex-wrap items-center gap-2">
                     <RoadStatusBadge status={u.status} />

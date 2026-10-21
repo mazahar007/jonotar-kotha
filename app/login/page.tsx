@@ -50,7 +50,7 @@ function LoginForm() {
           onChange={(e) => setPasscode(e.target.value)}
           placeholder="পাসকোড"
           autoFocus
-          className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-brand"
+          className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-brand"
         />
         {error && <p className="text-center text-sm font-semibold text-brand">{error}</p>}
         <button

@@ -29,7 +29,7 @@ export default function LoginPromptModal({
       aria-label="লগিন প্রয়োজন"
     >
       <button type="button" aria-label="বন্ধ করুন" onClick={onClose} className="absolute inset-0 bg-black/50" />
-      <div className="relative w-full max-w-sm rounded-t-3xl border border-white/15 bg-surface p-6 pb-8 text-center shadow-2xl sm:rounded-3xl">
+      <div className="relative w-full max-w-sm rounded-t-3xl border border-line-strong bg-surface p-6 pb-8 text-center shadow-2xl sm:rounded-3xl">
         <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-cream text-2xl" aria-hidden>
           🔐
         </div>

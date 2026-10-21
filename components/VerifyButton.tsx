@@ -98,7 +98,7 @@ export default function VerifyButton({
   }
 
   return (
-    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <div className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <button
         type="button"
         onClick={toggle}

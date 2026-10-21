@@ -50,7 +50,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
           {active.map((d) => (
             <div
               key={d.id}
-              className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+              className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
             >
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 text-sm font-bold text-brand">
                 <IconDroplet className="h-5 w-5" />

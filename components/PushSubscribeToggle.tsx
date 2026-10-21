@@ -116,7 +116,7 @@ export default function PushSubscribeToggle({ memberId }: { memberId: number | n
   const unavailable = status === 'unsupported' || status === 'no-vapid';
 
   return (
-    <div className="rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
+    <div className="rounded-3xl bg-surface border border-line p-5 shadow-sm">
       <div className="flex items-center gap-3">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-500/15 text-violet-300">
           <IconBell className="h-6 w-6" />
@@ -139,7 +139,7 @@ export default function PushSubscribeToggle({ memberId }: { memberId: number | n
             aria-pressed={on}
             aria-label={on ? 'পুশ নোটিফিকেশন বন্ধ করুন' : 'পুশ নোটিফিকেশন চালু করুন'}
             className={`relative h-8 w-14 shrink-0 rounded-full transition-colors disabled:opacity-40 ${
-              on ? 'bg-emerald-500' : 'bg-white/20'
+              on ? 'bg-emerald-500' : 'bg-overlay-strong'
             }`}
           >
             <span

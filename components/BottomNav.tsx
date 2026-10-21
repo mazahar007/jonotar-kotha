@@ -14,7 +14,7 @@ const tabs = [
 export default function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav className="sticky bottom-0 z-40 border-t border-white/10 bg-surface/90 backdrop-blur-xl lg:hidden">
+    <nav className="sticky bottom-0 z-40 border-t border-line bg-surface/90 backdrop-blur-xl lg:hidden">
       <div className="relative mx-auto flex max-w-md items-end justify-around px-2 pb-[env(safe-area-inset-bottom)] pt-1">
         {tabs.slice(0, 2).map(({ href, label, Icon }) => (
           <Tab key={href} href={href} label={label} Icon={Icon} active={pathname === href} />

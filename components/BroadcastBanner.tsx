@@ -60,7 +60,7 @@ export default function BroadcastBanner() {
         role="alert"
         className="relative flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white shadow-lg"
       >
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
           <IconAlert className="h-6 w-6" />
         </span>
         <Link href={`/broadcasts/${b.id}`} className="flex min-h-11 flex-1 items-center gap-2">
@@ -73,7 +73,7 @@ export default function BroadcastBanner() {
         {visible.length > 1 && (
           <Link
             href="/broadcasts"
-            className="flex min-h-11 shrink-0 items-center rounded-full bg-white/20 px-3 text-xs font-bold"
+            className="flex min-h-11 shrink-0 items-center rounded-full bg-overlay-strong px-3 text-xs font-bold"
           >
             +{visible.length - 1}টি
           </Link>
@@ -81,7 +81,7 @@ export default function BroadcastBanner() {
         <button
           onClick={() => dismiss(b.id)}
           aria-label="ব্যানার বন্ধ করুন"
-          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15"
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-overlay-strong"
         >
           <IconX className="h-4 w-4" />
         </button>

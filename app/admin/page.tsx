@@ -191,9 +191,9 @@ export default function AdminPage() {
 
   return (
     <main className="min-h-dvh bg-cream">
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-surface/95 px-4 py-3 text-ink backdrop-blur">
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-line bg-surface/95 px-4 py-3 text-ink backdrop-blur">
         <h1 className="font-bold">জনতার কথা — অ্যাডমিন</h1>
-        <button onClick={logout} className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold">
+        <button onClick={logout} className="flex items-center gap-1.5 rounded-full bg-overlay-strong px-3 py-1.5 text-xs font-bold">
           <IconLogout className="h-4 w-4" /> লগআউট
         </button>
       </header>
@@ -232,7 +232,7 @@ export default function AdminPage() {
         {tab === 'sos' && <AdminLiveShares />}
         <button
           onClick={openAdd}
-          className="mb-3 w-full rounded-2xl border-2 border-dashed border-white/15 py-3 text-sm font-bold text-ink-soft"
+          className="mb-3 w-full rounded-2xl border-2 border-dashed border-line-strong py-3 text-sm font-bold text-ink-soft"
         >
           + নতুন যোগ করুন
         </button>
@@ -241,7 +241,7 @@ export default function AdminPage() {
 
         <div className="grid gap-2 lg:grid-cols-2">
           {rows.map((r) => (
-            <div key={r.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+            <div key={r.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-bold text-ink">{rowTitle(r)}</p>
@@ -304,7 +304,7 @@ export default function AdminPage() {
         </div>
 
         {!loading && rows.length === 0 && (
-          <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">কোনো ডেটা নেই।</p>
+          <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">কোনো ডেটা নেই।</p>
         )}
           </>
         )}
@@ -350,7 +350,7 @@ export default function AdminPage() {
                           [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value,
                         })
                       }
-                      className="w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand"
+                      className="w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand"
                     />
                   )}
                 </label>

@@ -83,7 +83,7 @@ export default function StatusRequestButton({
         className={`flex min-h-11 w-full items-center justify-center gap-2 rounded-full border px-4 text-[13px] font-bold transition ${
           requested
             ? 'cursor-default border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
-            : 'border-white/10 bg-surface text-ink hover:bg-cream disabled:opacity-60'
+            : 'border-line bg-surface text-ink hover:bg-cream disabled:opacity-60'
         }`}
       >
         {loading ? 'পাঠানো হচ্ছে...' : requested ? '✅ অনুরোধ পাঠানো হয়েছে' : '🔔 বর্তমান অবস্থা জানতে চাই'}

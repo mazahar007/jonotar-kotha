@@ -135,7 +135,7 @@ export default function OtpStep({
             inputMode="numeric"
             maxLength={1}
             aria-label={`কোডের ${i + 1} নম্বর সংখ্যা`}
-            className="h-14 w-full min-w-0 rounded-xl border border-white/10 bg-cream text-center text-xl font-bold text-ink outline-none focus:border-brand"
+            className="h-14 w-full min-w-0 rounded-xl border border-line bg-cream text-center text-xl font-bold text-ink outline-none focus:border-brand"
           />
         ))}
       </div>

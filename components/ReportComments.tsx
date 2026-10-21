@@ -82,7 +82,7 @@ export default function ReportComments({ reportId }: { reportId: number }) {
   }
 
   return (
-    <section aria-label="মন্তব্য" className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <section aria-label="মন্তব্য" className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <h2 className="text-lg font-bold text-ink">
         মন্তব্য <span className="text-sm font-semibold text-ink-soft">({comments.length})</span>
       </h2>
@@ -125,7 +125,7 @@ export default function ReportComments({ reportId }: { reportId: number }) {
         ))}
       </ul>
 
-      <form onSubmit={submit} className="mt-4 border-t border-white/10 pt-4">
+      <form onSubmit={submit} className="mt-4 border-t border-line pt-4">
         <label className="mb-1 block text-sm font-semibold text-ink" htmlFor="comment-name">
           নাম <span className="font-normal text-ink-soft">(ঐচ্ছিক)</span>
         </label>
@@ -135,7 +135,7 @@ export default function ReportComments({ reportId }: { reportId: number }) {
           onChange={(e) => setName(e.target.value)}
           placeholder="আপনার নাম"
           maxLength={60}
-          className="mb-3 min-h-[44px] w-full rounded-xl border border-white/10 px-3 text-sm text-ink outline-none focus:border-brand"
+          className="mb-3 min-h-[44px] w-full rounded-xl border border-line px-3 text-sm text-ink outline-none focus:border-brand"
         />
         <label className="mb-1 block text-sm font-semibold text-ink" htmlFor="comment-body">
           মন্তব্য
@@ -148,7 +148,7 @@ export default function ReportComments({ reportId }: { reportId: number }) {
           maxLength={COMMENT_MAX_LEN}
           rows={3}
           required
-          className="min-h-[88px] w-full rounded-xl border border-white/10 px-3 py-2 text-sm text-ink outline-none focus:border-brand"
+          className="min-h-[88px] w-full rounded-xl border border-line px-3 py-2 text-sm text-ink outline-none focus:border-brand"
         />
         <div className="mt-1 flex items-center justify-between">
           <span className="text-xs text-ink-soft">

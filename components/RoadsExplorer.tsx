@@ -116,7 +116,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
       <QuickPostStrip onPosted={refetch} />
 
       {/* Shared area filter */}
-      <div className="rounded-2xl bg-surface border border-white/10 p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="rounded-2xl bg-surface border border-line p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
@@ -162,11 +162,11 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
       {display === null ? (
         <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       ) : items !== null && items.length === 0 ? (
-        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
           এই এলাকায় এখনো কোনো রোড বা মোড় যোগ হয়নি।
         </p>
       ) : display.length === 0 ? (
-        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
           এই অবস্থায় কোনো জায়গা নেই।
         </p>
       ) : isHome ? (
@@ -179,7 +179,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           />
           <Link
             href="/roads"
-            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-white/10"
+            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-overlay"
           >
             আরও দেখুন
             <IconChevronRight className="h-5 w-5" />

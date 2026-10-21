@@ -100,7 +100,7 @@ function Chip({
         e.stopPropagation();
         onTap();
       }}
-      className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-cream px-3 py-2 text-xs font-bold text-ink transition hover:bg-cream-dark disabled:opacity-50"
+      className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full border border-line bg-cream px-3 py-2 text-xs font-bold text-ink transition hover:bg-cream-dark disabled:opacity-50"
     >
       <span className={`h-1.5 w-1.5 rounded-full ${dot}`} />
       {posting ? 'যাচ্ছে...' : preset.short ?? preset.label}
@@ -171,7 +171,7 @@ export function QuickPresetPanel({
                 type="button"
                 disabled={postingKey !== null}
                 onClick={() => post(p)}
-                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-white/10 bg-cream px-3.5 py-2 text-xs font-bold text-ink transition hover:bg-cream-dark disabled:opacity-50"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-line bg-cream px-3.5 py-2 text-xs font-bold text-ink transition hover:bg-cream-dark disabled:opacity-50"
               >
                 <span className={`h-1.5 w-1.5 rounded-full ${ROAD_STATUS_META[p.status].dot}`} />
                 {postingKey === p.key ? 'যাচ্ছে...' : p.label}

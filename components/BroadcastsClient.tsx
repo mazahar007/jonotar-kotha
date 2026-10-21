@@ -68,7 +68,7 @@ export default function BroadcastsClient() {
         <LocationPicker compact value={area} onChange={setArea} />
         <div className="space-y-2">
           {active.length === 0 && (
-            <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
+            <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
               এই এলাকায় এখন কোনো সক্রিয় ঘোষণা নেই। ✅
             </p>
           )}
@@ -78,7 +78,7 @@ export default function BroadcastsClient() {
               href={`/broadcasts/${b.id}`}
               className="flex items-center gap-3 rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white shadow-lg"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
                 <IconAlert className="h-5 w-5" />
               </span>
               <span className="flex min-h-11 flex-1 items-center gap-2">
@@ -97,7 +97,7 @@ export default function BroadcastsClient() {
         <section className="space-y-4">
           <SectionHeader
             icon={<IconClock className="h-6 w-6" />}
-            tileClassName="bg-white/10 text-ink-soft"
+            tileClassName="bg-overlay text-ink-soft"
             title="সম্প্রতি শেষ হওয়া"
             subtitle="মেয়াদ শেষ হওয়া পুরনো ঘোষণা"
           />
@@ -106,7 +106,7 @@ export default function BroadcastsClient() {
               <Link
                 key={b.id}
                 href={`/broadcasts/${b.id}`}
-                className="block rounded-2xl bg-surface border border-white/10 p-4 opacity-75 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+                className="block rounded-2xl bg-surface border border-line p-4 opacity-75 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
               >
                 <p className="text-sm font-bold text-ink">{b.title}</p>
                 <p className="mt-0.5 line-clamp-2 text-xs text-ink-soft">{b.body}</p>

@@ -22,7 +22,7 @@ export default function RoadStatusBadge({
   const cls = size === 'lg' ? 'px-4 py-1.5 text-sm' : 'px-2.5 py-1 text-xs';
   if (!status) {
     return (
-      <span className={`inline-flex items-center gap-1 rounded-full bg-white/5 font-bold text-ink-soft ${cls}`}>
+      <span className={`inline-flex items-center gap-1 rounded-full bg-overlay font-bold text-ink-soft ${cls}`}>
         আপডেট নেই
       </span>
     );

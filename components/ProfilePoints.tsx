@@ -72,7 +72,7 @@ export default function ProfilePoints({
   };
 
   return (
-    <section className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
+    <section className="mt-4 rounded-3xl bg-surface border border-line p-5 shadow-sm">
       <SectionHeader
         icon={<IconStar className="h-6 w-6" />}
         tileClassName="bg-amber-500/15 text-amber-400"

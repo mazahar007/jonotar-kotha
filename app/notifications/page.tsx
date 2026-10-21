@@ -71,7 +71,7 @@ export default function NotificationsPage() {
         {loading ? (
           <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
         ) : items.length === 0 ? (
-          <p className="mt-6 rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">
+          <p className="mt-6 rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">
             এখনো কোনো নোটিফিকেশন নেই।
           </p>
         ) : (
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
                 </span>
               );
               return (
-                <li key={n.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+                <li key={n.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
                   {n.url ? (
                     <Link href={n.url} className="block min-h-11">
                       {card}

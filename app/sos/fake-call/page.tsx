@@ -12,7 +12,7 @@ export default function FakeCallPage() {
   const [answered, setAnswered] = useState(false);
 
   return (
-    <main className="flex min-h-dvh flex-col bg-surface px-6 py-10 text-white">
+    <main className="force-dark flex min-h-dvh flex-col px-6 py-10">
       <div className="flex flex-1 flex-col items-center pt-10 text-center">
         <span className="flex h-28 w-28 items-center justify-center rounded-full bg-white/15">
           <IconUser className="h-14 w-14 text-white/80" />

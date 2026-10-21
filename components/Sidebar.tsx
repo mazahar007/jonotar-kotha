@@ -35,7 +35,7 @@ export default function Sidebar() {
   if (pathname.startsWith('/admin') || pathname.startsWith('/login')) return null;
 
   return (
-    <aside className="sticky top-0 hidden h-dvh w-72 shrink-0 flex-col border-r border-white/10 bg-cream px-5 py-6 lg:flex">
+    <aside className="sticky top-0 hidden h-dvh w-72 shrink-0 flex-col border-r border-line bg-cream px-5 py-6 lg:flex">
       <Link href="/" className="block">
         <span className="text-2xl font-bold leading-tight text-ink">জনতার কথা</span>
         <span className="mt-0.5 block text-[13px] text-ink-soft">নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং</span>

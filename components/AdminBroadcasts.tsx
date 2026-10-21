@@ -131,7 +131,7 @@ export default function AdminBroadcasts() {
   return (
     <div className="space-y-4">
       {/* Create form */}
-      <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+      <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-brand">
             <IconMegaphone className="h-6 w-6" />
@@ -151,7 +151,7 @@ export default function AdminBroadcasts() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="যেমন: ⚠️ বন্যা সতর্কতা — ময়মনসিংহ সদর"
-              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-line bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
           </label>
           <label className="block">
@@ -161,7 +161,7 @@ export default function AdminBroadcasts() {
               onChange={(e) => setBody(e.target.value)}
               rows={3}
               placeholder="কী ঘটছে, কাদের জন্য, কী করতে হবে — সংক্ষেপে লিখুন"
-              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-line bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
           </label>
 
@@ -177,7 +177,7 @@ export default function AdminBroadcasts() {
             <select
               value={hours}
               onChange={(e) => setHours(Number(e.target.value))}
-              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-3 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-line bg-cream px-3 py-3 text-sm outline-none focus:border-brand"
             >
               {EXPIRY_OPTIONS.map((o) => (
                 <option key={o.hours} value={o.hours}>
@@ -192,7 +192,7 @@ export default function AdminBroadcasts() {
             <div>
               <span className="mb-1 block text-xs font-bold text-ink-soft">প্রিভিউ (হোম ব্যানার)</span>
               <div className="flex items-start gap-3 rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
                   <IconAlert className="h-5 w-5" />
                 </span>
                 <div className="min-w-0">
@@ -233,7 +233,7 @@ export default function AdminBroadcasts() {
       </div>
 
       {/* Past broadcasts */}
-      <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+      <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
         <p className="text-sm font-bold text-ink">পূর্বের ঘোষণা</p>
         {loading && <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
         {!loading && list.length === 0 && (
@@ -251,7 +251,7 @@ export default function AdminBroadcasts() {
                     <p className="mt-1.5 flex flex-wrap gap-1.5 text-[11px]">
                       <span
                         className={`rounded-full px-2 py-0.5 font-bold ${
-                          active ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/10 text-ink-soft'
+                          active ? 'bg-emerald-500/15 text-emerald-300' : 'bg-overlay text-ink-soft'
                         }`}
                       >
                         {active ? 'সক্রিয়' : 'মেয়াদ শেষ'}

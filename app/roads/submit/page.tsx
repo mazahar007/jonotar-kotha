@@ -17,7 +17,7 @@ import type { Road, RoadKind, RoadStatus } from '@/lib/types';
 
 const AREA_KEYS = ['division_id', 'district_id', 'upazila_id', 'thana_id', 'union_id'] as const;
 const inputCls =
-  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 function areaQuery(sel: LocationSelection): string {
   const p = new URLSearchParams();
@@ -193,7 +193,7 @@ function SubmitForm() {
   if (doneId !== null) {
     return (
       <main className="mx-auto w-full max-w-2xl px-4 py-10 text-center">
-        <div className="rounded-3xl bg-surface border border-white/10 p-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <div className="rounded-3xl bg-surface border border-line p-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-3xl" aria-hidden>
             ✅
           </div>
@@ -246,7 +246,7 @@ function SubmitForm() {
 
       <div className="mt-5 space-y-5">
         {/* 1 — এলাকা */}
-        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">১. এলাকা</h2>
           <div className="mt-3">
             <LocationPicker value={area} onChange={(s) => { setArea(s); setPlaceId('new'); }} />
@@ -254,7 +254,7 @@ function SubmitForm() {
         </section>
 
         {/* 2 — জায়গা */}
-        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">২. কোন জায়গার অবস্থা?</h2>
           <select
             value={placeId}
@@ -320,7 +320,7 @@ function SubmitForm() {
         </section>
 
         {/* 3 — অবস্থা (Phase 18: multi-select, max 3) */}
-        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-ink">৩. বর্তমান অবস্থা</h2>
             <span
@@ -355,8 +355,8 @@ function SubmitForm() {
                           active
                             ? 'border-brand bg-orange-500/10 ring-2 ring-brand/40'
                             : disabled
-                              ? 'cursor-not-allowed border-white/10 bg-white/5 opacity-40'
-                              : 'border-white/10 bg-cream hover:bg-cream-dark'
+                              ? 'cursor-not-allowed border-line bg-overlay opacity-40'
+                              : 'border-line bg-cream hover:bg-cream-dark'
                         }`}
                       >
                         <span className={`h-2 w-2 rounded-full ${ROAD_STATUS_META[p.status].dot}`} aria-hidden />
@@ -372,7 +372,7 @@ function SubmitForm() {
         </section>
 
         {/* 4 — নোট + ছবি */}
-        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">৪. নোট ও ছবি <span className="font-semibold text-ink-soft">(ঐচ্ছিক)</span></h2>
           <textarea
             value={note}

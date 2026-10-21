@@ -26,7 +26,7 @@ export default function ReportCard({ report, large = false }: { report: Report; 
 
   return (
     <article
-      className={`overflow-hidden rounded-2xl bg-surface border border-white/10 shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
+      className={`overflow-hidden rounded-2xl bg-surface border border-line shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
         large ? 'flex h-full flex-col' : ''
       }`}
     >
@@ -43,7 +43,7 @@ export default function ReportCard({ report, large = false }: { report: Report; 
           </span>
           <StatusBadge status={report.status} />
           {report.is_anonymous && (
-            <span className="flex items-center gap-1 rounded-full bg-white/5 px-2.5 py-1 text-xs font-semibold text-ink-soft">
+            <span className="flex items-center gap-1 rounded-full bg-overlay px-2.5 py-1 text-xs font-semibold text-ink-soft">
               <IconEye className="h-3.5 w-3.5" />
               গোপন বাক্স
             </span>
@@ -97,7 +97,7 @@ export default function ReportCard({ report, large = false }: { report: Report; 
         )}
         {/* Phase 7 — verify votes + link to detail/comments; Phase 15 — like */}
         <div
-          className={`flex items-center justify-between gap-2 border-t border-white/10 pt-3 ${
+          className={`flex items-center justify-between gap-2 border-t border-line pt-3 ${
             large ? 'mt-auto' : 'mt-3'
           }`}
         >

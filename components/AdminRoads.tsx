@@ -6,7 +6,7 @@ import RoadStatusBadge from '@/components/RoadStatusBadge';
 import type { Road, RoadDetail } from '@/lib/types';
 
 const inputCls =
-  'w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand';
+  'w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand';
 
 interface RoadForm {
   name: string;
@@ -152,7 +152,7 @@ export default function AdminRoads() {
   }
 
   const formBlock = (
-    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+    <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
       <h2 className="font-bold text-ink">{adding ? 'নতুন রোড/স্থান যোগ করুন' : 'রোড/স্থান এডিট করুন'}</h2>
       <div className="mt-3 space-y-3">
         <div className="flex rounded-full bg-cream p-1">
@@ -230,7 +230,7 @@ export default function AdminRoads() {
       ) : (
         <button
           onClick={openAdd}
-          className="mb-3 w-full rounded-2xl border-2 border-dashed border-white/15 py-3 text-sm font-bold text-ink-soft"
+          className="mb-3 w-full rounded-2xl border-2 border-dashed border-line-strong py-3 text-sm font-bold text-ink-soft"
         >
           + নতুন রোড/স্থান যোগ করুন
         </button>
@@ -240,7 +240,7 @@ export default function AdminRoads() {
 
       <div className="grid gap-2 lg:grid-cols-2">
         {roads.map((r) => (
-          <div key={r.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+          <div key={r.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold text-ink">
@@ -294,7 +294,7 @@ export default function AdminRoads() {
             </div>
 
             {openId === r.id && (
-              <div className="mt-3 border-t border-white/10 pt-3">
+              <div className="mt-3 border-t border-line pt-3">
                 {!detail ? (
                   <p className="text-sm text-ink-soft">লোড হচ্ছে...</p>
                 ) : detail.updates.length === 0 ? (
@@ -328,7 +328,7 @@ export default function AdminRoads() {
       </div>
 
       {!loading && roads.length === 0 && (
-        <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">কোনো রোড বা স্থান নেই।</p>
+        <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">কোনো রোড বা স্থান নেই।</p>
       )}
     </div>
   );

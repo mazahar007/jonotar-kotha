@@ -30,7 +30,7 @@ export default function BadgeToast() {
       {badges.map((b, i) => (
         <div
           key={`${b}-${i}`}
-          className="flex items-center gap-2 rounded-2xl border border-white/15 bg-surface px-5 py-3 text-sm font-bold text-ink shadow-xl"
+          className="flex items-center gap-2 rounded-2xl border border-line-strong bg-surface px-5 py-3 text-sm font-bold text-ink shadow-xl"
           role="status"
         >
           <span className="text-lg">🏆</span>

@@ -34,7 +34,7 @@ export default function BroadcastDetail({ id }: { id: number }) {
 
   if (missing)
     return (
-      <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">
+      <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">
         ঘোষণাটি পাওয়া যায়নি। <Link href="/broadcasts" className="font-bold text-brand">সব ঘোষণা দেখুন</Link>
       </p>
     );
@@ -45,7 +45,7 @@ export default function BroadcastDetail({ id }: { id: number }) {
     <div>
       <div className="rounded-3xl bg-gradient-to-l from-red-600 to-red-700 p-5 text-white shadow-lg">
         <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
             <IconAlert className="h-6 w-6" />
           </span>
           <div className="min-w-0">
@@ -57,17 +57,17 @@ export default function BroadcastDetail({ id }: { id: number }) {
         </div>
         <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-white/95">{b.body}</p>
         <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold">
-          <span className="rounded-full bg-white/20 px-3 py-1.5">
+          <span className="rounded-full bg-overlay-strong px-3 py-1.5">
             প্রকাশ: {new Date(b.created_at).toLocaleString('bn-BD')}
           </span>
-          <span className="rounded-full bg-white/20 px-3 py-1.5">
+          <span className="rounded-full bg-overlay-strong px-3 py-1.5">
             মেয়াদ: {new Date(b.expires_at).toLocaleString('bn-BD')}
           </span>
         </div>
       </div>
       <Link
         href="/broadcasts"
-        className="mt-4 flex min-h-11 items-center justify-center rounded-2xl bg-surface border border-white/10 py-3 text-sm font-bold text-ink shadow-sm"
+        className="mt-4 flex min-h-11 items-center justify-center rounded-2xl bg-surface border border-line py-3 text-sm font-bold text-ink shadow-sm"
       >
         ← সব ঘোষণা
       </Link>

@@ -67,7 +67,7 @@ export default function AdminPush() {
   }
 
   return (
-    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+    <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
       <div className="flex items-center gap-3">
         <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-300">
           <IconBell className="h-6 w-6" />
@@ -90,7 +90,7 @@ export default function AdminPush() {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-line bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="block">
@@ -100,7 +100,7 @@ export default function AdminPush() {
             onChange={(e) => setBody(e.target.value)}
             rows={3}
             placeholder="যেমন: গাঙ্গিনাপাড়ে বিদ্যুৎ বিভ্রাট — সবাই সতর্ক থাকুন"
-            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-line bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="block">
@@ -109,7 +109,7 @@ export default function AdminPush() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="/"
-            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-line bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
       </div>

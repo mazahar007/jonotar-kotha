@@ -97,7 +97,7 @@ export default function CardSlider<T>({
   if (items.length === 0) return null;
 
   const arrowCls =
-    'absolute top-[36%] z-10 hidden h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-surface text-ink shadow-[0_2px_12px_rgba(0,0,0,0.18)] transition hover:bg-cream-dark disabled:pointer-events-none disabled:opacity-30 md:flex';
+    'absolute top-[36%] z-10 hidden h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-surface text-ink shadow-[0_2px_12px_rgba(0,0,0,0.18)] transition hover:bg-cream-dark disabled:pointer-events-none disabled:opacity-30 md:flex';
 
   return (
     <div className="relative">
@@ -152,7 +152,7 @@ export default function CardSlider<T>({
               >
                 <span
                   className={`h-2 rounded-full transition-all ${
-                    i === page ? 'w-6 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6]' : 'w-2 bg-white/20 hover:bg-white/30'
+                    i === page ? 'w-6 bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6]' : 'w-2 bg-overlay-strong hover:bg-overlay-strong'
                   }`}
                 />
               </button>

@@ -28,7 +28,7 @@ export default async function TravelPage() {
         <h2 className="mb-3 mt-6 font-bold text-ink">যাচাইকৃত গাইড</h2>
         <div className="grid gap-3 md:grid-cols-2">
           {guides.map((g) => (
-            <div key={g.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+            <div key={g.id} className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
               <div className="flex items-center gap-3">
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-cream-dark text-lg font-bold text-ink">
                   {g.name.charAt(0)}
@@ -65,7 +65,7 @@ export default async function TravelPage() {
           {shelters.map((s) => (
             <div
               key={s.id}
-              className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+              className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
                 <IconShield className="h-6 w-6" />

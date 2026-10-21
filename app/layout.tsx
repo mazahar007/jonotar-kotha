@@ -26,12 +26,20 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#0A0E1A',
+  themeColor: '#161D2E',
 };
+
+/**
+ * Phase 21 — pre-paint theme bootstrap: reads the saved theme (jk-theme,
+ * default dark) and sets .dark on <html> BEFORE first paint, so there is
+ * no flash of the wrong theme. suppressHydrationWarning on <html> because
+ * the class is applied before React hydrates.
+ */
+const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem('jk-theme');if(t==='light'){document.documentElement.classList.remove('dark')}else{document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="bn">
+    <html lang="bn" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -39,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
       </head>
       <body>
         <SwRegister />

@@ -98,7 +98,7 @@ export default function TrustedContacts() {
   }
 
   return (
-    <div className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
+    <div className="mt-4 rounded-3xl bg-surface border border-line p-5 shadow-sm">
       <h2 className="flex items-center gap-2 text-base font-bold text-ink">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-red-100 text-brand">
           <IconShield className="h-5 w-5" />
@@ -140,7 +140,7 @@ export default function TrustedContacts() {
                   <button
                     onClick={() => remove(c)}
                     aria-label={`${c.name}-কে মুছুন`}
-                    className="min-h-11 min-w-11 rounded-xl bg-surface border border-white/10 px-3 text-sm font-bold text-brand ring-1 ring-brand/30"
+                    className="min-h-11 min-w-11 rounded-xl bg-surface border border-line px-3 text-sm font-bold text-brand ring-1 ring-brand/30"
                   >
                     মুছুন
                   </button>
@@ -155,14 +155,14 @@ export default function TrustedContacts() {
               onChange={(e) => setName(e.target.value)}
               placeholder="নাম"
               maxLength={60}
-              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-3 text-sm text-ink outline-none focus:border-brand"
+              className="w-full rounded-xl border border-line bg-cream px-3 py-3 text-sm text-ink outline-none focus:border-brand"
             />
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value.replace(/[^\d]/g, '').slice(0, 11))}
               placeholder="মোবাইল নম্বর (01XXXXXXXXX)"
               inputMode="tel"
-              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-3 text-sm text-ink outline-none focus:border-brand"
+              className="w-full rounded-xl border border-line bg-cream px-3 py-3 text-sm text-ink outline-none focus:border-brand"
             />
             <button
               onClick={add}

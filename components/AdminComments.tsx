@@ -45,13 +45,13 @@ export default function AdminComments() {
       <h2 className="mb-2 text-sm font-bold text-ink">মন্তব্য ইনবক্স</h2>
       {loading && <p className="py-4 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
       {!loading && comments.length === 0 && (
-        <p className="rounded-2xl bg-surface border border-white/10 p-5 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-5 text-center text-sm text-ink-soft">
           কোনো মন্তব্য নেই।
         </p>
       )}
       <div className="grid gap-2 lg:grid-cols-2">
         {comments.map((c) => (
-          <div key={c.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+          <div key={c.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold text-ink">

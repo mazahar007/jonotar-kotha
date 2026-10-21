@@ -14,7 +14,6 @@ export default function SectionHeader({
   title,
   subtitle,
   action,
-  dark = false,
   as = 'h2',
   className = '',
   gradient = false,
@@ -41,13 +40,13 @@ export default function SectionHeader({
       <div className="min-w-0 flex-1">
         <Title
           className={`text-[22px] font-bold leading-snug lg:text-2xl ${
-            gradient ? 'text-gradient' : dark ? 'text-white' : 'text-ink'
+            gradient ? 'text-gradient' : 'text-ink'
           }`}
         >
           {title}
         </Title>
         {subtitle ? (
-          <p className={`mt-0.5 text-sm leading-snug ${dark ? 'text-white/70' : 'text-ink-soft'}`}>
+          <p className="mt-0.5 text-sm leading-snug text-ink-soft">
             {subtitle}
           </p>
         ) : null}

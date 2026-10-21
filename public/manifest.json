@@ -1,5 +1,5 @@
 {
-  "background_color": "#0A0E1A",
+  "background_color": "#161D2E",
   "description": "নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং — ময়মনসিংহ",
   "dir": "ltr",
   "display": "standalone",
@@ -21,5 +21,5 @@
   "scope": "/",
   "short_name": "জনতার কথা",
   "start_url": "/",
-  "theme_color": "#0A0E1A"
+  "theme_color": "#161D2E"
 }

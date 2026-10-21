@@ -93,10 +93,10 @@ function LevelList({
   }
 
   const inputCls =
-    'w-full rounded-xl border border-white/10 bg-surface px-3 py-2 text-sm outline-none focus:border-brand';
+    'w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm outline-none focus:border-brand';
 
   return (
-    <section className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+    <section className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
       <h3 className="font-bold text-ink">{title}</h3>
       {hint && <p className="mt-0.5 text-xs text-ink-soft">{hint}</p>}
       <div className="mt-3 space-y-1.5">
@@ -113,14 +113,14 @@ function LevelList({
               className="min-w-0 flex-1 text-left"
             >
               <span className="block truncate text-sm font-bold">{r.name_bn}</span>
-              <span className={`block text-xs ${selectedId === r.id ? 'text-white/70' : 'text-ink-soft'}`}>
+              <span className={`block text-xs ${selectedId === r.id ? 'text-ink-soft' : 'text-ink-soft'}`}>
                 {r.name_en} · /{r.slug}
               </span>
             </button>
             <button
               onClick={() => openEdit(r)}
               className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold ${
-                selectedId === r.id ? 'bg-white/20 text-white' : 'bg-surface text-ink shadow-sm'
+                selectedId === r.id ? 'bg-overlay-strong text-ink' : 'bg-surface text-ink shadow-sm'
               }`}
             >
               এডিট
@@ -138,7 +138,7 @@ function LevelList({
       {editing === null ? (
         <button
           onClick={openNew}
-          className="mt-3 w-full rounded-xl border-2 border-dashed border-white/15 py-2.5 text-sm font-bold text-ink-soft"
+          className="mt-3 w-full rounded-xl border-2 border-dashed border-line-strong py-2.5 text-sm font-bold text-ink-soft"
         >
           + {title} যোগ করুন
         </button>
@@ -241,7 +241,7 @@ export default function AdminLocations() {
 
   return (
     <div className="space-y-4">
-      <p className="rounded-2xl bg-surface border border-white/10 p-4 text-sm text-ink-soft shadow-sm">
+      <p className="rounded-2xl bg-surface border border-line p-4 text-sm text-ink-soft shadow-sm">
         ধাপে ধাপে পুরো বাংলাদেশের এলাকা যোগ করা যাবে: প্রথমে <b>বিভাগ</b> বেছে নিন → তারপর{' '}
         <b>জেলা</b> → <b>উপজেলা</b> → <b>থানা</b> ও <b>ইউনিয়ন</b>। প্রতিটি স্তরে নামের উপর ক্লিক
         করলে পরের স্তর খুলবে। আপাতত ময়মনসিংহ বিভাগের তথ্য দেওয়া আছে।

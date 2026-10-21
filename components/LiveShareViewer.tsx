@@ -63,7 +63,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
   if (notFound) {
     return (
       <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
-        <div className="rounded-3xl bg-surface border border-white/10 p-8 text-center shadow-sm">
+        <div className="rounded-3xl bg-surface border border-line p-8 text-center shadow-sm">
           <p className="font-bold text-ink">শেয়ারটি পাওয়া যায়নি</p>
           <p className="mt-1 text-sm text-ink-soft">লিংকটি ভুল হতে পারে অথবা শেয়ারটি মুছে ফেলা হয়েছে।</p>
           <Link href="/" className="mt-4 inline-block font-bold text-brand">
@@ -92,7 +92,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
         {active ? (
           <section className={`rounded-3xl p-5 text-white shadow-lg ${BANNER_CLASS[data.purpose]}`}>
             <div className="flex items-center gap-3">
-              <span className="sos-pulse flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/20">
+              <span className="sos-pulse flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
                 {PURPOSE_ICON[data.purpose]}
               </span>
               <div className="min-w-0">
@@ -115,7 +115,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
             </p>
           </section>
         ) : (
-          <section className="rounded-3xl border border-white/10 bg-surface p-5 text-ink shadow-lg">
+          <section className="rounded-3xl border border-line bg-surface p-5 text-ink shadow-lg">
             <h1 className="text-xl font-bold">এই শেয়ারটি বন্ধ হয়ে গেছে</h1>
             <p className="mt-1 text-sm text-white/80">
               {data.sharer_name} ·{' '}
@@ -125,7 +125,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
           </section>
         )}
 
-        <section className="overflow-hidden rounded-3xl bg-surface border border-white/10 shadow-sm">
+        <section className="overflow-hidden rounded-3xl bg-surface border border-line shadow-sm">
           <iframe
             key={`${data.lat},${data.lng}`}
             title="লাইভ লোকেশন ম্যাপ"

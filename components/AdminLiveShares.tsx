@@ -43,13 +43,13 @@ export default function AdminLiveShares() {
       <h2 className="mb-2 text-sm font-bold text-ink">লাইভ লোকেশন শেয়ার</h2>
       {loading && <p className="py-4 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
       {!loading && shares.length === 0 && (
-        <p className="rounded-2xl bg-surface border border-white/10 p-5 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-5 text-center text-sm text-ink-soft">
           কোনো লাইভ শেয়ার নেই।
         </p>
       )}
       <div className="grid gap-2 lg:grid-cols-2">
         {shares.map((s) => (
-          <div key={s.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+          <div key={s.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-ink">

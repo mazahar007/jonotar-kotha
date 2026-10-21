@@ -183,7 +183,7 @@ export default function SafetyScoreSection() {
       />
 
       {/* Area picker (reuses home area filter component) */}
-      <div className="rounded-2xl bg-surface border border-white/10 p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="rounded-2xl bg-surface border border-line p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
@@ -192,7 +192,7 @@ export default function SafetyScoreSection() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex min-h-11 w-full items-center gap-5 rounded-3xl bg-surface border border-white/10 p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition active:scale-[0.99]"
+        className="flex min-h-11 w-full items-center gap-5 rounded-3xl bg-surface border border-line p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition active:scale-[0.99]"
         aria-label="সেফটি স্কোরের বিস্তারিত দেখুন"
       >
         {data ? (

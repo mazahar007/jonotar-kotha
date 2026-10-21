@@ -55,7 +55,7 @@ export default function SurveysPage() {
         <div className="mt-5 space-y-4">
           {surveys === null && <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
           {surveys !== null && surveys.length === 0 && (
-            <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">এখন কোনো সক্রিয় জরিপ নেই।</p>
+            <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">এখন কোনো সক্রিয় জরিপ নেই।</p>
           )}
           {surveys?.map((s) => (
             <SurveyCard

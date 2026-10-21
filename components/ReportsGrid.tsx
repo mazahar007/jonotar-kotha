@@ -39,7 +39,7 @@ export default function ReportsGrid({
       </div>
 
       {items.length === 0 ? (
-        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
           এই ক্যাটাগরিতে এখনো কোনো রিপোর্ট নেই।
         </p>
       ) : (

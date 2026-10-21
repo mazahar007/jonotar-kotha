@@ -32,7 +32,7 @@ export default async function FamilyPage() {
           {members.map((m) => (
             <div
               key={m.id}
-              className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+              className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-cream-dark text-lg font-bold text-ink">
                 {m.name.charAt(0)}
@@ -53,7 +53,7 @@ export default async function FamilyPage() {
                   লাইভ
                 </span>
               ) : (
-                <span className="rounded-full bg-white/5 px-2.5 py-1 text-xs font-semibold text-ink-soft">
+                <span className="rounded-full bg-overlay px-2.5 py-1 text-xs font-semibold text-ink-soft">
                   {m.status}
                 </span>
               )}

@@ -159,7 +159,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
   })();
 
   return (
-    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
+    <div className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-[15px] font-bold text-ink">⚡ এক ট্যাপে জানান</h3>
         <div className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
               disabled={loading || posting}
               onClick={() => post(p)}
               className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-[13px] font-bold text-ink transition active:scale-[0.96] disabled:opacity-60 ${
-                isLast ? 'border-brand bg-orange-500/10 ring-2 ring-brand/40' : 'border-white/10 bg-cream hover:bg-cream-dark'
+                isLast ? 'border-brand bg-orange-500/10 ring-2 ring-brand/40' : 'border-line bg-cream hover:bg-cream-dark'
               }`}
             >
               <span className={`h-2 w-2 rounded-full ${meta.dot}`} aria-hidden />

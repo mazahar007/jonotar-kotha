@@ -81,7 +81,7 @@ export function InstallAppButton() {
 
   if (installed) {
     return (
-      <div className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+      <div className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-sm">
         <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
           <IconCheck className="h-6 w-6" />
         </span>
@@ -96,18 +96,18 @@ export function InstallAppButton() {
   if (!deferred) return null; // graceful hide: browser doesn't offer install
 
   return (
-    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+    <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
       <button
         onClick={install}
         disabled={busy}
         className="flex min-h-11 w-full items-center gap-3 rounded-2xl bg-red-500 px-4 py-2 text-left text-white disabled:opacity-50"
       >
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
           <IconChevronRight className="h-6 w-6" />
         </span>
         <span className="flex-1">
           <span className="block text-sm font-bold">অ্যাপ ইনস্টল করো</span>
-          <span className="block text-xs text-white/85">হোম স্ক্রিনে রাখুন — অফলাইনেও কিছু তথ্য দেখুন</span>
+          <span className="block text-xs text-ink-soft">হোম স্ক্রিনে রাখুন — অফলাইনেও কিছু তথ্য দেখুন</span>
         </span>
       </button>
       {msg && <p className="mt-2 text-xs font-semibold text-ink-soft">{msg}</p>}

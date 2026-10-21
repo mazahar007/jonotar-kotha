@@ -65,7 +65,7 @@ export default function SosAlertContacts({ shareUrl }: { shareUrl: string }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
+    <div className="rounded-2xl bg-overlay p-3 ring-1 ring-white/10">
       <p className="text-sm font-bold text-white">📢 পরিচিতদের জানাও</p>
       <p className="mt-1 text-xs leading-relaxed text-white/55">
         WhatsApp-এ এক ট্যাপে জানান, অথবা লিংক কপি করে SMS/অন্য অ্যাপে পাঠান।
@@ -76,7 +76,7 @@ export default function SosAlertContacts({ shareUrl }: { shareUrl: string }) {
             key={c.id}
             className="flex items-center gap-2.5 rounded-xl bg-black/25 p-2.5"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-overlay-strong text-sm font-bold text-white">
               {c.name.charAt(0)}
             </span>
             <span className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export default function SosAlertContacts({ shareUrl }: { shareUrl: string }) {
             <button
               onClick={() => copyFor(c)}
               aria-label={`${c.name}-এর জন্য লিংক কপি`}
-              className="min-h-11 shrink-0 rounded-xl bg-white/15 px-3 py-2.5 text-xs font-bold text-white"
+              className="min-h-11 shrink-0 rounded-xl bg-overlay-strong px-3 py-2.5 text-xs font-bold text-white"
             >
               {copiedId === c.id ? 'কপি ✓' : 'লিংক কপি'}
             </button>

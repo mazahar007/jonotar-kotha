@@ -52,7 +52,7 @@ export default function SurveyCard({
   const showResults = state.results !== null && (state.my_vote !== null || state.status === 'closed');
 
   return (
-    <section className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <section className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <div className="mb-1 flex items-center gap-2 text-xs font-bold text-ink-soft">
         <span className="rounded-full bg-cream-dark px-2.5 py-1">জরিপ · {state.target_label}</span>
         {state.status === 'closed' && <span className="rounded-full bg-red-50 px-2.5 py-1 text-brand">বন্ধ</span>}

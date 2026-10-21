@@ -373,7 +373,6 @@ export default function LiveSharePanel() {
   return (
     <section className="mt-6 rounded-3xl bg-white/[0.07] p-4 ring-1 ring-white/10">
       <SectionHeader
-        dark
         icon={<IconNav className="h-6 w-6" />}
         tileClassName="bg-red-500 text-white"
         title="লাইভ লোকেশন শেয়ার করুন"

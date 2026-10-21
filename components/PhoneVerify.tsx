@@ -5,7 +5,7 @@ import OtpStep from './OtpStep';
 import { addPhoneWithOtp, type MemberSelfPayload, type OtpSendResponse } from '@/lib/member';
 
 const inputCls =
-  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 /**
  * Phase 13 — phone verification for a logged-in member.

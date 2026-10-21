@@ -38,11 +38,11 @@ export default function TopContributors() {
 
   if (!leaders || leaders.length === 0) return null;
 
-  const medals = ['bg-amber-500', 'bg-white/30', 'bg-orange-600'];
+  const medals = ['bg-amber-500', 'bg-overlay-strong', 'bg-orange-600'];
   const bn = ['১', '২', '৩', '৪', '৫'];
 
   return (
-    <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <SectionHeader
         icon={<IconStar className="h-6 w-6" />}
         tileClassName="bg-amber-500/15 text-amber-400"
@@ -54,7 +54,7 @@ export default function TopContributors() {
           <div key={l.id} className="flex items-center gap-3 rounded-xl bg-cream p-3">
             <span
               className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ${
-                medals[i] ?? 'bg-white/20'
+                medals[i] ?? 'bg-overlay-strong'
               }`}
             >
               {bn[i] ?? i + 1}

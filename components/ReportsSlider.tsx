@@ -55,7 +55,7 @@ export default function ReportsSlider({
       </div>
 
       {items.length === 0 ? (
-        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
           এই ক্যাটাগরিতে এখনো কোনো রিপোর্ট নেই।
         </p>
       ) : (
@@ -70,7 +70,7 @@ export default function ReportsSlider({
       {/* BIG See More → dedicated all-reports page */}
       <Link
         href="/reports"
-        className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-white/10"
+        className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-overlay"
       >
         আরও দেখুন
         <IconChevronRight className="h-5 w-5" />

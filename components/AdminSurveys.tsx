@@ -14,7 +14,7 @@ const LEVELS: { value: SurveyTargetLevel; label: string }[] = [
 ];
 
 const inputCls =
-  'w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand';
+  'w-full rounded-xl border border-line bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand';
 
 export default function AdminSurveys() {
   const [surveys, setSurveys] = useState<SurveyWithState[]>([]);
@@ -124,7 +124,7 @@ export default function AdminSurveys() {
   return (
     <div>
       {/* Create form */}
-      <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+      <div className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
         <h2 className="font-bold text-ink">নতুন জরিপ তৈরি করুন</h2>
         <div className="mt-3 space-y-3">
           <input value={question} onChange={(e) => setQuestion(e.target.value)} placeholder="জরিপের প্রশ্ন লিখুন..." className={inputCls} />
@@ -177,7 +177,7 @@ export default function AdminSurveys() {
       {loading && <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
       <div className="space-y-2">
         {surveys.map((s) => (
-          <div key={s.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+          <div key={s.id} className="rounded-2xl bg-surface border border-line p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold text-ink">{s.question}</p>
@@ -203,7 +203,7 @@ export default function AdminSurveys() {
             </div>
 
             {openId === s.id && (
-              <div className="mt-4 border-t border-white/10 pt-4">
+              <div className="mt-4 border-t border-line pt-4">
                 {!detail ? (
                   <p className="text-sm text-ink-soft">লোড হচ্ছে...</p>
                 ) : (
@@ -235,7 +235,7 @@ export default function AdminSurveys() {
           </div>
         ))}
         {!loading && surveys.length === 0 && (
-          <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">এখনো কোনো জরিপ নেই।</p>
+          <p className="rounded-2xl bg-surface border border-line p-8 text-center text-sm text-ink-soft">এখনো কোনো জরিপ নেই।</p>
         )}
       </div>
     </div>
@@ -255,7 +255,7 @@ function BreakdownTable({
   return (
     <div className="mt-5">
       <h3 className="mb-2 text-sm font-bold text-ink">{title}</h3>
-      <div className="overflow-x-auto rounded-xl border border-white/10">
+      <div className="overflow-x-auto rounded-xl border border-line">
         <table className="w-full min-w-[420px] text-left text-xs">
           <thead>
             <tr className="bg-cream text-ink-soft">
@@ -268,7 +268,7 @@ function BreakdownTable({
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.name} className="border-t border-white/10">
+              <tr key={r.name} className="border-t border-line">
                 <td className="px-3 py-2 font-semibold text-ink">{r.name}</td>
                 {r.per_option.map((c, i) => (
                   <td key={i} className="px-3 py-2 text-ink-soft">{c}</td>

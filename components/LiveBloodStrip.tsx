@@ -49,7 +49,7 @@ export default function LiveBloodStrip() {
           <Link
             key={s.id}
             href={`/live/${s.id}`}
-            className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-3.5 shadow-sm transition active:scale-[0.99]"
+            className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-3.5 shadow-sm transition active:scale-[0.99]"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-100 text-brand">
               <IconDroplet className="h-5 w-5" />

@@ -37,7 +37,7 @@ export default function SosPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl min-h-dvh bg-surface px-4 py-6 text-white">
+    <main className="force-dark mx-auto w-full max-w-7xl min-h-dvh px-4 py-6">
       {step === 'main' && (
         <>
           <div className="flex items-center gap-3">

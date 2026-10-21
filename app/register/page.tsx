@@ -10,7 +10,7 @@ import { registerWithOtp, useMember, type OtpSendResponse } from '@/lib/member';
 import { IconCheck, IconUsers } from '@/components/icons';
 
 const inputCls =
-  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-line bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 /** Phase 17 — safe post-login destination: only same-origin paths allowed. */
 function safeReturnTo(raw: string | null): string {
@@ -48,7 +48,7 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6">
-      <div className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500/15 text-sky-300">
           <IconUsers className="h-6 w-6" />
         </span>
@@ -118,7 +118,7 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
         )}
       </div>
 
-      <div className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="mt-4 rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <h2 className="font-bold text-ink">আগে থেকে নিবন্ধিত?</h2>
         <p className="mt-1 text-sm text-ink-soft">আপনার মোবাইল নম্বর বা ইমেইলে পাঠানো কোড দিয়ে প্রবেশ করুন।</p>
         <div className="mt-3">
