@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { err, ok } from '@/lib/api';
 import { createReport, getCategories } from '@/lib/store';
 import { getReports } from '@/lib/store';
+import { getSessionMember } from '@/lib/member-session';
+import { award } from '@/lib/points';
 
 export async function GET() {
   return ok(await getReports());
@@ -36,7 +38,12 @@ export async function POST(req: NextRequest) {
         ? body.media_urls.filter((u: unknown) => typeof u === 'string').slice(0, 4)
         : [],
     });
-    return ok(row, 201);
+    // Phase 15: লগ-ইন করা সদস্যের রিপোর্ট পোস্টে +১ পয়েন্ট (সেশন না থাকলে চুপচাপ বাদ)।
+    const member = await getSessionMember();
+    const bonus = member
+      ? await award(member.id, 'report_post', { refType: 'report', refId: `report:${row.id}` })
+      : { newBadges: [] as string[] };
+    return ok({ ...row, newBadges: bonus.newBadges }, 201);
   } catch {
     return err('রিপোর্ট সংরক্ষণ করা যায়নি');
   }

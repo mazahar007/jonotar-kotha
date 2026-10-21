@@ -34,7 +34,14 @@ export function rowToMember(r: MemberRow): Member {
   return {
     id: r.id,
     name: r.name,
-    phone: r.phone,
+    phone: r.phone ?? null,
+    email: r.email ?? null,
+    phone_verified: r.phone_verified ?? false,
+    email_verified: r.email_verified ?? false,
+    account_status: r.account_status ?? 'unverified',
+    points: r.points ?? 0,
+    badges: r.badges ?? [],
+    show_on_leaderboard: r.show_on_leaderboard !== false,
     home: ids(r, 'home'),
     current: ids(r, 'current'),
     is_visible: r.is_visible,
@@ -114,6 +121,12 @@ export async function getMemberRowByPhone(phone: string): Promise<MemberRow | nu
   return all.find((m) => m.phone === phone) ?? null;
 }
 
+export async function getMemberRowByEmail(email: string): Promise<MemberRow | null> {
+  const all = await getAllMemberRows();
+  const e = email.toLowerCase();
+  return all.find((m) => (m.email ?? '').toLowerCase() === e) ?? null;
+}
+
 export async function createMemberRow(input: {
   name: string;
   phone: string;
@@ -146,13 +159,103 @@ export async function createMemberRow(input: {
   return demoRow;
 }
 
+/* ---------- Phase 13 auth members (OTP-based, phone and/or email) ---------- */
+
+/** Create a member via the OTP register flow (phone optional, email optional). */
+export async function createAuthMemberRow(input: {
+  name: string;
+  phone: string | null;
+  email: string | null;
+}): Promise<MemberRow> {
+  const now = new Date().toISOString();
+  const row = {
+    name: input.name,
+    phone: input.phone,
+    email: input.email,
+    phone_verified: false,
+    email_verified: false,
+    account_status: 'unverified' as const,
+    points: 0,
+    badges: [] as string[],
+    home_division_id: null,
+    home_district_id: null,
+    home_upazila_id: null,
+    home_thana_id: null,
+    home_union_id: null,
+    current_division_id: null,
+    current_district_id: null,
+    current_upazila_id: null,
+    current_thana_id: null,
+    current_union_id: null,
+    is_visible: true,
+    // Phase 15: leaderboard opt-in defaults to true.
+    show_on_leaderboard: true,
+    created_at: now,
+    updated_at: now,
+  };
+  const supa = getSupabase();
+  if (supa) {
+    try {
+      const { data, error } = await supa.from('members').insert(row).select().single();
+      if (!error && data) return data as MemberRow;
+      /* fall through to demo (e.g. schema-v13 columns not run yet) */
+    } catch {
+      /* fall through */
+    }
+  }
+  const db = demoDb();
+  const demoRow: MemberRow = { id: db.nextMemberId++, ...row };
+  db.members.unshift(demoRow);
+  return demoRow;
+}
+
+/**
+ * Apply OTP verification results to a member.
+ * The user's exact rule: phone verified → account_status='verified';
+ * email-only verified → stays 'unverified' until a phone is verified.
+ */
+export async function markChannelVerified(
+  id: number,
+  channel: 'sms' | 'email',
+  phone?: string | null
+): Promise<MemberRow | null> {
+  const row = await getMemberRowById(id);
+  if (!row) return null;
+  const phoneVerified = channel === 'sms' ? true : (row.phone_verified ?? false);
+  const emailVerified = channel === 'email' ? true : (row.email_verified ?? false);
+  const dbPatch: Record<string, unknown> = {
+    phone_verified: phoneVerified,
+    email_verified: emailVerified,
+    // user's exact rule: verified status requires a verified phone
+    account_status: phoneVerified ? 'verified' : 'unverified',
+    updated_at: new Date().toISOString(),
+  };
+  if (phone) dbPatch.phone = phone;
+
+  const supa = getSupabase();
+  if (supa) {
+    try {
+      const { data, error } = await supa.from('members').update(dbPatch).eq('id', id).select().single();
+      if (!error && data) return data as MemberRow;
+    } catch {
+      /* fall through to demo */
+    }
+  }
+  const db = demoDb();
+  const m = db.members.find((x) => x.id === id);
+  if (!m) return null;
+  Object.assign(m, dbPatch);
+  return m;
+}
+
 export async function updateMemberRow(
   id: number,
-  patch: Partial<{ name: string; is_visible: boolean; current: LocationIds }>
+  patch: Partial<{ name: string; is_visible: boolean; show_on_leaderboard: boolean; current: LocationIds }>
 ): Promise<MemberRow | null> {
   const dbRow: Record<string, unknown> = { updated_at: new Date().toISOString() };
   if (patch.name !== undefined) dbRow.name = patch.name;
   if (patch.is_visible !== undefined) dbRow.is_visible = patch.is_visible;
+  if (patch.show_on_leaderboard !== undefined) dbRow.show_on_leaderboard = patch.show_on_leaderboard;
   if (patch.current) Object.assign(dbRow, flat('current', patch.current));
 
   const supa = getSupabase();

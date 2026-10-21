@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { resolveVoterKey } from '@/lib/voter';
+import { announceBadges } from '@/lib/badges-client';
 import { VERIFY_BADGE_THRESHOLD } from '@/lib/types';
 import { IconCheck } from './icons';
 
@@ -62,6 +63,7 @@ export default function VerifyButton({
       if (res.ok) {
         setVoted(Boolean(d.voted));
         setCount(typeof d.count === 'number' ? d.count : count);
+        announceBadges(d.newBadges);
       }
     } finally {
       setBusy(false);

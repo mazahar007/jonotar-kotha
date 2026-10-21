@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { IconCheck, IconChevronRight, IconLock, IconSend } from '@/components/icons';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import MediaPicker, { type MediaItem } from '@/components/MediaPicker';
+import { announceBadges } from '@/lib/badges-client';
 
 export default function ReportPage() {
   const [categories, setCategories] = useState<string[]>([]);
@@ -76,6 +77,8 @@ export default function ReportPage() {
         }),
       });
       if (!res.ok) throw new Error();
+      const data = await res.json().catch(() => null);
+      announceBadges(data?.newBadges);
       setDone(true);
     } catch {
       setError('পাঠানো যায়নি। আবার চেষ্টা করুন।');

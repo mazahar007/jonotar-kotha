@@ -12,7 +12,19 @@
 export interface MemberRow {
   id: number;
   name: string;
-  phone: string;
+  phone: string | null;
+  // Phase 13: email + OTP verification state. phone became nullable
+  // (email-only accounts); old rows always have a phone.
+  email: string | null;
+  phone_verified: boolean;
+  email_verified: boolean;
+  account_status: 'verified' | 'unverified';
+  // Phase 15 columns (exposed already so /api/members/me has them).
+  points: number;
+  badges: string[];
+  // Phase 15: activity timestamp for the inactivity penalty + leaderboard opt-in.
+  last_active_at?: string | null;
+  show_on_leaderboard?: boolean;
   home_division_id: number | null;
   home_district_id: number | null;
   home_upazila_id: number | null;
@@ -84,12 +96,20 @@ function member(
     id,
     name,
     phone,
+    email: null,
+    phone_verified: false,
+    email_verified: false,
+    account_status: 'unverified',
+    points: 0,
+    badges: [],
+    last_active_at: null,
+    show_on_leaderboard: true,
     ...(loc('home', home) as object),
     ...(loc('current', cur) as object),
     is_visible,
     created_at: ts,
     updated_at: ts,
-  } as MemberRow;
+  } as unknown as MemberRow;
 }
 
 export const seedMembers: MemberRow[] = [

@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { resolveVoterKey } from '@/lib/voter';
 import { COMMENT_MAX_LEN } from '@/lib/report-comments';
+import { announceBadges } from '@/lib/badges-client';
+import LikeButton from './LikeButton';
 import type { ReportComment } from '@/lib/types';
 import { IconSend } from './icons';
 
@@ -69,6 +71,7 @@ export default function ReportComments({ reportId }: { reportId: number }) {
         setError(data.error || 'মন্তব্য পাঠানো যায়নি');
       } else {
         setBody('');
+        announceBadges(data.newBadges);
         await load();
       }
     } catch {
@@ -114,6 +117,10 @@ export default function ReportComments({ reportId }: { reportId: number }) {
               </time>
             </div>
             <p className="mt-1 text-sm leading-relaxed text-ink-soft">{c.body}</p>
+            {/* Phase 15 — প্রতিটি মন্তব্যে লাইক */}
+            <div className="mt-2">
+              <LikeButton targetType="comment" targetId={c.id} />
+            </div>
           </li>
         ))}
       </ul>

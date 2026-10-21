@@ -8,6 +8,7 @@ import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
 import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
+import TopContributors from './TopContributors';
 import { IconChevronRight, IconMegaphone, IconPhone, IconShield, IconStar } from './icons';
 
 export default function HomeFeed({
@@ -169,6 +170,9 @@ export default function HomeFeed({
               ))}
             </div>
           </section>
+
+          {/* Phase 15 — শীর্ষ অবদানকারী (পয়েন্ট লিডারবোর্ড) */}
+          <TopContributors />
 
           {/* Emergency numbers (existing SOS hotlines, surfaced in the rail on xl only
               so the mobile stack stays exactly as before) */}

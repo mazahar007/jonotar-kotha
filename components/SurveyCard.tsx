@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { getStoredToken } from '@/lib/member';
+import { announceBadges } from '@/lib/badges-client';
 import type { SurveyWithState } from '@/lib/types';
 import { IconCheck, IconUsers } from './icons';
 
@@ -39,6 +40,7 @@ export default function SurveyCard({
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'ভোট দেওয়া যায়নি');
       setState(data as SurveyWithState);
+      announceBadges(data.newBadges);
       onVoted?.(data as SurveyWithState);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'ভোট দেওয়া যায়নি');

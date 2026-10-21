@@ -14,9 +14,11 @@ export async function PATCH(req: NextRequest) {
   const member = await getSessionMember();
   if (!member) return err('লগইন করা নেই', 401);
   const body = await req.json().catch(() => ({}));
-  const patch: { name?: string; is_visible?: boolean; current?: LocationIds } = {};
+  const patch: { name?: string; is_visible?: boolean; show_on_leaderboard?: boolean; current?: LocationIds } = {};
   if (typeof body.name === 'string' && body.name.trim()) patch.name = body.name.trim();
   if (typeof body.is_visible === 'boolean') patch.is_visible = body.is_visible;
+  // Phase 15: লিডারবোর্ড opt-in টগল।
+  if (typeof body.show_on_leaderboard === 'boolean') patch.show_on_leaderboard = body.show_on_leaderboard;
   if (body.current && typeof body.current === 'object') {
     const o = body.current as Record<string, unknown>;
     const n = (x: unknown) => {

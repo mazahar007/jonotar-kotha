@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
+import QuickPostStrip from '@/components/QuickPostStrip';
 import RoadCard from '@/components/RoadCard';
 import SectionHeader, { SectionActionLink } from '@/components/SectionHeader';
 import { IconPin, IconRoute } from '@/components/icons';
@@ -33,12 +34,43 @@ async function fetchRoads(area: LocationSelection, kind: 'road' | 'spot'): Promi
   }
 }
 
+/** Phase 14 — sub-group header inside the merged section (NOT a SectionHeader:
+    the whole explorer is ONE section with one SectionHeader). */
+function SubGroupHeader({
+  icon,
+  tileClassName,
+  title,
+  subtitle,
+  action,
+}: {
+  icon: ReactNode;
+  tileClassName: string;
+  title: string;
+  subtitle: string;
+  action?: ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      <span
+        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${tileClassName}`}
+        aria-hidden
+      >
+        {icon}
+      </span>
+      <div className="min-w-0 flex-1">
+        <h3 className="text-[15px] font-bold text-ink">{title}</h3>
+        <p className="text-xs text-ink-soft">{subtitle}</p>
+      </div>
+      {action}
+    </div>
+  );
+}
+
 /**
- * One kind group (রোডসমূহ / মোড় ও গুরুত্বপূর্ণ স্থান): own SectionHeader,
- * clickable status summary chips that FILTER this group's cards, and the
- * card grid. Chip counts always come from the group's full (unfiltered)
- * list for the selected area; tapping the active chip — or the মোট chip —
- * clears the filter.
+ * One kind group inside the merged section: sub-group header, clickable
+ * status summary chips that FILTER this group's cards, and the card grid.
+ * Chip counts always come from the group's full (unfiltered) list for the
+ * selected area; tapping the active chip — or the মোট chip — clears the filter.
  */
 function RoadGroup({
   icon,
@@ -90,8 +122,14 @@ function RoadGroup({
     }`;
 
   return (
-    <section className="space-y-4">
-      <SectionHeader icon={icon} tileClassName={tileClassName} title={title} subtitle={subtitle} action={headerAction} />
+    <section className="space-y-4" aria-label={title}>
+      <SubGroupHeader
+        icon={icon}
+        tileClassName={tileClassName}
+        title={title}
+        subtitle={subtitle}
+        action={headerAction}
+      />
 
       {items !== null && items.length > 0 && (
         <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
@@ -150,16 +188,22 @@ function RoadGroup({
 }
 
 /**
- * Area-filtered road explorer: ONE shared cascading area filter (defaults
- * to ময়মনসিংহ সদর via LocationPicker), then TWO clearly separated sections —
- * রোডসমূহ and মোড় ও গুরুত্বপূর্ণ স্থান — each with its own header, clickable
- * status-filter chips and cards. `home` variant adds the umbrella
- * "রোডের অবস্থা" header; `full` variant is the /roads page body.
+ * Phase 14 — ONE merged section "রোড ও মোড়ের অবস্থা": a single SectionHeader,
+ * the "⚡ এক ট্যাপে জানান" strip, ONE shared cascading area filter, then two
+ * clearly-labeled sub-groups — 🛣️ রোডসমূহ and 📍 মোড় ও গুরুত্বপূর্ণ স্থান.
+ * No tabs (per the user's earlier complaint). `home` variant adds the
+ * umbrella header + link; `full` variant is the /roads page body.
  */
 export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' | 'full' }) {
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
   const [roads, setRoads] = useState<Road[] | null>(null);
   const [spots, setSpots] = useState<Road[] | null>(null);
+
+  const load = useCallback(async (a: LocationSelection) => {
+    const [r, s] = await Promise.all([fetchRoads(a, 'road'), fetchRoads(a, 'spot')]);
+    setRoads(r);
+    setSpots(s);
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -175,20 +219,28 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     };
   }, [area]);
 
+  const refetch = useCallback(() => {
+    void load(area);
+  }, [load, area]);
+
   const gridClassName = `grid gap-3 md:grid-cols-2 ${variant === 'full' ? 'xl:grid-cols-3' : ''}`;
 
   const body = (
     <>
+      {/* One-tap post strip at section top */}
+      <QuickPostStrip onPosted={refetch} />
+
       {/* Shared area filter */}
       <div className="rounded-2xl bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
 
+      {/* Sub-group A — roads */}
       <RoadGroup
-        icon={<IconRoute className="h-6 w-6" />}
+        icon={<IconRoute className="h-5 w-5" />}
         tileClassName="bg-orange-100 text-orange-700"
-        title="রোডসমূহ"
+        title="🛣️ রোডসমূহ"
         subtitle="কোন রোডের কী অবস্থা — লাইভ আপডেট"
         items={roads}
         totalLabel="রোড"
@@ -197,10 +249,11 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
         headerAction={<SafetyScoreChip area={area} />}
       />
 
+      {/* Sub-group B — spots / মোড় */}
       <RoadGroup
-        icon={<IconPin className="h-6 w-6" />}
+        icon={<IconPin className="h-5 w-5" />}
         tileClassName="bg-violet-100 text-violet-700"
-        title="মোড় ও গুরুত্বপূর্ণ স্থান"
+        title="📍 মোড় ও গুরুত্বপূর্ণ স্থান"
         subtitle="মোড় ও গুরুত্বপূর্ণ জায়গার লাইভ অবস্থা"
         items={spots}
         totalLabel="স্থান"
@@ -210,18 +263,18 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     </>
   );
 
-  if (variant === 'full') return <div className="space-y-8">{body}</div>;
+  if (variant === 'full') return <div className="space-y-6">{body}</div>;
 
   return (
     <section className="space-y-5">
       <SectionHeader
         icon={<IconRoute className="h-6 w-6" />}
         tileClassName="bg-orange-100 text-orange-700"
-        title="রোডের অবস্থা"
+        title="রোড ও মোড়ের অবস্থা"
         subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
         action={<SectionActionLink href="/roads">সব রোড দেখুন</SectionActionLink>}
       />
-      <div className="space-y-8">{body}</div>
+      <div className="space-y-6">{body}</div>
     </section>
   );
 }

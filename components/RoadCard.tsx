@@ -6,6 +6,7 @@ import type { Road, RoadDetail } from '@/lib/types';
 import { bnNum } from '@/lib/time';
 import { IconClock, IconPin, IconRoute } from './icons';
 import { QuickChips } from './QuickChips';
+import LoginPromptModal from './LoginPromptModal';
 import RoadStatusBadge from './RoadStatusBadge';
 
 const VIDEO_EXT = ['.mp4', '.webm', '.mov', '.m4v'];
@@ -17,6 +18,7 @@ function isVideoUrl(url: string): boolean {
 
 export default function RoadCard({ road: initial }: { road: Road }) {
   const [road, setRoad] = useState<Road>(initial);
+  const [showLogin, setShowLogin] = useState(false);
 
   // Refresh when the parent list refetches (area filter change etc.).
   useEffect(() => {
@@ -91,8 +93,14 @@ export default function RoadCard({ road: initial }: { road: Road }) {
       </Link>
 
       <div className="p-4 pt-3">
-        <QuickChips roadId={road.id} kind={road.kind} onUpdated={applyDetail} />
+        <QuickChips
+          roadId={road.id}
+          kind={road.kind}
+          onUpdated={applyDetail}
+          onLoginRequired={() => setShowLogin(true)}
+        />
       </div>
+      <LoginPromptModal open={showLogin} onClose={() => setShowLogin(false)} />
     </div>
   );
 }

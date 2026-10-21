@@ -17,9 +17,15 @@ import type { RoadDetail, RoadKind } from '@/lib/types';
  * preset label as the note + preset_key). The POST returns the refreshed
  * road detail, which the parent applies in place; a small "আপডেট হয়েছে ✓"
  * note confirms the tap (no confirm dialog — true one-click).
+ * Phase 14: posting requires a logged-in member; a logged-out tap (or a
+ * 401 from the API) triggers `onLoginRequired` instead.
  */
 
-function usePresetPost(roadId: number, onUpdated?: (detail: RoadDetail) => void) {
+function usePresetPost(
+  roadId: number,
+  onUpdated?: (detail: RoadDetail) => void,
+  onLoginRequired?: () => void
+) {
   const { member } = useMember();
   const [postingKey, setPostingKey] = useState<string | null>(null);
   const [justPosted, setJustPosted] = useState(false);
@@ -32,6 +38,11 @@ function usePresetPost(roadId: number, onUpdated?: (detail: RoadDetail) => void)
 
   async function post(preset: Preset) {
     if (postingKey) return;
+    if (member === undefined) return; // session still resolving — ignore tap
+    if (member === null) {
+      onLoginRequired?.();
+      return;
+    }
     setPostingKey(preset.key);
     setFailed(false);
     try {
@@ -45,6 +56,10 @@ function usePresetPost(roadId: number, onUpdated?: (detail: RoadDetail) => void)
           reporter_name: member?.name || '',
         }),
       });
+      if (res.status === 401) {
+        onLoginRequired?.();
+        return;
+      }
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error('failed');
       if (data && typeof data === 'object' && 'updates' in data) {
@@ -104,12 +119,14 @@ export function QuickChips({
   roadId,
   kind,
   onUpdated,
+  onLoginRequired,
 }: {
   roadId: number;
   kind: RoadKind;
   onUpdated?: (detail: RoadDetail) => void;
+  onLoginRequired?: () => void;
 }) {
-  const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated);
+  const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated, onLoginRequired);
   const presets = kind === 'spot' ? QUICK_CHIPS_SPOT : QUICK_CHIPS_ROAD;
   return (
     <div onClick={(e) => e.preventDefault()}>
@@ -134,11 +151,13 @@ export function QuickChips({
 export function QuickPresetPanel({
   roadId,
   onUpdated,
+  onLoginRequired,
 }: {
   roadId: number;
   onUpdated?: (detail: RoadDetail) => void;
+  onLoginRequired?: () => void;
 }) {
-  const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated);
+  const { post, postingKey, justPosted, failed } = usePresetPost(roadId, onUpdated, onLoginRequired);
   return (
     <div className="space-y-3">
       {PRESET_GROUPS.map((g) => (

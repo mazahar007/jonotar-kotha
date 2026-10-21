@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Report } from '@/lib/types';
 import { IconClock, IconEye, IconPin } from './icons';
+import LikeButton from './LikeButton';
 import StatusBadge from './StatusBadge';
 import VerifyButton from './VerifyButton';
 
@@ -82,9 +83,12 @@ export default function ReportCard({ report }: { report: Report }) {
             {breadcrumb.join(', ')}
           </p>
         )}
-        {/* Phase 7 — verify votes + link to detail/comments */}
+        {/* Phase 7 — verify votes + link to detail/comments; Phase 15 — like */}
         <div className="mt-3 flex items-center justify-between gap-2 border-t border-stone-100 pt-3">
-          <VerifyButton reportId={report.id} variant="compact" />
+          <div className="flex items-center gap-2">
+            <VerifyButton reportId={report.id} variant="compact" />
+            <LikeButton targetType="report" targetId={report.id} />
+          </div>
           <Link
             href={`/reports/${report.id}`}
             className="flex min-h-[44px] items-center text-sm font-bold text-brand"

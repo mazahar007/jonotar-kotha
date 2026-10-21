@@ -47,13 +47,22 @@ export async function middleware(req: NextRequest) {
     // the anti-spam interval and one-vote-per-voter rules.
     const isCommentPost = /^\/api\/reports\/\d+\/comments$/.test(pathname);
     const isVerifyPost = /^\/api\/reports\/\d+\/verify$/.test(pathname);
-    // Phase 4 — posting a road update ("লাইভ আপডেট দিন") is a public citizen write.
+    // Phase 4 — posting a road update ("লাইভ আপডেট দিন") goes through the
+    // middleware as a public POST; Phase 14 gates it in the handler (member
+    // session required → 401 when logged out).
     const isRoadUpdate = /^\/api\/roads\/\d+\/updates$/.test(pathname);
+    // Phase 14 — "⚡ এক ট্যাপে জানান" one-tap quick post is a member-session
+    // write; the handler itself returns 401 when there is no session.
+    const isQuickPost = req.method === 'POST' && pathname === '/api/roads/quick-post';
     // Phase 6 — live location share create + owner ping/stop are public writes
     // (ping/stop are secured by the owner_token inside the handlers).
     const isLiveShareWrite =
       pathname === '/api/live-shares' ||
       /^\/api\/live-shares\/[^/]+\/(ping|stop)$/.test(pathname);
+    // Phase 13 — member OTP auth endpoints enforce their own rules in the handler
+    // (registration + login OTP are intentionally public; verify_phone and
+    // add-phone require a logged-in member session inside the handler).
+    const isMemberAuth = pathname.startsWith('/api/member-auth/');
     const publicPost =
       req.method === 'POST' &&
       (pathname === '/api/reports' ||
@@ -61,6 +70,7 @@ export async function middleware(req: NextRequest) {
         pathname === '/api/area-ratings' ||
         pathname === '/api/upload' ||
         isRoadUpdate ||
+        isQuickPost ||
         isLiveShareWrite ||
         isCommentPost ||
         isVerifyPost ||
@@ -70,12 +80,18 @@ export async function middleware(req: NextRequest) {
         pathname === '/api/members/register' ||
         pathname === '/api/members/login' ||
         pathname === '/api/members/logout' ||
+        isMemberAuth ||
         isVote);
     // Phase 11 — DELETE on contacts is also a member-session write.
     const contactDelete = req.method === 'DELETE' && isContactPath;
+    // Phase 15 — likes toggle + star ratings are member-session writes;
+    // the handlers themselves return 401 when there is no member session.
+    const isLikeToggle = req.method === 'POST' && pathname === '/api/likes/toggle';
+    const isRatingWrite = req.method === 'POST' && pathname === '/api/ratings';
     // Member self-update enforces the member session inside the handler.
     const memberPatch = req.method === 'PATCH' && pathname === '/api/members/me';
-    if (req.method === 'GET' || publicPost || memberPatch || contactDelete) return NextResponse.next();
+    if (req.method === 'GET' || publicPost || memberPatch || contactDelete || isLikeToggle || isRatingWrite)
+      return NextResponse.next();
     const ok = await verifySession(req.cookies.get(SESSION_COOKIE)?.value);
     if (ok) return NextResponse.next();
     return Response.json({ error: 'অনুমতি নেই — অ্যাডমিন লগইন করুন' }, { status: 401 });

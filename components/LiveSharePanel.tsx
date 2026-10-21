@@ -242,7 +242,7 @@ export default function LiveSharePanel() {
   useEffect(() => {
     if (member) {
       setName((v) => v || member.name);
-      setPhone((v) => v || member.phone);
+      setPhone((v) => v || member.phone || '');
     }
   }, [member]);
 

@@ -3,11 +3,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import MemberOtpLogin from '@/components/MemberOtpLogin';
+import PhoneVerify from '@/components/PhoneVerify';
+import ProfilePoints from '@/components/ProfilePoints';
 import PushSubscribeToggle from '@/components/PushSubscribeToggle';
 import TrustedContacts from '@/components/TrustedContacts';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import { IconCheck, IconChevronRight, IconLock, IconPin, IconShield, IconUser, IconUsers } from '@/components/icons';
-import { loginMember, logoutMember, updateMe, useMember } from '@/lib/member';
+import { logoutMember, updateMe, useMember } from '@/lib/member';
 
 import { InstallAppButton } from '@/components/PwaClient';
 
@@ -17,10 +20,6 @@ export default function ProfilePage() {
   const [newCurrent, setNewCurrent] = useState<LocationSelection>(EMPTY_LOCATION);
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
-
-  const [loginPhone, setLoginPhone] = useState('');
-  const [loginBusy, setLoginBusy] = useState(false);
-  const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
     if (member) setNewCurrent(member.current);
@@ -56,19 +55,6 @@ export default function ProfilePage() {
     setMember(null);
   }
 
-  async function doLogin() {
-    setLoginError('');
-    setLoginBusy(true);
-    try {
-      const m = await loginMember(loginPhone.trim());
-      setMember(m);
-    } catch (e) {
-      setLoginError(e instanceof Error ? e.message : 'প্রবেশ করা যায়নি');
-    } finally {
-      setLoginBusy(false);
-    }
-  }
-
   return (
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
@@ -82,8 +68,19 @@ export default function ProfilePage() {
               </span>
               <div className="min-w-0">
                 <h1 className="truncate text-lg font-bold text-ink">{member.name}</h1>
-                <p className="text-sm text-ink-soft">{member.phone}</p>
+                {member.phone && <p className="text-sm text-ink-soft">{member.phone}</p>}
+                {member.email && <p className="text-sm text-ink-soft">{member.email}</p>}
                 <p className="mt-0.5 text-xs font-semibold text-emerald-700">নিবন্ধিত সদস্য</p>
+                {/* Phase 13 — verification status chip */}
+                {member.account_status === 'verified' ? (
+                  <span className="mt-1.5 inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+                    ✅ ভেরিফাইড
+                  </span>
+                ) : (
+                  <span className="mt-1.5 inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
+                    ⏳ আনভেরিফাইড — ফোন যাচাই করুন
+                  </span>
+                )}
               </div>
             </div>
 
@@ -129,6 +126,9 @@ export default function ProfilePage() {
               )}
               {msg && <p className="mt-3 text-sm font-semibold text-emerald-700">{msg}</p>}
 
+              {/* Phase 13 — phone verification / add-phone for email-only accounts */}
+              <PhoneVerify member={member} onVerified={(m) => setMember(m)} />
+
               <button
                 onClick={toggleVisible}
                 className="mt-4 flex w-full items-center gap-3 rounded-2xl bg-cream p-4 text-left"
@@ -163,6 +163,9 @@ export default function ProfilePage() {
           <PushSubscribeToggle memberId={member?.id ?? null} />
         </div>
 
+        {/* Phase 15 — পয়েন্ট, ব্যাজ, অর্জিত/কাটা তালিকা, লিডারবোর্ড টগল */}
+        {member && <ProfilePoints member={member} onMemberChange={setMember} />}
+
         <div className="mt-3">
           <InstallAppButton />
         </div>
@@ -185,24 +188,10 @@ export default function ProfilePage() {
 
               <div className="rounded-2xl bg-white p-4 shadow-sm">
                 <span className="block text-sm font-bold text-ink">আগে থেকে নিবন্ধিত?</span>
-                <span className="block text-xs text-ink-soft">মোবাইল নম্বর দিয়ে প্রবেশ করুন</span>
-                <div className="mt-2.5 flex gap-2">
-                  <input
-                    value={loginPhone}
-                    onChange={(e) => setLoginPhone(e.target.value)}
-                    placeholder="01XXXXXXXXX"
-                    inputMode="tel"
-                    className="min-w-0 flex-1 rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
-                  />
-                  <button
-                    onClick={doLogin}
-                    disabled={loginBusy}
-                    className="shrink-0 rounded-xl bg-ink px-4 text-sm font-bold text-white disabled:opacity-50"
-                  >
-                    প্রবেশ
-                  </button>
+                <span className="block text-xs text-ink-soft">মোবাইল নম্বর বা ইমেইলে পাঠানো কোড দিয়ে প্রবেশ করুন</span>
+                <div className="mt-2.5">
+                  <MemberOtpLogin />
                 </div>
-                {loginError && <p className="mt-2 text-xs font-semibold text-brand">{loginError}</p>}
               </div>
             </>
           )}

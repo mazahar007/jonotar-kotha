@@ -15,7 +15,7 @@ export default function RoadsPage() {
           as="h1"
           icon={<IconRoute className="h-6 w-6" />}
           tileClassName="bg-orange-100 text-orange-700"
-          title="রোড ও গুরুত্বপূর্ণ স্থান"
+          title="রোড ও মোড়ের অবস্থা"
           subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
         />
         <p className="mb-5 mt-3 text-sm text-ink-soft">

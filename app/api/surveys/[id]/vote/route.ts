@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { err, ok } from '@/lib/api';
 import { getSessionMemberRow } from '@/lib/member-session';
+import { award } from '@/lib/points';
 import {
   addResponseRow,
   getSurveyRow,
@@ -31,6 +32,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (result.reason === 'already') return err('আপনি আগেই ভোট দিয়েছেন', 409);
     return err('সঠিক অপশন বেছে নিন');
   }
+  // Phase 15: জরিপে ভোটে +১ (প্রতি জরিপে একবারই — লেজার-চেক)।
+  const bonus = await award(memberRow.id, 'survey_vote', {
+    refType: 'survey_vote',
+    refId: `survey:${survey.id}`,
+  });
   const maps = await locationNameMaps();
-  return ok(await surveyWithState(survey, member, maps), 201);
+  const state = await surveyWithState(survey, member, maps);
+  return ok({ ...state, newBadges: bonus.newBadges }, 201);
 }

@@ -3,7 +3,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import MediaPicker, { type MediaItem } from '@/components/MediaPicker';
 import { QuickPresetPanel } from '@/components/QuickChips';
+import LoginPromptModal from '@/components/LoginPromptModal';
 import RoadStatusBadge, { ROAD_STATUS_DOT } from '@/components/RoadStatusBadge';
+import StarRating from '@/components/StarRating';
+import { announceBadges } from '@/lib/badges-client';
 import { IconClock, IconPin, IconRoute, IconSend } from '@/components/icons';
 import { useMember } from '@/lib/member';
 import { bnNum } from '@/lib/time';
@@ -24,6 +27,7 @@ export default function RoadDetail({ id }: { id: number }) {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [posted, setPosted] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -59,6 +63,11 @@ export default function RoadDetail({ id }: { id: number }) {
   }
 
   async function submit() {
+    if (member === null) {
+      // Phase 14: logged-out members get the login prompt, not a failed post.
+      setShowLogin(true);
+      return;
+    }
     if (!note.trim()) {
       setError('আপডেটের বিবরণ লিখুন।');
       return;
@@ -78,8 +87,13 @@ export default function RoadDetail({ id }: { id: number }) {
           reporter_name: reporter.trim() || member?.name || '',
         }),
       });
+      if (res.status === 401) {
+        setShowLogin(true);
+        return;
+      }
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.error || 'পাঠানো যায়নি');
+      announceBadges(data?.newBadges);
       if (data && typeof data === 'object' && 'updates' in data) setRoad(data as RoadDetailData);
       else await load();
       setNote('');
@@ -164,7 +178,11 @@ export default function RoadDetail({ id }: { id: number }) {
             <p className="mb-2 text-sm font-bold text-ink">
               এক ট্যাপে জানান <span className="font-semibold text-ink-soft">(ট্যাপ করলেই আপডেট হয়ে যাবে)</span>
             </p>
-            <QuickPresetPanel roadId={road.id} onUpdated={(d) => setRoad(d)} />
+            <QuickPresetPanel
+              roadId={road.id}
+              onUpdated={(d) => setRoad(d)}
+              onLoginRequired={() => setShowLogin(true)}
+            />
           </div>
 
           <div className="mt-4 space-y-4">
@@ -231,6 +249,11 @@ export default function RoadDetail({ id }: { id: number }) {
             </button>
           </div>
         </section>
+
+        <LoginPromptModal open={showLogin} onClose={() => setShowLogin(false)} />
+
+        {/* Phase 15 — স্টার রেটিং: রোড/মোড়ের তথ্য কতটা সঠিক */}
+        <StarRating targetType={isSpot ? 'spot' : 'road'} targetId={road.id} />
 
         {/* Live timeline */}
         <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">

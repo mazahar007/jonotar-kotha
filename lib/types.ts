@@ -225,7 +225,14 @@ export interface LocationIds {
 export interface Member {
   id: number;
   name: string;
-  phone: string;
+  phone: string | null;
+  email: string | null;
+  phone_verified: boolean;
+  email_verified: boolean;
+  account_status: 'verified' | 'unverified';
+  points: number;
+  badges: string[];
+  show_on_leaderboard: boolean;
   home: LocationIds;
   current: LocationIds;
   is_visible: boolean;
