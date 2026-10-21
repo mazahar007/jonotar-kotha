@@ -357,11 +357,16 @@ export interface RoadUpdate {
   id: number;
   road_id: number;
   status: RoadStatus;
+  /** Phase 18 — up to 3 statuses per update (multi-select on /roads/submit).
+   *  `status` stays as the first/primary for backward compatibility. */
+  statuses: RoadStatus[];
   note: string;
   media_url: string | null;
   reporter_name: string | null;
   /** Phase 5 — set when the update came from a one-tap preset chip. */
   preset_key: string | null;
+  /** Phase 18 — member who posted (nullable for legacy rows). */
+  member_id: number | null;
   created_at: string;
   time_ago: string;
 }
@@ -383,6 +388,8 @@ export interface Road {
   created_at: string;
   /** Latest update's status; null when the road has no updates yet. */
   current_status: RoadStatus | null;
+  /** Phase 18 — latest update's statuses (up to 3). `current_status` is the first. */
+  current_statuses: RoadStatus[];
   latest_update: RoadUpdate | null;
   update_count: number;
   // Names resolved server-side for the breadcrumb (union, upazila, district)
@@ -393,6 +400,16 @@ export interface Road {
 
 export interface RoadDetail extends Road {
   updates: RoadUpdate[];
+}
+
+/* ---------- Status requests (Phase 18) — "🔔 বর্তমান অবস্থা জানতে চাই" ---------- */
+
+export interface StatusRequest {
+  id: number;
+  road_id: number;
+  requester_member_id: number;
+  created_at: string;
+  resolved_at: string | null;
 }
 
 export const STATUS_LABEL: Record<ReportStatus, string> = {

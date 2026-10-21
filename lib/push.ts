@@ -34,6 +34,8 @@ export interface NotificationRow {
   body: string;
   url: string | null;
   kind: string;
+  /** Phase 18 — targeted recipient (null = global, visible to everyone). */
+  member_id: number | null;
   created_at: string;
 }
 
@@ -53,6 +55,7 @@ const seedNotifications: NotificationRow[] = [
     body: 'ময়মনসিংহ সদরের রাস্তার অবস্থা নিয়ে জরিপ চলছে — আপনার মতামত দিন।',
     url: '/surveys',
     kind: 'info',
+    member_id: null,
     created_at: ago(5 * HOUR),
   },
   {
@@ -61,6 +64,7 @@ const seedNotifications: NotificationRow[] = [
     body: 'জরুরি খবর, রোড আপডেট আর জরিপের নোটিফিকেশন এখানে দেখতে পাবেন। প্রোফাইল থেকে পুশ নোটিফিকেশন চালু করুন।',
     url: '/profile',
     kind: 'welcome',
+    member_id: null,
     created_at: ago(26 * HOUR),
   },
 ];
@@ -188,19 +192,22 @@ export async function createNotification(input: {
   body: string;
   url?: string | null;
   kind?: string;
+  /** Phase 18 — target a single member (null = global notification). */
+  member_id?: number | null;
 }): Promise<Notification> {
   const row = {
     title: input.title,
     body: input.body,
     url: input.url ?? null,
     kind: input.kind ?? 'info',
+    member_id: input.member_id ?? null,
     created_at: new Date().toISOString(),
   };
   const supa = getSupabase();
   if (supa) {
     try {
-      const { data, error } = await supa.from('notifications').insert(row).select().single();
-      if (!error && data) return toNotification(data as NotificationRow);
+      const inserted = await insertNotificationRow(supa, row);
+      if (inserted) return toNotification(inserted as unknown as NotificationRow);
     } catch {
       /* fall through to demo */
     }
@@ -211,21 +218,70 @@ export async function createNotification(input: {
   return toNotification(demoRow);
 }
 
-export async function getNotifications(limit = 30): Promise<Notification[]> {
+/**
+ * Insert a notification row. Phase 18 adds `member_id`; if the Supabase
+ * schema hasn't been migrated yet, retry without it so the notification
+ * still persists instead of falling back to the in-memory demo store.
+ */
+async function insertNotificationRow(
+  supa: NonNullable<ReturnType<typeof getSupabase>>,
+  row: Record<string, unknown>
+): Promise<Record<string, unknown> | null> {
+  const attempt = async (r: Record<string, unknown>) => {
+    const { data, error } = await supa.from('notifications').insert(r).select().single();
+    if (error) throw error;
+    return data as Record<string, unknown>;
+  };
+  try {
+    return await attempt(row);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    if (/member_id/.test(msg) && /column|does not exist/i.test(msg)) {
+      const { member_id: _m, ...legacy } = row;
+      try {
+        return await attempt(legacy);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+}
+
+export async function getNotifications(
+  limit = 30,
+  /** Phase 18 — when set, include notifications targeted to this member. */
+  memberId?: number | null
+): Promise<Notification[]> {
   const supa = getSupabase();
   if (supa) {
     try {
-      const { data, error } = await supa
-        .from('notifications')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(limit);
+      let q = supa.from('notifications').select('*').order('created_at', { ascending: false }).limit(limit);
+      if (memberId != null) {
+        // Global (member_id null) + own. Pre-v18 schemas lack the column —
+        // the query fails and we fall through to the demo store.
+        q = q.or(`member_id.is.null,member_id.eq.${memberId}`);
+      } else {
+        q = q.is('member_id', null);
+      }
+      const { data, error } = await q;
       if (!error && data) return (data as NotificationRow[]).map(toNotification);
+      // Pre-v18 fallback: plain global feed.
+      if (memberId != null) {
+        const retry = await supa
+          .from('notifications')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(limit);
+        if (!retry.error && retry.data)
+          return (retry.data as NotificationRow[]).map(toNotification);
+      }
     } catch {
       /* fall through to demo */
     }
   }
   return [...pushDemoDb().notifications]
+    .filter((n) => n.member_id == null || n.member_id === memberId)
     .sort((a, b) => b.created_at.localeCompare(a.created_at))
     .slice(0, limit)
     .map(toNotification);

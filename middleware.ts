@@ -57,6 +57,9 @@ export async function middleware(req: NextRequest) {
     // Phase 17 — "অবস্থা জানান" submit page (member-session write;
     // the handler itself returns 401 when there is no session).
     const isRoadSubmit = req.method === 'POST' && pathname === '/api/roads/submit';
+    // Phase 18 — "🔔 বর্তমান অবস্থা জানতে চাই" status request
+    // (member-session write; the handler returns 401 when logged out).
+    const isStatusRequest = /^\/api\/roads\/\d+\/request$/.test(pathname);
     // Phase 6 — live location share create + owner ping/stop are public writes
     // (ping/stop are secured by the owner_token inside the handlers).
     const isLiveShareWrite =
@@ -75,6 +78,7 @@ export async function middleware(req: NextRequest) {
         isRoadUpdate ||
         isQuickPost ||
         isRoadSubmit ||
+        isStatusRequest ||
         isLiveShareWrite ||
         isCommentPost ||
         isVerifyPost ||

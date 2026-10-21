@@ -6,6 +6,7 @@ import { QuickPresetPanel } from '@/components/QuickChips';
 import LoginPromptModal from '@/components/LoginPromptModal';
 import RoadStatusBadge, { ROAD_STATUS_DOT } from '@/components/RoadStatusBadge';
 import StarRating from '@/components/StarRating';
+import StatusRequestButton from '@/components/StatusRequestButton';
 import { announceBadges } from '@/lib/badges-client';
 import { IconClock, IconPin, IconRoute, IconSend } from '@/components/icons';
 import { useMember } from '@/lib/member';
@@ -165,6 +166,10 @@ export default function RoadDetail({ id }: { id: number }) {
               ? `সর্বশেষ আপডেট: ${road.latest_update.time_ago} · মোট ${bnNum(road.update_count)}টি আপডেট`
               : 'এখনো কোনো আপডেট আসেনি'}
           </p>
+          {/* Phase 18 — "বর্তমান অবস্থা জানতে চাই" (pending count shown subtly) */}
+          <div className="mt-4 max-w-sm">
+            <StatusRequestButton roadId={road.id} showPendingCount />
+          </div>
         </section>
 
         {/* Post an update */}
@@ -296,7 +301,10 @@ export default function RoadDetail({ id }: { id: number }) {
                       <img src={u.media_url} alt="আপডেটের ছবি" className="mt-2 max-h-56 w-full rounded-xl object-cover" loading="lazy" />
                     ))}
                   <p className="mt-1 text-xs text-ink-soft">
-                    — {u.reporter_name || 'বেনামী'} · {ROAD_STATUS_LABEL[u.status]}
+                    — {u.reporter_name || 'বেনামী'} ·{' '}
+                    {(u.statuses?.length ? u.statuses : [u.status])
+                      .map((s) => ROAD_STATUS_LABEL[s])
+                      .join(' · ')}
                     {u.preset_key ? ' · এক-ট্যাপ আপডেট' : ''}
                   </p>
                 </li>

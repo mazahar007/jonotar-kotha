@@ -3,7 +3,8 @@ import { err, ok } from '@/lib/api';
 import { createRoadUpdate, getRoadDetail } from '@/lib/roads-store';
 import { getSessionMember } from '@/lib/member-session';
 import { award } from '@/lib/points';
-import { ROAD_STATUSES, type RoadStatus } from '@/lib/types';
+import { resolveAndNotifyRequesters } from '@/lib/status-requests';
+import { ROAD_STATUS_LABEL, ROAD_STATUSES, type RoadStatus } from '@/lib/types';
 
 /**
  * POST /api/roads/[id]/updates — "লাইভ আপডেট দিন".
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     media_url: body.media_url ? String(body.media_url) : null,
     reporter_name: reporter || member.name || 'বেনামী',
     preset_key: presetKey,
+    member_id: member.id,
   });
   if (!update) return err('রোড পাওয়া যায়নি', 404);
   // Phase 15: রোড আপডেটে +১ পয়েন্ট।
@@ -38,7 +40,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     refType: 'road_update',
     refId: `update:${update.id}`,
   });
+  // Phase 18: pending "জানতে চাই" requests resolved + requesters notified.
+  const notified = await resolveAndNotifyRequesters(roadId, ROAD_STATUS_LABEL[status]);
   // Return the refreshed detail so the client updates status + timeline at once.
   const detail = await getRoadDetail(roadId);
-  return ok({ ...detail, newBadges: bonus.newBadges }, 201);
+  return ok({ ...detail, newBadges: bonus.newBadges, notified }, 201);
 }

@@ -5,6 +5,8 @@ import { award, touchActivity } from '@/lib/points';
 import { createRoad, createRoadUpdate, getRoadDetail, getRoadRows } from '@/lib/roads-store';
 import { breadcrumb, locationNameMaps } from '@/lib/members-store';
 import { presetByKey } from '@/lib/presets';
+import { resolveAndNotifyRequesters } from '@/lib/status-requests';
+import { ROAD_STATUS_LABEL } from '@/lib/types';
 import type { LocationIds, Member } from '@/lib/types';
 
 const AREA_KEYS = ['division_id', 'district_id', 'upazila_id', 'thana_id', 'union_id'] as const;
@@ -122,7 +124,10 @@ export async function POST(req: NextRequest) {
     media_url: null,
     reporter_name: member.name || 'বেনামী',
     preset_key: preset.key,
+    member_id: member.id,
   });
+  // Phase 18: pending "জানতে চাই" requests resolved + requesters notified.
+  const notified = await resolveAndNotifyRequesters(road.id, ROAD_STATUS_LABEL[preset.status]);
   // Phase 15: এক-ট্যাপ পোস্টে +১ পয়েন্ট (ডাবল-ট্যাপ ডুপ্লিকেটে নয় — ওপরে
   // duplicate=true রিটার্নে আগেই ফেরত গেছে)।
   const newDetail = await getRoadDetail(road.id);
@@ -131,5 +136,5 @@ export async function POST(req: NextRequest) {
     updateId != null
       ? await award(member.id, 'road_update', { refType: 'road_update', refId: `update:${updateId}` })
       : { newBadges: [] as string[] };
-  return ok({ duplicate: false, detail: newDetail, newBadges: bonus.newBadges }, 201);
+  return ok({ duplicate: false, detail: newDetail, newBadges: bonus.newBadges, notified }, 201);
 }

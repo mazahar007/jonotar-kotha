@@ -57,7 +57,8 @@ function SubmitForm() {
   const [placeId, setPlaceId] = useState<string>('new');
   const [newName, setNewName] = useState('');
   const [newKind, setNewKind] = useState<RoadKind>('road');
-  const [status, setStatus] = useState<RoadStatus | null>(null);
+  /** Phase 18 — multi-select, max 3. */
+  const [statuses, setStatuses] = useState<RoadStatus[]>([]);
   const [note, setNote] = useState('');
   const [media, setMedia] = useState<MediaItem[]>([]);
   const [sending, setSending] = useState(false);
@@ -88,7 +89,7 @@ function SubmitForm() {
   useEffect(() => {
     if (!prefillPreset) return;
     const p = presetByKey(prefillPreset);
-    if (p) setStatus((s) => s ?? p.status);
+    if (p) setStatuses((s) => (s.includes(p.status) ? s : [...s, p.status].slice(0, 3)));
   }, [prefillPreset]);
 
   // Road prefill (from card one-tap login redirect).
@@ -119,13 +120,18 @@ function SubmitForm() {
     [places, placeId]
   );
 
+  /** Phase 18 — toggle a preset; max 3 selected. */
   function pickPreset(p: Preset) {
-    setStatus(p.status);
+    setStatuses((prev) => {
+      if (prev.includes(p.status)) return prev.filter((s) => s !== p.status);
+      if (prev.length >= 3) return prev;
+      return [...prev, p.status];
+    });
   }
 
   async function submit() {
     setError('');
-    if (!status) return setError('অবস্থা বেছে নিন');
+    if (statuses.length === 0) return setError('কমপক্ষে ১টি অবস্থা বেছে নিন');
     const isNew = placeId === 'new';
     if (isNew && !newName.trim()) return setError('নতুন জায়গার নাম লিখুন');
     if (sending) return;
@@ -141,6 +147,9 @@ function SubmitForm() {
         if (Array.isArray(ud.urls) && ud.urls.length > 0) mediaUrl = ud.urls[0];
       }
       const preset = prefillPreset ? presetByKey(prefillPreset) : undefined;
+      const selectedLabels = statuses
+        .map((s) => ROAD_STATUS_META[s]?.label ?? s)
+        .join(' · ');
       const res = await fetch('/api/roads/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -149,10 +158,11 @@ function SubmitForm() {
           name: isNew ? newName.trim() : undefined,
           kind: isNew ? newKind : undefined,
           ...Object.fromEntries(AREA_KEYS.map((k) => [k, area[k]])),
-          status,
-          note: note.trim() || (preset && preset.status === status ? preset.label : ''),
+          status: statuses[0],
+          statuses,
+          note: note.trim() || selectedLabels,
           media_url: mediaUrl,
-          preset_key: preset && preset.status === status ? preset.key : null,
+          preset_key: preset && statuses.includes(preset.status) ? preset.key : null,
         }),
       });
       const data = await res.json().catch(() => ({}));
@@ -200,7 +210,7 @@ function SubmitForm() {
               type="button"
               onClick={() => {
                 setDoneId(null);
-                setStatus(null);
+                setStatuses([]);
                 setNote('');
                 setMedia([]);
                 setNewName('');
@@ -298,38 +308,59 @@ function SubmitForm() {
             <p className="mt-2 text-xs text-ink-soft">
               বর্তমান অবস্থা:{' '}
               <span className="font-bold text-ink">
-                {selectedPlace.current_status
-                  ? ROAD_STATUS_META[selectedPlace.current_status]?.label ?? selectedPlace.current_status
+                {selectedPlace.current_statuses.length > 0
+                  ? selectedPlace.current_statuses
+                      .map((s) => ROAD_STATUS_META[s]?.label ?? s)
+                      .join(' · ')
                   : 'এখনো কোনো আপডেট নেই'}
               </span>
             </p>
           )}
         </section>
 
-        {/* 3 — অবস্থা */}
+        {/* 3 — অবস্থা (Phase 18: multi-select, max 3) */}
         <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-          <h2 className="font-bold text-ink">৩. বর্তমান অবস্থা</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="font-bold text-ink">৩. বর্তমান অবস্থা</h2>
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-bold ${
+                statuses.length >= 3 ? 'bg-amber-100 text-amber-800' : 'bg-cream text-ink-soft'
+              }`}
+              aria-live="polite"
+            >
+              {statuses.length}/৩ সিলেক্ট
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-ink-soft">
+            সর্বোচ্চ ৩টি অবস্থা বেছে নেওয়া যাবে — একটা তুলে নিলে আবার অন্যটা বেছে নিতে পারবেন।
+          </p>
           <div className="mt-3 space-y-3">
             {PRESET_GROUPS.map((g) => (
               <div key={g.title}>
                 <p className="mb-1.5 text-xs font-bold text-ink-soft">{g.title}</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {g.presets.map((p) => {
-                    const active = status === p.status;
+                    const active = statuses.includes(p.status);
+                    const disabled = !active && statuses.length >= 3;
                     return (
                       <button
                         key={p.key}
                         type="button"
                         onClick={() => pickPreset(p)}
+                        disabled={disabled}
                         aria-pressed={active}
+                        aria-label={`${p.label}${disabled ? ' (সর্বোচ্চ ৩টি হয়ে গেছে)' : ''}`}
                         className={`flex min-h-13 flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-[13px] font-bold transition active:scale-[0.96] ${
                           active
                             ? 'border-brand bg-orange-50 ring-2 ring-brand/40'
-                            : 'border-[#efe3d3] bg-cream hover:bg-cream-dark'
+                            : disabled
+                              ? 'cursor-not-allowed border-[#efe3d3] bg-stone-100 opacity-40'
+                              : 'border-[#efe3d3] bg-cream hover:bg-cream-dark'
                         }`}
                       >
                         <span className={`h-2 w-2 rounded-full ${ROAD_STATUS_META[p.status].dot}`} aria-hidden />
                         {p.label}
+                        {active && <span className="text-[10px] text-brand">✓</span>}
                       </button>
                     );
                   })}

@@ -71,10 +71,14 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   }, [load, area]);
 
   const counts = useMemo(() => {
+    // Phase 18 — a road counts toward EVERY status in its current_statuses.
     const map = new Map<RoadStatus | 'none', number>();
     for (const r of items ?? []) {
-      const k = r.current_status ?? 'none';
-      map.set(k, (map.get(k) ?? 0) + 1);
+      if (r.current_statuses.length === 0) {
+        map.set('none', (map.get('none') ?? 0) + 1);
+      } else {
+        for (const s of r.current_statuses) map.set(s, (map.get(s) ?? 0) + 1);
+      }
     }
     return map;
   }, [items]);
@@ -82,8 +86,9 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   const visible = useMemo(() => {
     if (!items) return null;
     if (filter === null) return items;
-    if (filter === 'none') return items.filter((r) => !r.current_status);
-    return items.filter((r) => r.current_status === filter);
+    if (filter === 'none') return items.filter((r) => r.current_statuses.length === 0);
+    // Phase 18 — match if ANY of the road's current statuses matches.
+    return items.filter((r) => r.current_statuses.includes(filter));
   }, [items, filter]);
 
   // Liveliest first (latest update desc); slider shows the top 10.
@@ -170,7 +175,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
             items={display}
             keyOf={(r) => r.id}
             ariaLabel="রোড ও মোড়ের অবস্থা স্লাইডার"
-            renderCard={(r) => <RoadCard road={r} />}
+            renderCard={(r) => <RoadCard road={r} interactive={false} />}
           />
           <Link
             href="/roads"

@@ -3,7 +3,9 @@ import { err, ok } from '@/lib/api';
 import { getSessionMember } from '@/lib/member-session';
 import { award } from '@/lib/points';
 import { createRoad, createRoadUpdate, getRoadDetail, getRoadRows } from '@/lib/roads-store';
-import { ROAD_STATUSES, type RoadStatus } from '@/lib/types';
+import { validStatuses } from '@/lib/roads-store';
+import { resolveAndNotifyRequesters } from '@/lib/status-requests';
+import { ROAD_STATUS_LABEL, ROAD_STATUSES, type RoadStatus } from '@/lib/types';
 
 function numOrNull(v: unknown): number | null {
   if (v == null || v === '') return null;
@@ -13,19 +15,27 @@ function numOrNull(v: unknown): number | null {
 
 /**
  * POST /api/roads/submit — Phase 17 "অবস্থা জানান" submit page.
+ * Phase 18: accepts `statuses[]` (1–3, multi-select on the submit page).
  * A logged-in member posts a condition update; optionally creates the
  * place (road/spot) first. One award (+1 road_update) per successful post.
  *
  * Body: { road_id?, name?, kind?, division_id, district_id, upazila_id,
- *         thana_id, union_id, status, note?, media_url?, preset_key? }
+ *         thana_id, union_id, status?, statuses?, note?, media_url?, preset_key? }
  */
 export async function POST(req: NextRequest) {
   const member = await getSessionMember();
   if (!member) return err('পোস্ট করতে লগিন করুন', 401);
 
   const body = (await req.json().catch(() => ({}))) as Record<string, unknown>;
-  const status = String(body.status || '') as RoadStatus;
-  if (!ROAD_STATUSES.includes(status)) return err('সঠিক অবস্থা বেছে নিন');
+  // Phase 18 — multi-select (1–3). Legacy clients send a single `status`.
+  const rawList = (Array.isArray(body.statuses) ? body.statuses : [body.status])
+    .map((s) => String(s ?? ''))
+    .filter((s) => s !== '');
+  if (rawList.length === 0) return err('অবস্থা বেছে নিন');
+  if (rawList.length > 3) return err('সর্বোচ্চ ৩টি অবস্থা বেছে নেওয়া যাবে');
+  const statuses = validStatuses(rawList, rawList[0] as RoadStatus);
+  if (!(ROAD_STATUSES as string[]).includes(statuses[0])) return err('সঠিক অবস্থা বেছে নিন');
+  const status = statuses[0];
 
   const presetKey = body.preset_key ? String(body.preset_key).slice(0, 64) : null;
   const note = String(body.note || '').trim() || (presetKey ? presetLabelFallback(presetKey) : '');
@@ -56,10 +66,12 @@ export async function POST(req: NextRequest) {
 
   const update = await createRoadUpdate(roadId, {
     status,
+    statuses,
     note: note.slice(0, 500),
     media_url: body.media_url ? String(body.media_url).slice(0, 500) : null,
     reporter_name: member.name || 'বেনামী',
     preset_key: presetKey,
+    member_id: member.id,
   });
   if (!update) return err('পোস্ট করা যায়নি', 500);
 
@@ -69,8 +81,12 @@ export async function POST(req: NextRequest) {
     refId: `update:${update.id}`,
   });
 
+  // Phase 18: pending "জানতে চাই" requests resolved + requesters notified.
+  const statusLabels = statuses.map((s) => ROAD_STATUS_LABEL[s]).join(' · ');
+  const notified = await resolveAndNotifyRequesters(roadId, statusLabels);
+
   const detail = await getRoadDetail(roadId);
-  return ok({ roadId, detail, newBadges: bonus.newBadges }, 201);
+  return ok({ roadId, detail, newBadges: bonus.newBadges, notified }, 201);
 }
 
 function presetLabelFallback(key: string): string {

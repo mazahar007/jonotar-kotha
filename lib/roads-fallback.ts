@@ -33,11 +33,15 @@ export interface RoadUpdateRow {
   id: number;
   road_id: number;
   status: RoadStatus;
+  /** Phase 18 — up to 3 statuses; backfilled from `status` when absent. */
+  statuses?: RoadStatus[] | null;
   note: string;
   media_url: string | null;
   reporter_name: string | null;
   /** Phase 5 — preset key when posted via a one-tap chip; null for typed updates. */
   preset_key: string | null;
+  /** Phase 18 — posting member id (nullable for legacy rows). */
+  member_id?: number | null;
   created_at: string;
 }
 
@@ -71,23 +75,23 @@ export const seedRoadUpdates: RoadUpdateRow[] = [
   // গাঙ্গিনাপাড় মোড় – চরপাড়া রোড (current: যানজট)
   { id: 4, road_id: 2, status: 'traffic', note: 'সন্ধ্যায় প্রচণ্ড যানজট, সম্ভব হলে বিকল্প রাস্তা ব্যবহার করুন', media_url: null, reporter_name: 'রাকিবুল ইসলাম', preset_key: null, created_at: ago(3 * HOUR) },
   // ঢাকা–ময়মনসিংহ মহাসড়ক, শহর অংশ (current: ভালো)
-  { id: 5, road_id: 3, status: 'good', note: 'রাস্তা স্বাভাবিক, যান চলাচল মসৃণ', media_url: null, reporter_name: 'মোঃ তানভীর আহমেদ', preset_key: null, created_at: ago(1 * DAY) },
+  { id: 5, road_id: 3, status: 'good', note: 'রাস্তা স্বাভাবিক, যান চলাচল মসৃণ', media_url: null, reporter_name: 'মোঃ তানভীর আহমেদ', member_id: 5, preset_key: null, created_at: ago(1 * DAY) },
   // আকুয়া–কেওয়াটখালী রোড (current: জলাবদ্ধ)
-  { id: 6, road_id: 4, status: 'waterlogged', note: 'বৃষ্টির পানি জমে আছে, কিছু অংশে হাঁটু পানি', media_url: null, reporter_name: 'মোছাঃ শারমিন আক্তার', preset_key: null, created_at: ago(6 * HOUR) },
+  { id: 6, road_id: 4, status: 'waterlogged', note: 'বৃষ্টির পানি জমে আছে, কিছু অংশে হাঁটু পানি', media_url: null, reporter_name: 'মোছাঃ শারমিন আক্তার', member_id: 3, preset_key: null, created_at: ago(6 * HOUR) },
   // শম্ভুগঞ্জ রোড (current: মোটামুটি)
-  { id: 7, road_id: 5, status: 'fair', note: 'মোটামুটি ভালো, যান চলাচল কিছুটা ধীরগতি', media_url: null, reporter_name: 'মোঃ আরিফুল ইসলাম', preset_key: null, created_at: ago(2 * HOUR) },
+  { id: 7, road_id: 5, status: 'fair', note: 'মোটামুটি ভালো, যান চলাচল কিছুটা ধীরগতি', media_url: null, reporter_name: 'মোঃ আরিফুল ইসলাম', member_id: 1, preset_key: null, created_at: ago(2 * HOUR) },
   // ---- Phase 5 spot seeds (posted as one-tap presets) ----
-  // চরপাড়া মোড় (current: জ্যাম বেশি)
-  { id: 8, road_id: 6, status: 'traffic', note: 'চরপাড়া মোড়ে জ্যাম বেশি', media_url: null, reporter_name: 'সাব্বির হোসেন', preset_key: 'heavy_traffic', created_at: ago(35 * MIN) },
+  // চরপাড়া মোড় (Phase 18: multi-status — জ্যাম বেশি + ঝামেলা)
+  { id: 8, road_id: 6, status: 'traffic', statuses: ['traffic', 'incident'], note: 'চরপাড়া মোড়ে জ্যাম বেশি, ঝামেলাও চলছে', media_url: null, reporter_name: 'সাব্বির হোসেন', preset_key: 'heavy_traffic', created_at: ago(35 * MIN) },
   // নতুন বাজার (current: সব স্বাভাবিক)
   { id: 9, road_id: 7, status: 'good', note: 'সব স্বাভাবিক', media_url: null, reporter_name: 'রাকিবুল ইসলাম', preset_key: 'all_normal', created_at: ago(1 * HOUR) },
   // জিলা স্কুল মোড় (current: বিদ্যুৎ নাই)
   { id: 10, road_id: 8, status: 'power_out', note: 'এলাকায় এখন বিদ্যুৎ নাই', media_url: null, reporter_name: 'নুসরাত জাহান', preset_key: 'power_out', created_at: ago(20 * MIN) },
   // ব্রিজ মোড় (current: হালকা জ্যাম)
-  { id: 11, road_id: 9, status: 'traffic_light', note: 'হালকা জ্যাম', media_url: null, reporter_name: 'মোঃ আরিফুল ইসলাম', preset_key: 'light_traffic', created_at: ago(2 * HOUR) },
-  // গাঙ্গিনাপাড় মোড় — হালকা জ্যাম (৩ ঘণ্টা আগে) → ঝামেলা চলতেছে (current)
-  { id: 12, road_id: 10, status: 'traffic_light', note: 'হালকা জ্যাম', media_url: null, reporter_name: 'মোঃ তানভীর আহমেদ', preset_key: 'light_traffic', created_at: ago(3 * HOUR) },
-  { id: 13, road_id: 10, status: 'incident', note: 'ঝামেলা চলতেছে', media_url: null, reporter_name: 'মোছাঃ শারমিন আক্তার', preset_key: 'incident', created_at: ago(50 * MIN) },
+  { id: 11, road_id: 9, status: 'traffic_light', note: 'হালকা জ্যাম', media_url: null, reporter_name: 'মোঃ আরিফুল ইসলাম', member_id: 1, preset_key: 'light_traffic', created_at: ago(2 * HOUR) },
+  // গাঙ্গিনাপাড় মোড় — হালকা জ্যাম (৩ ঘণ্টা আগে) → ঝামেলা চলতেছে (Phase 18: multi-status current)
+  { id: 12, road_id: 10, status: 'traffic_light', note: 'হালকা জ্যাম', media_url: null, reporter_name: 'মোঃ তানভীর আহমেদ', member_id: 5, preset_key: 'light_traffic', created_at: ago(3 * HOUR) },
+  { id: 13, road_id: 10, status: 'incident', statuses: ['incident', 'traffic_light'], note: 'ঝামেলা চলতেছে, হালকা জ্যামও আছে', media_url: null, reporter_name: 'মোছাঃ শারমিন আক্তার', member_id: 3, preset_key: 'incident', created_at: ago(50 * MIN) },
   // টাউন হল মোড় (current: সব স্বাভাবিক)
   { id: 14, road_id: 11, status: 'good', note: 'সব স্বাভাবিক', media_url: null, reporter_name: 'মোঃ রফিকুল ইসলাম', preset_key: 'all_normal', created_at: ago(4 * HOUR) },
 ];

@@ -2,12 +2,14 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import type { Road, RoadDetail } from '@/lib/types';
+import type { Road, RoadDetail, RoadStatus } from '@/lib/types';
+import { ROAD_STATUS_META } from '@/lib/road-status';
 import { bnNum } from '@/lib/time';
 import { IconClock, IconPin, IconRoute } from './icons';
 import { QuickChips } from './QuickChips';
 import LoginPromptModal from './LoginPromptModal';
 import RoadStatusBadge from './RoadStatusBadge';
+import StatusRequestButton from './StatusRequestButton';
 import type { Preset } from '@/lib/presets';
 
 const VIDEO_EXT = ['.mp4', '.webm', '.mov', '.m4v'];
@@ -17,7 +19,33 @@ function isVideoUrl(url: string): boolean {
   return VIDEO_EXT.some((e) => clean.endsWith(e));
 }
 
-export default function RoadCard({ road: initial }: { road: Road }) {
+/** Phase 18 — static, non-tappable status badges (home slider: "শুধু দেখা যাবে"). */
+function PostedStatusBadges({ statuses }: { statuses: RoadStatus[] }) {
+  if (statuses.length === 0) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-1.5" aria-label="পোস্ট করা অবস্থা">
+      {statuses.slice(0, 3).map((s) => (
+        <span
+          key={s}
+          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${ROAD_STATUS_META[s].badge}`}
+        >
+          <span className={`h-1.5 w-1.5 rounded-full ${ROAD_STATUS_META[s].dot}`} aria-hidden />
+          {ROAD_STATUS_META[s].label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export default function RoadCard({
+  road: initial,
+  /** Phase 18 — false on the home slider: posted statuses show as
+   *  display-only badges (no QuickChips, no taps). True on /roads + detail. */
+  interactive = true,
+}: {
+  road: Road;
+  interactive?: boolean;
+}) {
   const [road, setRoad] = useState<Road>(initial);
   const [showLogin, setShowLogin] = useState(false);
   // Phase 17 — preset tapped while logged out → prefill /roads/submit.
@@ -95,16 +123,22 @@ export default function RoadCard({ road: initial }: { road: Road }) {
         </div>
       </Link>
 
-      <div className="p-4 pt-3">
-        <QuickChips
-          roadId={road.id}
-          kind={road.kind}
-          onUpdated={applyDetail}
-          onLoginRequired={(p) => {
-            setPendingPreset(p);
-            setShowLogin(true);
-          }}
-        />
+      <div className="space-y-2.5 p-4 pt-3" onClick={(e) => e.preventDefault()}>
+        {interactive ? (
+          <QuickChips
+            roadId={road.id}
+            kind={road.kind}
+            onUpdated={applyDetail}
+            onLoginRequired={(p) => {
+              setPendingPreset(p);
+              setShowLogin(true);
+            }}
+          />
+        ) : (
+          /* Phase 18 — home: display-only posted statuses, no taps. */
+          <PostedStatusBadges statuses={road.current_statuses} />
+        )}
+        <StatusRequestButton roadId={road.id} />
       </div>
       <LoginPromptModal
         open={showLogin}
