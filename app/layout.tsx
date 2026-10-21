@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Sidebar from '@/components/Sidebar';
 import BadgeToast from '@/components/BadgeToast';
 import { SwRegister } from '@/components/PwaClient';
 import './globals.css';
@@ -52,10 +51,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <SwRegister />
         <BadgeToast />
-        {/* Mobile (<lg): the original phone-width column, unchanged.
-            Desktop (lg+): sidebar + wide content column (max-w-7xl). */}
-        <div className="mx-auto flex min-h-dvh w-full max-w-md bg-cream shadow-[0_0_40px_rgba(0,0,0,0.06)] lg:max-w-none lg:shadow-none">
-          <Sidebar />
+        {/* Phase 21d — desktop sidebar removed; its nav moved into the
+            floating header pill. Mobile (<lg): the original phone-width
+            column, unchanged. Desktop (lg+): wide content column. */}
+        <div className="mx-auto min-h-dvh w-full max-w-md bg-cream shadow-[0_0_40px_rgba(0,0,0,0.06)] lg:max-w-none lg:shadow-none">
           <div className="mx-auto w-full min-w-0 max-w-md flex-1 lg:max-w-7xl">{children}</div>
         </div>
       </body>

@@ -16,7 +16,9 @@ export default async function HomePage() {
   ]);
   return (
     <>
-      <Header />
+      {/* Phase 21d — overlay header: fixed pill floating over the hero,
+          whose background spans the full viewport from the top edge. */}
+      <Header overlay />
       {/* Phase 20 — landing hero at the very top, then the broadcast banner (renders nothing when inactive), then the feed */}
       <Hero />
       <div className="pt-4">

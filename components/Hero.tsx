@@ -63,10 +63,11 @@ export default function Hero() {
               <span className="text-ink-soft">সেবা চালু আছে আপনার এলাকায়</span>
             </span>
 
-            {/* display headline */}
-            <h1 className="mt-6 text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+            {/* display headline — Phase 21d: 3 lines per user annotation */}
+            <h1 className="mt-6 text-5xl font-bold leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
               <span className="block text-ink">জনতার কথা</span>
-              <span className="text-gradient block">আপনার এলাকার ডিজিটাল প্ল্যাটফর্ম</span>
+              <span className="text-gradient block">আপনার এলাকার</span>
+              <span className="text-gradient block">ডিজিটাল প্ল্যাটফর্ম</span>
             </h1>
 
             {/* subtext */}
@@ -103,9 +104,11 @@ export default function Hero() {
               >
                 📝 রিপোর্ট করুন
               </Link>
+              {/* Phase 21d: solid RED SOS per user annotation (both themes) */}
               <Link
                 href="/sos"
-                className="btn-ghost group inline-flex min-h-14 items-center gap-x-2 rounded-2xl px-8 py-4 text-base font-semibold"
+                style={{ boxShadow: '0 18px 45px -10px rgba(220,38,38,0.7), 0 8px 24px -8px rgba(220,38,38,0.5)' }}
+                className="group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-500"
               >
                 🆘 জরুরি SOS
                 <svg
