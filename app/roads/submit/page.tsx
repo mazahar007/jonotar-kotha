@@ -17,7 +17,7 @@ import type { Road, RoadKind, RoadStatus } from '@/lib/types';
 
 const AREA_KEYS = ['division_id', 'district_id', 'upazila_id', 'thana_id', 'union_id'] as const;
 const inputCls =
-  'w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 function areaQuery(sel: LocationSelection): string {
   const p = new URLSearchParams();
@@ -193,8 +193,8 @@ function SubmitForm() {
   if (doneId !== null) {
     return (
       <main className="mx-auto w-full max-w-2xl px-4 py-10 text-center">
-        <div className="rounded-3xl bg-white p-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-3xl" aria-hidden>
+        <div className="rounded-3xl bg-surface border border-white/10 p-8 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500/10 text-3xl" aria-hidden>
             ✅
           </div>
           <h1 className="text-xl font-bold text-ink">পোস্ট হয়েছে!</h1>
@@ -202,7 +202,7 @@ function SubmitForm() {
           <div className="mt-6 space-y-2">
             <Link
               href={`/roads/${doneId}`}
-              className="flex min-h-13 items-center justify-center rounded-2xl bg-brand px-4 py-3.5 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
+              className="flex min-h-13 items-center justify-center rounded-2xl btn-gradient px-4 py-3.5 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
             >
               জায়গাটি দেখুন
             </Link>
@@ -236,16 +236,17 @@ function SubmitForm() {
         রোড ও মোড়ের অবস্থা
       </Link>
       <SectionHeader
+        gradient
         as="h1"
         icon={<IconRoute className="h-6 w-6" />}
-        tileClassName="bg-orange-100 text-orange-700"
+        tileClassName="bg-orange-500/15 text-orange-300"
         title="অবস্থা জানান"
         subtitle="কোন জায়গার কী অবস্থা — সবাইকে জানান"
       />
 
       <div className="mt-5 space-y-5">
         {/* 1 — এলাকা */}
-        <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">১. এলাকা</h2>
           <div className="mt-3">
             <LocationPicker value={area} onChange={(s) => { setArea(s); setPlaceId('new'); }} />
@@ -253,7 +254,7 @@ function SubmitForm() {
         </section>
 
         {/* 2 — জায়গা */}
-        <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">২. কোন জায়গার অবস্থা?</h2>
           <select
             value={placeId}
@@ -295,7 +296,7 @@ function SubmitForm() {
                     aria-checked={newKind === o.v}
                     onClick={() => setNewKind(o.v)}
                     className={`min-h-11 flex-1 rounded-full px-4 text-sm font-bold transition ${
-                      newKind === o.v ? 'bg-ink text-white' : 'bg-cream text-ink'
+                      newKind === o.v ? 'btn-gradient text-white' : 'bg-cream text-ink'
                     }`}
                   >
                     {o.label}
@@ -319,12 +320,12 @@ function SubmitForm() {
         </section>
 
         {/* 3 — অবস্থা (Phase 18: multi-select, max 3) */}
-        <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-ink">৩. বর্তমান অবস্থা</h2>
             <span
               className={`rounded-full px-3 py-1 text-xs font-bold ${
-                statuses.length >= 3 ? 'bg-amber-100 text-amber-800' : 'bg-cream text-ink-soft'
+                statuses.length >= 3 ? 'bg-amber-500/15 text-amber-300' : 'bg-cream text-ink-soft'
               }`}
               aria-live="polite"
             >
@@ -352,10 +353,10 @@ function SubmitForm() {
                         aria-label={`${p.label}${disabled ? ' (সর্বোচ্চ ৩টি হয়ে গেছে)' : ''}`}
                         className={`flex min-h-13 flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-[13px] font-bold transition active:scale-[0.96] ${
                           active
-                            ? 'border-brand bg-orange-50 ring-2 ring-brand/40'
+                            ? 'border-brand bg-orange-500/10 ring-2 ring-brand/40'
                             : disabled
-                              ? 'cursor-not-allowed border-[#efe3d3] bg-stone-100 opacity-40'
-                              : 'border-[#efe3d3] bg-cream hover:bg-cream-dark'
+                              ? 'cursor-not-allowed border-white/10 bg-white/5 opacity-40'
+                              : 'border-white/10 bg-cream hover:bg-cream-dark'
                         }`}
                       >
                         <span className={`h-2 w-2 rounded-full ${ROAD_STATUS_META[p.status].dot}`} aria-hidden />
@@ -371,7 +372,7 @@ function SubmitForm() {
         </section>
 
         {/* 4 — নোট + ছবি */}
-        <section className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">৪. নোট ও ছবি <span className="font-semibold text-ink-soft">(ঐচ্ছিক)</span></h2>
           <textarea
             value={note}
@@ -392,7 +393,7 @@ function SubmitForm() {
           type="button"
           onClick={submit}
           disabled={sending}
-          className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl bg-brand py-4 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
+          className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
         >
           <IconSend className="h-5 w-5" />
           {sending ? 'পোস্ট হচ্ছে...' : 'পোস্ট করুন'}

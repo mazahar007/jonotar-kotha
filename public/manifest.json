@@ -1,1 +1,25 @@
-{"background_color":"#fdf8f1","description":"নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং — ময়মনসিংহ","dir":"ltr","display":"standalone","icons":[{"sizes":"192x192","src":"/icons/icon-192.png","type":"image/png"},{"sizes":"512x512","src":"/icons/icon-512.png","type":"image/png"}],"lang":"bn","name":"জনতার কথা","orientation":"portrait","scope":"/","short_name":"জনতার কথা","start_url":"/","theme_color":"#fdf8f1"}
+{
+  "background_color": "#0A0E1A",
+  "description": "নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং — ময়মনসিংহ",
+  "dir": "ltr",
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "192x192",
+      "src": "/icons/icon-192.png",
+      "type": "image/png"
+    },
+    {
+      "sizes": "512x512",
+      "src": "/icons/icon-512.png",
+      "type": "image/png"
+    }
+  ],
+  "lang": "bn",
+  "name": "জনতার কথা",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "জনতার কথা",
+  "start_url": "/",
+  "theme_color": "#0A0E1A"
+}

@@ -62,7 +62,7 @@ export default function ProfilePage() {
           <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
         ) : member ? (
           <>
-            <div className="flex items-center gap-4 rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+            <div className="flex items-center gap-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
               <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-cream-dark text-2xl font-bold text-ink">
                 {member.name.charAt(0)}
               </span>
@@ -70,21 +70,21 @@ export default function ProfilePage() {
                 <h1 className="truncate text-lg font-bold text-ink">{member.name}</h1>
                 {member.phone && <p className="text-sm text-ink-soft">{member.phone}</p>}
                 {member.email && <p className="text-sm text-ink-soft">{member.email}</p>}
-                <p className="mt-0.5 text-xs font-semibold text-emerald-700">নিবন্ধিত সদস্য</p>
+                <p className="mt-0.5 text-xs font-semibold text-emerald-300">নিবন্ধিত সদস্য</p>
                 {/* Phase 13 — verification status chip */}
                 {member.account_status === 'verified' ? (
-                  <span className="mt-1.5 inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">
+                  <span className="mt-1.5 inline-block rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-300">
                     ✅ ভেরিফাইড
                   </span>
                 ) : (
-                  <span className="mt-1.5 inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-900">
+                  <span className="mt-1.5 inline-block rounded-full bg-amber-500/15 px-3 py-1 text-xs font-bold text-amber-300">
                     ⏳ আনভেরিফাইড — ফোন যাচাই করুন
                   </span>
                 )}
               </div>
             </div>
 
-            <div className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
+            <div className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
               <div className="space-y-2 text-sm">
                 <p className="flex gap-2">
                   <span className="w-28 shrink-0 font-bold text-ink-soft">নিজ এলাকা</span>
@@ -111,7 +111,7 @@ export default function ProfilePage() {
                     <button
                       onClick={saveArea}
                       disabled={saving}
-                      className="flex-1 rounded-2xl bg-brand py-3 text-sm font-bold text-white disabled:opacity-50"
+                      className="flex-1 rounded-2xl btn-gradient py-3 text-sm font-bold text-white disabled:opacity-50"
                     >
                       {saving ? 'সংরক্ষণ হচ্ছে...' : 'সংরক্ষণ করুন'}
                     </button>
@@ -124,7 +124,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
               )}
-              {msg && <p className="mt-3 text-sm font-semibold text-emerald-700">{msg}</p>}
+              {msg && <p className="mt-3 text-sm font-semibold text-emerald-300">{msg}</p>}
 
               {/* Phase 13 — phone verification / add-phone for email-only accounts */}
               <PhoneVerify member={member} onVerified={(m) => setMember(m)} />
@@ -134,7 +134,7 @@ export default function ProfilePage() {
                 className="mt-4 flex w-full items-center gap-3 rounded-2xl bg-cream p-4 text-left"
               >
                 <span
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${member.is_visible ? 'bg-emerald-500 text-white' : 'bg-white shadow-inner'}`}
+                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${member.is_visible ? 'bg-emerald-500 text-white' : 'bg-surface shadow-inner'}`}
                 >
                   {member.is_visible && <IconCheck className="h-4 w-4" />}
                 </span>
@@ -148,7 +148,7 @@ export default function ProfilePage() {
             </div>
           </>
         ) : (
-          <div className="flex items-center gap-4 rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+          <div className="flex items-center gap-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream-dark text-2xl font-bold text-ink">
               <IconUser className="h-8 w-8" />
             </span>
@@ -175,8 +175,8 @@ export default function ProfilePage() {
         <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {!member && (
             <>
-              <Link href="/register" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-100 text-sky-700">
+              <Link href="/register" className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500/15 text-sky-300">
                   <IconUsers className="h-6 w-6" />
                 </span>
                 <span className="flex-1">
@@ -186,7 +186,7 @@ export default function ProfilePage() {
                 <IconChevronRight className="h-5 w-5 text-ink-soft" />
               </Link>
 
-              <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
                 <span className="block text-sm font-bold text-ink">আগে থেকে নিবন্ধিত?</span>
                 <span className="block text-xs text-ink-soft">মোবাইল নম্বর বা ইমেইলে পাঠানো কোড দিয়ে প্রবেশ করুন</span>
                 <div className="mt-2.5">
@@ -196,8 +196,8 @@ export default function ProfilePage() {
             </>
           )}
 
-          <Link href="/amar-elaka" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+          <Link href="/amar-elaka" className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
               <IconPin className="h-6 w-6" />
             </span>
             <span className="flex-1">
@@ -207,8 +207,8 @@ export default function ProfilePage() {
             <IconChevronRight className="h-5 w-5 text-ink-soft" />
           </Link>
 
-          <Link href="/surveys" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+          <Link href="/surveys" className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-amber-500/15 text-amber-300">
               <IconCheck className="h-6 w-6" />
             </span>
             <span className="flex-1">
@@ -218,8 +218,8 @@ export default function ProfilePage() {
             <IconChevronRight className="h-5 w-5 text-ink-soft" />
           </Link>
 
-          <Link href="/locker" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-stone-200 text-ink">
+          <Link href="/locker" className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-ink">
               <IconLock className="h-6 w-6" />
             </span>
             <span className="flex-1">
@@ -229,8 +229,8 @@ export default function ProfilePage() {
             <IconChevronRight className="h-5 w-5 text-ink-soft" />
           </Link>
 
-          <Link href="/family" className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+          <Link href="/family" className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
               <IconShield className="h-6 w-6" />
             </span>
             <span className="flex-1">
@@ -241,7 +241,7 @@ export default function ProfilePage() {
           </Link>
 
           {member && (
-            <button onClick={doLogout} className="flex items-center gap-3 rounded-2xl bg-white p-4 text-left shadow-sm">
+            <button onClick={doLogout} className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 text-left shadow-sm">
               <span className="flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-brand">
                 <IconUser className="h-6 w-6" />
               </span>

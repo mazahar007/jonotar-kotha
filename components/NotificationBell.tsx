@@ -42,7 +42,7 @@ export default function NotificationBell() {
     <Link
       href="/notifications"
       aria-label="নোটিফিকেশন"
-      className="relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-ink shadow-sm"
+      className="relative flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink shadow-sm"
     >
       <IconBell className="h-5 w-5" />
       {unread > 0 && (

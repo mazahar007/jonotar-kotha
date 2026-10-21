@@ -24,6 +24,7 @@ export default async function ReportsPage() {
           হোমে ফিরুন
         </Link>
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconMegaphone className="h-6 w-6" />}
           tileClassName="bg-red-100 text-brand"

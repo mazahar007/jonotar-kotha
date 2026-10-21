@@ -13,25 +13,26 @@ export default async function FamilyPage() {
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconUsers className="h-6 w-6" />}
-          tileClassName="bg-amber-100 text-amber-700"
+          tileClassName="bg-amber-500/15 text-amber-300"
           title="পরিবার ট্র্যাকিং"
           subtitle="আপনার প্রিয়জনরা এখন কোথায়"
         />
 
-        <div className="mt-4 flex items-center gap-3 rounded-2xl bg-amber-50 p-4">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+        <div className="mt-4 flex items-center gap-3 rounded-2xl bg-amber-500/10 p-4">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/15 text-amber-300">
             <IconUsers className="h-5 w-5" />
           </span>
-          <p className="text-sm font-semibold text-amber-800">{mockFamilyNote}</p>
+          <p className="text-sm font-semibold text-amber-300">{mockFamilyNote}</p>
         </div>
 
         <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {members.map((m) => (
             <div
               key={m.id}
-              className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+              className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-cream-dark text-lg font-bold text-ink">
                 {m.name.charAt(0)}
@@ -52,7 +53,7 @@ export default async function FamilyPage() {
                   লাইভ
                 </span>
               ) : (
-                <span className="rounded-full bg-stone-100 px-2.5 py-1 text-xs font-semibold text-stone-600">
+                <span className="rounded-full bg-white/5 px-2.5 py-1 text-xs font-semibold text-ink-soft">
                   {m.status}
                 </span>
               )}

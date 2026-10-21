@@ -82,14 +82,14 @@ export default function VerifyButton({
           disabled={busy}
           aria-pressed={voted}
           className={`flex min-h-[44px] items-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors ${
-            voted ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+            voted ? 'bg-emerald-600 text-white' : 'bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/15'
           }`}
         >
           <IconCheck className="h-4 w-4" />
           {label}
         </button>
         {verified && (
-          <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800">
+          <span className="rounded-full bg-amber-500/15 px-2.5 py-1 text-xs font-bold text-amber-300">
             যাচাইকৃত
           </span>
         )}
@@ -98,7 +98,7 @@ export default function VerifyButton({
   }
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <button
         type="button"
         onClick={toggle}
@@ -107,7 +107,7 @@ export default function VerifyButton({
         className={`flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-base font-bold transition-colors ${
           voted
             ? 'bg-emerald-600 text-white'
-            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 active:bg-emerald-200'
+            : 'bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/15 active:bg-emerald-500/25'
         }`}
       >
         <IconCheck className="h-5 w-5" />
@@ -115,7 +115,7 @@ export default function VerifyButton({
       </button>
       <p className="mt-2 text-center text-sm text-ink-soft">
         <span className="font-bold text-ink">{label}</span> জন এই রিপোর্ট যাচাই করেছেন
-        {verified && <span className="ml-2 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-bold text-amber-800">যাচাইকৃত</span>}
+        {verified && <span className="ml-2 rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-bold text-amber-300">যাচাইকৃত</span>}
       </p>
     </div>
   );

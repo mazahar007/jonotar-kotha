@@ -131,7 +131,7 @@ export default function AdminBroadcasts() {
   return (
     <div className="space-y-4">
       {/* Create form */}
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-red-100 text-brand">
             <IconMegaphone className="h-6 w-6" />
@@ -151,7 +151,7 @@ export default function AdminBroadcasts() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="যেমন: ⚠️ বন্যা সতর্কতা — ময়মনসিংহ সদর"
-              className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
           </label>
           <label className="block">
@@ -161,7 +161,7 @@ export default function AdminBroadcasts() {
               onChange={(e) => setBody(e.target.value)}
               rows={3}
               placeholder="কী ঘটছে, কাদের জন্য, কী করতে হবে — সংক্ষেপে লিখুন"
-              className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
             />
           </label>
 
@@ -177,7 +177,7 @@ export default function AdminBroadcasts() {
             <select
               value={hours}
               onChange={(e) => setHours(Number(e.target.value))}
-              className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-3 text-sm outline-none focus:border-brand"
+              className="w-full rounded-xl border border-white/10 bg-cream px-3 py-3 text-sm outline-none focus:border-brand"
             >
               {EXPIRY_OPTIONS.map((o) => (
                 <option key={o.hours} value={o.hours}>
@@ -207,16 +207,16 @@ export default function AdminBroadcasts() {
         <button
           onClick={create}
           disabled={busy || !title.trim() || !body.trim()}
-          className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white disabled:opacity-50"
+          className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-3 text-sm font-bold text-white disabled:opacity-50"
         >
           <IconSend className="h-4 w-4" />
           {busy ? 'প্রকাশ হচ্ছে...' : 'প্রকাশ ও পাঠান'}
         </button>
 
         {result && (
-          <div className="mt-3 flex items-start gap-2 rounded-xl bg-emerald-50 p-3 text-sm">
-            <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-            <p className="text-emerald-800">
+          <div className="mt-3 flex items-start gap-2 rounded-xl bg-emerald-500/10 p-3 text-sm">
+            <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+            <p className="text-emerald-300">
               {result.delivered === 'push'
                 ? `প্রকাশ হয়েছে — ${bnNum(result.pushSent)}টি ডিভাইসে পুশ গেছে`
                 : 'প্রকাশ হয়েছে — সার্ভারে পুশ কী নেই, তাই সবার ইন-অ্যাপ নোটিফিকেশনে গেছে'}
@@ -233,7 +233,7 @@ export default function AdminBroadcasts() {
       </div>
 
       {/* Past broadcasts */}
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
         <p className="text-sm font-bold text-ink">পূর্বের ঘোষণা</p>
         {loading && <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
         {!loading && list.length === 0 && (
@@ -251,15 +251,15 @@ export default function AdminBroadcasts() {
                     <p className="mt-1.5 flex flex-wrap gap-1.5 text-[11px]">
                       <span
                         className={`rounded-full px-2 py-0.5 font-bold ${
-                          active ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-stone-600'
+                          active ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/10 text-ink-soft'
                         }`}
                       >
                         {active ? 'সক্রিয়' : 'মেয়াদ শেষ'}
                       </span>
-                      <span className="rounded-full bg-white px-2 py-0.5 font-semibold text-ink-soft">
+                      <span className="rounded-full bg-surface px-2 py-0.5 font-semibold text-ink-soft">
                         {scopeLabel(b)}
                       </span>
-                      <span className="rounded-full bg-white px-2 py-0.5 font-semibold text-ink-soft">
+                      <span className="rounded-full bg-surface px-2 py-0.5 font-semibold text-ink-soft">
                         মেয়াদ: {new Date(b.expires_at).toLocaleString('bn-BD')}
                       </span>
                     </p>

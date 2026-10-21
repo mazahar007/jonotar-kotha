@@ -12,7 +12,7 @@ import {
 } from '@/lib/types';
 
 const BANNER_CLASS: Record<LiveSharePurpose, string> = {
-  danger: 'bg-brand',
+  danger: 'bg-red-500',
   blood: 'bg-rose-600',
   help: 'bg-amber-500',
   general: 'bg-blue-600',
@@ -63,7 +63,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
   if (notFound) {
     return (
       <main className="px-4 py-10">
-        <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
+        <div className="rounded-3xl bg-surface border border-white/10 p-8 text-center shadow-sm">
           <p className="font-bold text-ink">শেয়ারটি পাওয়া যায়নি</p>
           <p className="mt-1 text-sm text-ink-soft">লিংকটি ভুল হতে পারে অথবা শেয়ারটি মুছে ফেলা হয়েছে।</p>
           <Link href="/" className="mt-4 inline-block font-bold text-brand">
@@ -109,13 +109,13 @@ export default function LiveShareViewer({ id }: { id: string }) {
             <p className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-white/90">
               <IconClock className="h-4 w-4" /> সর্বশেষ আপডেট: {updatedLabel(data.updated_at)}
               <span className="relative ml-1 flex h-2.5 w-2.5">
-                <span className="absolute h-full w-full animate-ping rounded-full bg-white opacity-75" />
-                <span className="relative h-2.5 w-2.5 rounded-full bg-white" />
+                <span className="absolute h-full w-full animate-ping rounded-full bg-surface opacity-75" />
+                <span className="relative h-2.5 w-2.5 rounded-full bg-surface" />
               </span>
             </p>
           </section>
         ) : (
-          <section className="rounded-3xl bg-[#4a4238] p-5 text-white shadow-lg">
+          <section className="rounded-3xl border border-white/10 bg-surface p-5 text-ink shadow-lg">
             <h1 className="text-xl font-bold">এই শেয়ারটি বন্ধ হয়ে গেছে</h1>
             <p className="mt-1 text-sm text-white/80">
               {data.sharer_name} ·{' '}
@@ -125,7 +125,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
           </section>
         )}
 
-        <section className="overflow-hidden rounded-3xl bg-white shadow-sm">
+        <section className="overflow-hidden rounded-3xl bg-surface border border-white/10 shadow-sm">
           <iframe
             key={`${data.lat},${data.lng}`}
             title="লাইভ লোকেশন ম্যাপ"
@@ -143,14 +143,14 @@ export default function LiveShareViewer({ id }: { id: string }) {
             href={`https://www.google.com/maps?q=${data.lat},${data.lng}`}
             target="_blank"
             rel="noreferrer"
-            className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl bg-ink py-3.5 font-bold text-white"
+            className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl btn-gradient py-3.5 font-bold text-white"
           >
             <IconNav className="h-5 w-5" /> Google Maps-এ খুলুন
           </a>
           {data.phone && (
             <a
               href={`tel:${data.phone}`}
-              className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-bold text-white"
+              className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-2xl btn-gradient py-3.5 font-bold text-white"
             >
               <IconPhone className="h-5 w-5" /> কল করুন
             </a>

@@ -37,8 +37,8 @@ function LoginForm() {
 
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-cream px-6">
-      <div className="flex w-full max-w-xs flex-col items-center lg:max-w-md lg:rounded-3xl lg:bg-white lg:p-10 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-ink text-white">
+      <div className="flex w-full max-w-xs flex-col items-center lg:max-w-md lg:rounded-3xl lg:bg-surface lg:p-10 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <span className="flex h-16 w-16 items-center justify-center rounded-full btn-gradient text-white">
         <IconLock className="h-8 w-8" />
       </span>
       <h1 className="mt-4 text-xl font-bold text-ink">অ্যাডমিন লগইন</h1>
@@ -50,13 +50,13 @@ function LoginForm() {
           onChange={(e) => setPasscode(e.target.value)}
           placeholder="পাসকোড"
           autoFocus
-          className="w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-brand"
+          className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-center text-lg tracking-widest outline-none focus:border-brand"
         />
         {error && <p className="text-center text-sm font-semibold text-brand">{error}</p>}
         <button
           type="submit"
           disabled={busy}
-          className="w-full rounded-2xl bg-ink py-3.5 font-bold text-white disabled:opacity-60"
+          className="w-full rounded-2xl btn-gradient py-3.5 font-bold text-white disabled:opacity-60"
         >
           {busy ? 'যাচাই হচ্ছে...' : 'প্রবেশ করুন'}
         </button>

@@ -90,14 +90,14 @@ export default function ReportPage() {
   if (done) {
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center bg-cream px-6 text-center">
-        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
           <IconCheck className="h-10 w-10" />
         </span>
         <h1 className="mt-4 text-xl font-bold text-ink">পোস্ট করুন সম্পন্ন!</h1>
         <p className="mt-2 text-sm text-ink-soft">আপনার রিপোর্ট যাচাইয়ের জন্য যাবে।</p>
         <Link
           href="/"
-          className="mt-6 flex items-center gap-1 rounded-full bg-ink px-6 py-3 text-sm font-bold text-white"
+          className="mt-6 flex items-center gap-1 rounded-full btn-gradient px-6 py-3 text-sm font-bold text-white"
         >
           হোমে ফিরুন <IconChevronRight className="h-4 w-4" />
         </Link>
@@ -107,7 +107,7 @@ export default function ReportPage() {
 
   return (
     <main className="min-h-dvh bg-cream px-4 py-6 lg:py-10">
-      <div className="mx-auto w-full max-w-2xl lg:rounded-3xl lg:bg-white lg:p-8 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="mx-auto w-full max-w-2xl lg:rounded-3xl lg:bg-surface lg:p-8 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <h1 className="text-xl font-bold text-ink">নতুন সমস্যা জানান</h1>
         <p className="mt-1 text-sm text-ink-soft">আপনার এলাকার সমস্যা জানান — পৌরসভা দেখবে।</p>
 
@@ -118,7 +118,7 @@ export default function ReportPage() {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="শিরোনাম লিখুন..."
-              className="w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand"
+              className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
             />
           </div>
 
@@ -130,7 +130,7 @@ export default function ReportPage() {
                   key={c}
                   onClick={() => setCategory(c)}
                   className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold ${
-                    category === c ? 'bg-brand text-white' : 'bg-white text-ink-soft shadow-sm lg:bg-cream'
+                    category === c ? 'bg-brand text-white' : 'bg-surface text-ink-soft shadow-sm lg:bg-cream'
                   }`}
                 >
                   {c}
@@ -146,12 +146,12 @@ export default function ReportPage() {
               onChange={(e) => setDescription(e.target.value)}
               placeholder="বিস্তারিত বর্ণনা..."
               rows={4}
-              className="w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand"
+              className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
             />
           </div>
 
           {/* Administrative location — বিভাগ → জেলা → উপজেলা → থানা → ইউনিয়ন */}
-          <div className="rounded-2xl bg-white p-4 shadow-sm lg:bg-cream lg:shadow-none">
+          <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none">
             <p className="mb-3 text-sm font-bold text-ink">এলাকা নির্বাচন করুন</p>
             <LocationPicker value={location} onChange={setLocation} />
           </div>
@@ -164,17 +164,17 @@ export default function ReportPage() {
 
           <button
             onClick={() => setAnonymous(!anonymous)}
-            className="flex w-full items-center justify-between rounded-2xl bg-white p-4 shadow-sm lg:bg-cream lg:shadow-none"
+            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none"
           >
             <span className="text-left text-sm font-bold text-ink">
               বেনামী নাগরিক
               <span className="block text-xs font-normal text-ink-soft">পরিচয় গোপন থাকবে</span>
             </span>
             <span
-              className={`relative h-7 w-12 shrink-0 rounded-full transition ${anonymous ? 'bg-brand' : 'bg-stone-300'}`}
+              className={`relative h-7 w-12 shrink-0 rounded-full transition ${anonymous ? 'btn-gradient' : 'bg-white/20'}`}
             >
               <span
-                className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                className={`absolute top-1 h-5 w-5 rounded-full bg-surface shadow transition-all ${
                   anonymous ? 'left-6' : 'left-1'
                 }`}
               />
@@ -183,17 +183,17 @@ export default function ReportPage() {
 
           <button
             onClick={() => setSaveToLocker(!saveToLocker)}
-            className="flex w-full items-center justify-between rounded-2xl bg-white p-4 shadow-sm lg:bg-cream lg:shadow-none"
+            className="flex w-full items-center justify-between rounded-2xl bg-surface border border-white/10 p-4 shadow-sm lg:bg-cream lg:shadow-none"
           >
             <span className="flex items-center gap-2 text-sm font-bold text-ink">
               <IconLock className="h-5 w-5 text-ink-soft" />
               প্রমাণ লকারে সংরক্ষণ
             </span>
             <span
-              className={`relative h-7 w-12 shrink-0 rounded-full transition ${saveToLocker ? 'bg-brand' : 'bg-stone-300'}`}
+              className={`relative h-7 w-12 shrink-0 rounded-full transition ${saveToLocker ? 'btn-gradient' : 'bg-white/20'}`}
             >
               <span
-                className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all ${
+                className={`absolute top-1 h-5 w-5 rounded-full bg-surface shadow transition-all ${
                   saveToLocker ? 'left-6' : 'left-1'
                 }`}
               />
@@ -205,7 +205,7 @@ export default function ReportPage() {
           <button
             onClick={submit}
             disabled={sending}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-4 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
           >
             <IconSend className="h-5 w-5" />
             {sending ? 'পাঠানো হচ্ছে...' : 'পোস্ট করুন'}

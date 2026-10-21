@@ -52,7 +52,7 @@ export default function NotificationsPage() {
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <SectionHeader
           icon={<IconBell className="h-6 w-6" />}
-          tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+          tileClassName="bg-violet-500/15 text-violet-300"
           title="নোটিফিকেশন"
           subtitle="এলাকার জরুরি খবর, রোড আপডেট আর ঘোষণা — সব এখানে"
           as="h1"
@@ -60,7 +60,7 @@ export default function NotificationsPage() {
             items.length > 0 ? (
               <button
                 onClick={markAllRead}
-                className="flex min-h-11 shrink-0 items-center rounded-full bg-white px-4 text-xs font-bold text-ink-soft shadow-sm"
+                className="flex min-h-11 shrink-0 items-center rounded-full bg-surface px-4 text-xs font-bold text-ink-soft shadow-sm"
               >
                 সব পড়া হয়েছে
               </button>
@@ -71,7 +71,7 @@ export default function NotificationsPage() {
         {loading ? (
           <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
         ) : items.length === 0 ? (
-          <p className="mt-6 rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">
+          <p className="mt-6 rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">
             এখনো কোনো নোটিফিকেশন নেই।
           </p>
         ) : (
@@ -79,7 +79,7 @@ export default function NotificationsPage() {
             {items.map((n) => {
               const card = (
                 <span className="flex items-start gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#efe9ff] text-[#5b3df0]">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-300">
                     <IconBell className="h-5 w-5" />
                   </span>
                   <span className="min-w-0 flex-1">
@@ -91,7 +91,7 @@ export default function NotificationsPage() {
                 </span>
               );
               return (
-                <li key={n.id} className="rounded-2xl bg-white p-4 shadow-sm">
+                <li key={n.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
                   {n.url ? (
                     <Link href={n.url} className="block min-h-11">
                       {card}

@@ -5,7 +5,7 @@ import OtpStep from './OtpStep';
 import { addPhoneWithOtp, type MemberSelfPayload, type OtpSendResponse } from '@/lib/member';
 
 const inputCls =
-  'w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 /**
  * Phase 13 — phone verification for a logged-in member.
@@ -31,7 +31,7 @@ export default function PhoneVerify({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="mt-3 min-h-[48px] w-full rounded-2xl bg-amber-100 py-3 text-sm font-bold text-amber-900"
+        className="mt-3 min-h-[48px] w-full rounded-2xl bg-amber-500/15 py-3 text-sm font-bold text-amber-300"
       >
         {member.phone ? 'ফোন নম্বর যাচাই করুন' : 'ফোন যোগ করো'}
       </button>
@@ -67,7 +67,7 @@ export default function PhoneVerify({
             <button
               onClick={send}
               disabled={busy}
-              className="min-h-[52px] shrink-0 rounded-2xl bg-brand px-5 font-bold text-white disabled:opacity-50"
+              className="min-h-[52px] shrink-0 rounded-2xl btn-gradient px-5 font-bold text-white disabled:opacity-50"
             >
               {busy ? '...' : 'কোড পাঠাও'}
             </button>

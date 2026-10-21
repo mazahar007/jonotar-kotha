@@ -116,7 +116,7 @@ export default function OtpStep({
       </p>
 
       {demo && demoCode && (
-        <p className="mt-3 rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-900">
+        <p className="mt-3 rounded-xl bg-amber-500/10 px-4 py-3 text-sm font-bold text-amber-300">
           ডেমো মোড: কোড <span dir="ltr" className="tracking-[0.3em]">{demoCode}</span>{' '}
           <span className="font-normal">(বাস্তব SMS-এর জন্য গেটওয়ে লাগবে)</span>
         </p>
@@ -135,7 +135,7 @@ export default function OtpStep({
             inputMode="numeric"
             maxLength={1}
             aria-label={`কোডের ${i + 1} নম্বর সংখ্যা`}
-            className="h-14 w-full min-w-0 rounded-xl border border-[#efe3d3] bg-cream text-center text-xl font-bold text-ink outline-none focus:border-brand"
+            className="h-14 w-full min-w-0 rounded-xl border border-white/10 bg-cream text-center text-xl font-bold text-ink outline-none focus:border-brand"
           />
         ))}
       </div>
@@ -159,7 +159,7 @@ export default function OtpStep({
       <button
         onClick={submit}
         disabled={busy || left <= 0}
-        className="mt-3 min-h-[52px] w-full rounded-2xl bg-brand py-4 font-bold text-white disabled:opacity-50"
+        className="mt-3 min-h-[52px] w-full rounded-2xl btn-gradient py-4 font-bold text-white disabled:opacity-50"
       >
         {busy ? 'যাচাই হচ্ছে...' : 'যাচাই করুন'}
       </button>

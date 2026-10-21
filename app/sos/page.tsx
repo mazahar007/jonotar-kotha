@@ -37,11 +37,11 @@ export default function SosPage() {
   }
 
   return (
-    <main className="min-h-dvh bg-[#14100c] px-4 py-6 text-white">
+    <main className="min-h-dvh bg-surface px-4 py-6 text-white">
       {step === 'main' && (
         <>
           <div className="flex items-center gap-3">
-            <span className="sos-pulse flex h-14 w-14 items-center justify-center rounded-full bg-brand">
+            <span className="sos-pulse flex h-14 w-14 items-center justify-center rounded-full bg-red-500">
               <IconAlert className="h-7 w-7" />
             </span>
             <div>
@@ -59,7 +59,7 @@ export default function SosPage() {
                 href={`tel:${n.tel}`}
                 className="flex items-center gap-4 rounded-2xl bg-white/10 p-4 backdrop-blur transition active:scale-[0.98]"
               >
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand">
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red-500">
                   <IconPhone className="h-6 w-6" />
                 </span>
                 <span className="flex-1">
@@ -73,7 +73,7 @@ export default function SosPage() {
 
           <button
             onClick={() => setStep('confirm')}
-            className="mt-6 w-full rounded-2xl bg-brand py-4 font-bold shadow-lg shadow-red-900/50"
+            className="mt-6 w-full rounded-2xl btn-danger py-4 font-bold"
           >
             এলার্ট পাঠান (৫০ জনের কাছে)
           </button>
@@ -108,7 +108,7 @@ export default function SosPage() {
 
       {step === 'confirm' && (
         <div className="flex min-h-[70dvh] flex-col items-center justify-center text-center">
-          <span className="sos-pulse flex h-24 w-24 items-center justify-center rounded-full bg-brand">
+          <span className="sos-pulse flex h-24 w-24 items-center justify-center rounded-full bg-red-500">
             <IconAlert className="h-12 w-12" />
           </span>
           <h2 className="mt-6 text-xl font-bold">এলার্ট পাঠাবেন?</h2>
@@ -120,7 +120,7 @@ export default function SosPage() {
             <button
               onClick={sendAlert}
               disabled={sending}
-              className="w-full rounded-2xl bg-brand py-4 font-bold disabled:opacity-60"
+              className="w-full rounded-2xl btn-danger py-4 font-bold disabled:opacity-60"
             >
               {sending ? 'পাঠানো হচ্ছে...' : 'এখনই পাঠান'}
             </button>
@@ -155,7 +155,7 @@ export default function SosPage() {
           </p>
           <a
             href="tel:999"
-            className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-4 font-bold"
+            className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl btn-danger py-4 font-bold"
           >
             <IconPhone className="h-5 w-5" /> ৯৯৯-এ কল করুন
           </a>
@@ -205,7 +205,7 @@ export default function SosPage() {
           </div>
           <button
             onClick={() => setStep('main')}
-            className="mt-6 w-full rounded-2xl bg-brand py-4 font-bold"
+            className="mt-6 w-full rounded-2xl btn-danger py-4 font-bold"
           >
             বুঝেছি, সেটআপ করুন
           </button>

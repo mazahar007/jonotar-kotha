@@ -45,9 +45,9 @@ export default function SafetyScoreChip({ area }: { area: LocationSelection }) {
     <span
       className={`inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 text-sm font-black ${
         score.grade === 'safe'
-          ? 'bg-emerald-100 text-emerald-800'
+          ? 'bg-emerald-500/15 text-emerald-300'
           : score.grade === 'caution'
-            ? 'bg-amber-100 text-amber-800'
+            ? 'bg-amber-500/15 text-amber-300'
             : 'bg-red-100 text-red-800'
       }`}
       title={`সেফটি স্কোর — ${meta.label}`}

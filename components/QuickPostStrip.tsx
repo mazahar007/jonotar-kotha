@@ -159,7 +159,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
   })();
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
+    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-[15px] font-bold text-ink">⚡ এক ট্যাপে জানান</h3>
         <div className="flex items-center gap-2">
@@ -198,7 +198,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
               disabled={loading || posting}
               onClick={() => post(p)}
               className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl border px-2 py-2.5 text-[13px] font-bold text-ink transition active:scale-[0.96] disabled:opacity-60 ${
-                isLast ? 'border-brand bg-orange-50 ring-2 ring-brand/40' : 'border-[#efe3d3] bg-cream hover:bg-cream-dark'
+                isLast ? 'border-brand bg-orange-500/10 ring-2 ring-brand/40' : 'border-white/10 bg-cream hover:bg-cream-dark'
               }`}
             >
               <span className={`h-2 w-2 rounded-full ${meta.dot}`} aria-hidden />
@@ -219,14 +219,14 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
       {pickerOpen && (
         <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center" role="dialog" aria-modal="true" aria-label="এলাকা বেছে নিন">
           <button type="button" aria-label="বন্ধ করুন" onClick={() => setPickerOpen(false)} className="absolute inset-0 bg-black/50" />
-          <div className="relative w-full max-w-md rounded-t-3xl bg-white p-5 pb-8 shadow-2xl sm:rounded-3xl">
+          <div className="relative w-full max-w-md rounded-t-3xl bg-surface p-5 pb-8 shadow-2xl sm:rounded-3xl">
             <h3 className="mb-3 font-bold text-ink">কোন এলাকায় পোস্ট করবেন?</h3>
             <LocationPicker value={pickerSel} onChange={setPickerSel} />
             <div className="mt-4 flex gap-2">
               <button
                 type="button"
                 onClick={confirmPicker}
-                className="flex min-h-12 flex-1 items-center justify-center rounded-2xl bg-brand font-bold text-white transition active:scale-[0.98]"
+                className="flex min-h-12 flex-1 items-center justify-center rounded-2xl btn-gradient font-bold text-white transition active:scale-[0.98]"
               >
                 ঠিক আছে
               </button>
@@ -259,8 +259,8 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
             onClick={() => setSuccessId(null)}
             className="absolute inset-0 bg-black/50"
           />
-          <div className="relative w-full max-w-sm rounded-t-3xl bg-white p-6 pb-8 text-center shadow-2xl sm:rounded-3xl">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-2xl" aria-hidden>
+          <div className="relative w-full max-w-sm rounded-t-3xl bg-surface p-6 pb-8 text-center shadow-2xl sm:rounded-3xl">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-2xl" aria-hidden>
               ✅
             </div>
             <p className="text-[15px] font-bold leading-relaxed text-ink">
@@ -271,7 +271,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
             </p>
             <Link
               href={`/roads/${successId}`}
-              className="mt-5 flex min-h-12 items-center justify-center rounded-2xl bg-brand px-4 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
+              className="mt-5 flex min-h-12 items-center justify-center rounded-2xl btn-gradient px-4 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
             >
               বিস্তারিত দেখো
             </Link>

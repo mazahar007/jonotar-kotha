@@ -67,9 +67,9 @@ export default function AdminPush() {
   }
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
       <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#efe9ff] text-[#5b3df0]">
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-300">
           <IconBell className="h-6 w-6" />
         </span>
         <div>
@@ -90,7 +90,7 @@ export default function AdminPush() {
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="block">
@@ -100,7 +100,7 @@ export default function AdminPush() {
             onChange={(e) => setBody(e.target.value)}
             rows={3}
             placeholder="যেমন: গাঙ্গিনাপাড়ে বিদ্যুৎ বিভ্রাট — সবাই সতর্ক থাকুন"
-            className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
         <label className="block">
@@ -109,7 +109,7 @@ export default function AdminPush() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="/"
-            className="w-full rounded-xl border border-[#efe3d3] bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="w-full rounded-xl border border-white/10 bg-cream px-3 py-2.5 text-sm outline-none focus:border-brand"
           />
         </label>
       </div>
@@ -117,7 +117,7 @@ export default function AdminPush() {
       <button
         onClick={send}
         disabled={busy || !title.trim() || !body.trim()}
-        className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white disabled:opacity-50"
+        className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-3 text-sm font-bold text-white disabled:opacity-50"
       >
         <IconSend className="h-4 w-4" />
         {busy ? 'পাঠানো হচ্ছে...' : 'সবাইকে পাঠান'}
@@ -127,7 +127,7 @@ export default function AdminPush() {
       {result && (
         <div className="mt-3 rounded-2xl bg-cream p-4 text-sm">
           {result.delivered === 'push' ? (
-            <p className="font-semibold text-emerald-700">
+            <p className="font-semibold text-emerald-300">
               ✓ {bnNum(result.pushSent)}টি ডিভাইসে পুশ পাঠানো হয়েছে
               {result.pushFailed > 0 && ` (${bnNum(result.pushFailed)}টি ব্যর্থ)`}
               {result.pruned > 0 && ` · ${bnNum(result.pruned)}টি মৃত সাবস্ক্রিপশন মুছে ফেলা হয়েছে`}
@@ -136,7 +136,7 @@ export default function AdminPush() {
               </span>
             </p>
           ) : (
-            <p className="font-semibold text-amber-700">
+            <p className="font-semibold text-amber-300">
               VAPID কী সেট করা হয়নি — নোটিফিকেশন শুধু ইন-অ্যাপ কেন্দ্রে (🔔 বেল) দেখানো হয়েছে।
               <span className="block text-xs font-normal text-ink-soft">
                 ব্রাউজার পুশ চাইলে সার্ভারে VAPID কী বসান (README-SETUP-BN.md দেখুন)।

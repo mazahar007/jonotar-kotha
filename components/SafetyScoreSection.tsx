@@ -36,7 +36,7 @@ function ScoreRing({ score, grade }: { score: number; grade: Grade }) {
   return (
     <div className="relative h-32 w-32 shrink-0">
       <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
-        <circle cx="60" cy="60" r={r} fill="none" stroke="#f1ead9" strokeWidth="12" />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="12" />
         <circle
           cx="60"
           cy="60"
@@ -60,9 +60,9 @@ function ScoreRing({ score, grade }: { score: number; grade: Grade }) {
 
 function TrendLine({ trend }: { trend: SafetyScoreResponse['breakdown']['trend'] }) {
   const map = {
-    up: { icon: '▲', text: 'আগের ৯০ দিনের চেয়ে উন্নতি', cls: 'text-emerald-700 bg-emerald-50' },
+    up: { icon: '▲', text: 'আগের ৯০ দিনের চেয়ে উন্নতি', cls: 'text-emerald-300 bg-emerald-500/10' },
     down: { icon: '▼', text: 'আগের ৯০ দিনের চেয়ে অবনতি', cls: 'text-red-700 bg-red-50' },
-    same: { icon: '●', text: 'আগের ৯০ দিনের মতোই', cls: 'text-amber-700 bg-amber-50' },
+    same: { icon: '●', text: 'আগের ৯০ দিনের মতোই', cls: 'text-amber-300 bg-amber-500/10' },
     none: { icon: '—', text: 'তুলনার জন্য পুরনো তথ্য নেই', cls: 'text-ink-soft bg-cream-dark' },
   } as const;
   const m = map[trend];
@@ -91,7 +91,7 @@ function BreakdownRow({
     <div>
       <div className="flex items-baseline justify-between gap-2 text-sm">
         <span className="font-bold text-ink">{label}</span>
-        <span className={`font-black ${bonus ? 'text-emerald-700' : 'text-red-700'}`}>
+        <span className={`font-black ${bonus ? 'text-emerald-300' : 'text-red-700'}`}>
           {points > 0 ? '+' : ''}
           {bnNum(points)}
         </span>
@@ -177,13 +177,13 @@ export default function SafetyScoreSection() {
     <section className="space-y-4">
       <SectionHeader
         icon={<IconShield className="h-6 w-6" />}
-        tileClassName="bg-emerald-100 text-emerald-700"
+        tileClassName="bg-emerald-500/15 text-emerald-300"
         title="এলাকার সেফটি স্কোর"
         subtitle="গত ৯০ দিনের রিপোর্ট ও রোডের অবস্থা থেকে আনুমানিক"
       />
 
       {/* Area picker (reuses home area filter component) */}
-      <div className="rounded-2xl bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="rounded-2xl bg-surface border border-white/10 p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
@@ -192,7 +192,7 @@ export default function SafetyScoreSection() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex min-h-11 w-full items-center gap-5 rounded-3xl bg-white p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition active:scale-[0.99]"
+        className="flex min-h-11 w-full items-center gap-5 rounded-3xl bg-surface border border-white/10 p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition active:scale-[0.99]"
         aria-label="সেফটি স্কোরের বিস্তারিত দেখুন"
       >
         {data ? (
@@ -206,9 +206,9 @@ export default function SafetyScoreSection() {
           <span
             className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-black ${
               grade === 'safe'
-                ? 'bg-emerald-100 text-emerald-800'
+                ? 'bg-emerald-500/15 text-emerald-300'
                 : grade === 'caution'
-                  ? 'bg-amber-100 text-amber-800'
+                  ? 'bg-amber-500/15 text-amber-300'
                   : 'bg-red-100 text-red-800'
             }`}
           >
@@ -239,7 +239,7 @@ export default function SafetyScoreSection() {
           aria-label="সেফটি স্কোরের বিস্তারিত"
         >
           <div
-            className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto rounded-t-3xl bg-white p-5 sm:rounded-3xl"
+            className="max-h-[90vh] w-full max-w-lg space-y-5 overflow-y-auto rounded-t-3xl bg-surface p-5 sm:rounded-3xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3">
@@ -265,9 +265,9 @@ export default function SafetyScoreSection() {
                 <span
                   className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-black ${
                     grade === 'safe'
-                      ? 'bg-emerald-100 text-emerald-800'
+                      ? 'bg-emerald-500/15 text-emerald-300'
                       : grade === 'caution'
-                        ? 'bg-amber-100 text-amber-800'
+                        ? 'bg-amber-500/15 text-amber-300'
                         : 'bg-red-100 text-red-800'
                   }`}
                 >

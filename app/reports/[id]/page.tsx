@@ -32,6 +32,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ i
         </Link>
 
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconMegaphone className="h-6 w-6" />}
           title={report.title}

@@ -5,8 +5,8 @@ import { LIVE_PURPOSE_LABEL, type LiveShareAdmin, type LiveSharePurpose } from '
 
 const PURPOSE_BADGE: Record<LiveSharePurpose, string> = {
   danger: 'bg-red-100 text-red-700',
-  blood: 'bg-rose-100 text-rose-700',
-  help: 'bg-amber-100 text-amber-700',
+  blood: 'bg-rose-500/15 text-rose-300',
+  help: 'bg-amber-500/15 text-amber-300',
   general: 'bg-blue-100 text-blue-700',
 };
 
@@ -43,13 +43,13 @@ export default function AdminLiveShares() {
       <h2 className="mb-2 text-sm font-bold text-ink">লাইভ লোকেশন শেয়ার</h2>
       {loading && <p className="py-4 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
       {!loading && shares.length === 0 && (
-        <p className="rounded-2xl bg-white p-5 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-white/10 p-5 text-center text-sm text-ink-soft">
           কোনো লাইভ শেয়ার নেই।
         </p>
       )}
       <div className="grid gap-2 lg:grid-cols-2">
         {shares.map((s) => (
-          <div key={s.id} className="rounded-2xl bg-white p-4 shadow-sm">
+          <div key={s.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <div className="min-w-0 flex-1">
                 <p className="flex flex-wrap items-center gap-2 text-sm font-bold text-ink">
@@ -61,7 +61,7 @@ export default function AdminLiveShares() {
                   <span
                     className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
                       s.is_active
-                        ? 'bg-emerald-100 text-emerald-700'
+                        ? 'bg-emerald-500/15 text-emerald-300'
                         : s.expired
                           ? 'bg-cream-dark text-ink-soft'
                           : 'bg-cream-dark text-ink-soft'

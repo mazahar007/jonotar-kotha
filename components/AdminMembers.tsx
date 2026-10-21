@@ -36,19 +36,19 @@ export default function AdminMembers() {
 
   return (
     <div>
-      <p className="mb-3 rounded-2xl bg-white p-4 text-sm text-ink-soft shadow-sm">
+      <p className="mb-3 rounded-2xl bg-surface border border-white/10 p-4 text-sm text-ink-soft shadow-sm">
         মোট নিবন্ধিত সদস্য: <span className="font-bold text-ink">{members.length}</span> জন।
         ফোন নম্বর শুধু অ্যাডমিনের জন্য — সদস্যরা পরস্পরের নম্বর দেখতে পান না।
       </p>
       {loading && <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
       <div className="grid gap-2 lg:grid-cols-2">
         {members.map((m) => (
-          <div key={m.id} className="rounded-2xl bg-white p-4 shadow-sm">
+          <div key={m.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
             <div className="flex items-start justify-between gap-2">
               <p className="text-sm font-bold text-ink">{m.name}</p>
               <span
                 className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${
-                  m.is_visible ? 'bg-emerald-100 text-emerald-700' : 'bg-stone-200 text-ink-soft'
+                  m.is_visible ? 'bg-emerald-500/15 text-emerald-300' : 'bg-white/10 text-ink-soft'
                 }`}
               >
                 {m.is_visible ? 'দৃশ্যমান' : 'লুকানো'}
@@ -64,7 +64,7 @@ export default function AdminMembers() {
         ))}
       </div>
       {!loading && members.length === 0 && (
-        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">এখনো কোনো সদস্য নিবন্ধন করেননি।</p>
+        <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">এখনো কোনো সদস্য নিবন্ধন করেননি।</p>
       )}
     </div>
   );

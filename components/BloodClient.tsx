@@ -15,6 +15,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
     <>
       <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconDroplet className="h-6 w-6" />}
           tileClassName="bg-red-100 text-brand"
@@ -32,14 +33,14 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
         {!requested ? (
           <button
             onClick={() => setRequested(true)}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-4 font-bold text-white shadow-lg shadow-red-200"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl btn-danger py-4 font-bold text-white"
           >
             <IconSend className="h-5 w-5" /> রক্তের জন্য পাঠান
           </button>
         ) : (
-          <div className="mt-4 rounded-2xl bg-emerald-50 p-4 text-center">
-            <p className="font-bold text-emerald-700">অনুরোধ পাঠানো হয়েছে!</p>
-            <p className="mt-1 text-xs text-emerald-600">
+          <div className="mt-4 rounded-2xl bg-emerald-500/10 p-4 text-center">
+            <p className="font-bold text-emerald-300">অনুরোধ পাঠানো হয়েছে!</p>
+            <p className="mt-1 text-xs text-emerald-400">
               আশেপাশের সক্রিয় দাতারা নোটিফিকেশন পাবেন।
             </p>
           </div>
@@ -49,7 +50,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
           {active.map((d) => (
             <div
               key={d.id}
-              className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+              className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
             >
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 text-sm font-bold text-brand">
                 <IconDroplet className="h-5 w-5" />
@@ -66,7 +67,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
                 </p>
                 <p className="text-xs text-ink-soft">{d.phone_masked}</p>
               </div>
-              <span className="flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700">
+              <span className="flex items-center gap-1 rounded-full bg-emerald-500/15 px-2.5 py-1 text-xs font-bold text-emerald-300">
                 <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-emerald-600" />
                 সক্রিয়
               </span>

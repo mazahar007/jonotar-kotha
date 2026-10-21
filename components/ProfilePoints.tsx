@@ -72,10 +72,10 @@ export default function ProfilePoints({
   };
 
   return (
-    <section className="mt-4 rounded-3xl bg-white p-5 shadow-sm">
+    <section className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
       <SectionHeader
         icon={<IconStar className="h-6 w-6" />}
-        tileClassName="bg-amber-100 text-amber-600"
+        tileClassName="bg-amber-500/15 text-amber-400"
         title="আমার পয়েন্ট"
         subtitle="কাজ করুন, পয়েন্ট ও ব্যাজ জিতুন"
       />
@@ -100,7 +100,7 @@ export default function ProfilePoints({
             {badges.map((b, i) => (
               <span
                 key={`${b}-${i}`}
-                className="rounded-full bg-amber-100 px-3 py-1.5 text-xs font-bold text-amber-800"
+                className="rounded-full bg-amber-500/15 px-3 py-1.5 text-xs font-bold text-amber-300"
               >
                 {b}
               </span>
@@ -114,8 +114,8 @@ export default function ProfilePoints({
       ) : (
         <div className="mt-4 grid gap-3 md:grid-cols-2">
           {/* ➕ অর্জিত পয়েন্ট */}
-          <div className="rounded-2xl bg-emerald-50 p-4">
-            <p className="text-sm font-bold text-emerald-800">➕ অর্জিত পয়েন্ট</p>
+          <div className="rounded-2xl bg-emerald-500/10 p-4">
+            <p className="text-sm font-bold text-emerald-300">➕ অর্জিত পয়েন্ট</p>
             {earned.length === 0 ? (
               <p className="mt-2 text-xs text-ink-soft">এখনো কোনো পয়েন্ট অর্জন হয়নি</p>
             ) : (
@@ -126,15 +126,15 @@ export default function ProfilePoints({
                       {r.reason}
                       <span className="ml-1 text-ink-soft">· {fmtDate(r.created_at)}</span>
                     </span>
-                    <span className="shrink-0 font-bold text-emerald-700">+{r.delta}</span>
+                    <span className="shrink-0 font-bold text-emerald-300">+{r.delta}</span>
                   </li>
                 ))}
               </ul>
             )}
           </div>
           {/* ➖ কাটা পয়েন্ট */}
-          <div className="rounded-2xl bg-rose-50 p-4">
-            <p className="text-sm font-bold text-rose-800">➖ কাটা পয়েন্ট</p>
+          <div className="rounded-2xl bg-rose-500/10 p-4">
+            <p className="text-sm font-bold text-rose-300">➖ কাটা পয়েন্ট</p>
             {spent.length === 0 ? (
               <p className="mt-2 text-xs text-ink-soft">কোনো পয়েন্ট কাটা যায়নি</p>
             ) : (
@@ -145,7 +145,7 @@ export default function ProfilePoints({
                       {r.reason}
                       <span className="ml-1 text-ink-soft">· {fmtDate(r.created_at)}</span>
                     </span>
-                    <span className="shrink-0 font-bold text-rose-700">{r.delta}</span>
+                    <span className="shrink-0 font-bold text-rose-300">{r.delta}</span>
                   </li>
                 ))}
               </ul>
@@ -161,7 +161,7 @@ export default function ProfilePoints({
       >
         <span
           className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md ${
-            member.show_on_leaderboard ? 'bg-emerald-500 text-white' : 'bg-white shadow-inner'
+            member.show_on_leaderboard ? 'bg-emerald-500 text-white' : 'bg-surface shadow-inner'
           }`}
         >
           {member.show_on_leaderboard && <IconCheck className="h-4 w-4" />}

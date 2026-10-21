@@ -34,7 +34,7 @@ export default function BroadcastDetail({ id }: { id: number }) {
 
   if (missing)
     return (
-      <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">
+      <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">
         ঘোষণাটি পাওয়া যায়নি। <Link href="/broadcasts" className="font-bold text-brand">সব ঘোষণা দেখুন</Link>
       </p>
     );
@@ -67,7 +67,7 @@ export default function BroadcastDetail({ id }: { id: number }) {
       </div>
       <Link
         href="/broadcasts"
-        className="mt-4 flex min-h-11 items-center justify-center rounded-2xl bg-white py-3 text-sm font-bold text-ink shadow-sm"
+        className="mt-4 flex min-h-11 items-center justify-center rounded-2xl bg-surface border border-white/10 py-3 text-sm font-bold text-ink shadow-sm"
       >
         ← সব ঘোষণা
       </Link>

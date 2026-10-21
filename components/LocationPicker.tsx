@@ -30,10 +30,10 @@ async function fetchList<T>(url: string): Promise<T[]> {
 }
 
 const selectCls =
-  'w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand disabled:opacity-50';
+  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand disabled:opacity-50';
 
 const selectCompactCls =
-  'w-full rounded-xl border border-[#efe3d3] bg-white px-3 py-3 text-sm outline-none focus:border-brand disabled:opacity-50';
+  'w-full rounded-xl border border-white/10 bg-surface px-3 py-3 text-sm outline-none focus:border-brand disabled:opacity-50';
 
 /**
  * Cascading picker: বিভাগ → জেলা → উপজেলা → থানা → ইউনিয়ন.

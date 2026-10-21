@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: 'জনতার কথা',
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
   },
 };
 
@@ -26,7 +26,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#fdf8f1',
+  themeColor: '#0A0E1A',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

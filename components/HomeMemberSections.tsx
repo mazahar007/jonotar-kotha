@@ -45,15 +45,15 @@ export default function HomeMemberSections() {
         <section className="space-y-3">
           <SectionHeader
             icon={<IconUsers className="h-6 w-6" />}
-            tileClassName="bg-emerald-100 text-emerald-700"
+            tileClassName="bg-emerald-500/15 text-emerald-300"
             title="আমার এলাকার মানুষ"
             subtitle="নিজ এলাকার কে কোথায় আছেন"
           />
           <Link
             href="/amar-elaka"
-            className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+            className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
           >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
               <IconUsers className="h-6 w-6" />
             </span>
             <span className="flex-1">
@@ -71,7 +71,7 @@ export default function HomeMemberSections() {
         <section className="space-y-3">
           <SectionHeader
             icon={<IconCheck className="h-6 w-6" />}
-            tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+            tileClassName="bg-violet-500/15 text-violet-300"
             title="এলাকার জরিপ"
             subtitle="আপনার এলাকার প্রশ্নে মত দিন"
           />
@@ -87,15 +87,15 @@ export default function HomeMemberSections() {
         <section className="space-y-3">
           <SectionHeader
             icon={<IconCheck className="h-6 w-6" />}
-            tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+            tileClassName="bg-violet-500/15 text-violet-300"
             title="এলাকার জরিপ"
             subtitle="আপনার এলাকার প্রশ্নে মত দিন"
           />
           <Link
             href="/surveys"
-            className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+            className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
           >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-300">
               <IconUsers className="h-6 w-6" />
             </span>
             <span className="flex-1">

@@ -47,9 +47,10 @@ export default function AmarElakaPage() {
       <Header />
       <main className="mx-auto w-full max-w-2xl px-4 py-6 lg:max-w-3xl">
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconUsers className="h-6 w-6" />}
-          tileClassName="bg-emerald-100 text-emerald-700"
+          tileClassName="bg-emerald-500/15 text-emerald-300"
           title="আমার এলাকার মানুষ"
           subtitle="নিজ এলাকার কে কোথায় আছেন"
         />
@@ -58,11 +59,11 @@ export default function AmarElakaPage() {
         </p>
 
         {member === undefined && <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
-        {failed && <p className="mt-4 rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">তথ্য লোড করা যায়নি।</p>}
+        {failed && <p className="mt-4 rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">তথ্য লোড করা যায়নি।</p>}
 
         {member && data && (
           <>
-            <div className="mt-4 rounded-2xl bg-ink p-4 text-white">
+            <div className="mt-4 rounded-2xl border border-white/10 bg-surface p-4 text-ink">
               <p className="text-xs text-white/70">আমার এলাকা</p>
               <p className="mt-0.5 font-bold">{data.area_label || '—'}</p>
               <p className="mt-1 text-xs text-white/70">
@@ -72,15 +73,15 @@ export default function AmarElakaPage() {
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-3">
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+              <div className="rounded-2xl bg-surface border border-white/10 p-4 text-center shadow-sm">
                 <p className="text-2xl font-bold text-ink">{data.total}</p>
                 <p className="mt-1 text-xs font-semibold text-ink-soft">মোট সদস্য</p>
               </div>
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-                <p className="text-2xl font-bold text-emerald-600">{data.at_home}</p>
+              <div className="rounded-2xl bg-surface border border-white/10 p-4 text-center shadow-sm">
+                <p className="text-2xl font-bold text-emerald-400">{data.at_home}</p>
                 <p className="mt-1 text-xs font-semibold text-ink-soft">নিজ এলাকায় আছেন</p>
               </div>
-              <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
+              <div className="rounded-2xl bg-surface border border-white/10 p-4 text-center shadow-sm">
                 <p className="text-2xl font-bold text-brand">{data.away}</p>
                 <p className="mt-1 text-xs font-semibold text-ink-soft">অন্য এলাকায় আছেন</p>
               </div>
@@ -89,12 +90,12 @@ export default function AmarElakaPage() {
             {data.near_me.length > 0 && (
               <section className="mt-5">
                 <h2 className="mb-2 flex items-center gap-2 font-bold text-ink">
-                  <IconPin className="h-5 w-5 text-emerald-600" /> আমার আশেপাশে — একই এলাকায় আছেন
+                  <IconPin className="h-5 w-5 text-emerald-400" /> আমার আশেপাশে — একই এলাকায় আছেন
                 </h2>
                 <div className="space-y-2">
                   {data.near_me.map((p) => (
-                    <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 font-bold text-emerald-700">
+                    <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/15 font-bold text-emerald-300">
                         {p.name.charAt(0)}
                       </span>
                       <div>
@@ -112,13 +113,13 @@ export default function AmarElakaPage() {
                 <IconUsers className="h-5 w-5 text-brand" /> অন্য এলাকায় আছেন
               </h2>
               {data.away_list.length === 0 ? (
-                <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+                <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
                   আপনার এলাকার সবাই এখন নিজ এলাকাতেই আছেন।
                 </p>
               ) : (
                 <div className="space-y-2">
                   {data.away_list.map((p) => (
-                    <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
+                    <div key={p.id} className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
                       <span className="flex h-10 w-10 items-center justify-center rounded-full bg-cream-dark font-bold text-ink">
                         {p.name.charAt(0)}
                       </span>
@@ -140,13 +141,13 @@ export default function AmarElakaPage() {
         {member === null && stats && (
           <>
             <div className="mt-4 grid grid-cols-1 gap-3">
-              <div className="rounded-2xl bg-white p-5 text-center shadow-sm">
+              <div className="rounded-2xl bg-surface border border-white/10 p-5 text-center shadow-sm">
                 <p className="text-3xl font-bold text-ink">{stats.total}</p>
                 <p className="mt-1 text-sm font-semibold text-ink-soft">মোট নিবন্ধিত সদস্য</p>
               </div>
             </div>
             {stats.by_district.length > 0 && (
-              <section className="mt-5 rounded-2xl bg-white p-4 shadow-sm">
+              <section className="mt-5 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
                 <h2 className="mb-3 font-bold text-ink">জেলাভিত্তিক সদস্য সংখ্যা</h2>
                 <div className="space-y-2">
                   {stats.by_district.map((d) => (
@@ -158,7 +159,7 @@ export default function AmarElakaPage() {
                 </div>
               </section>
             )}
-            <Link href="/register" className="mt-5 block rounded-2xl bg-brand p-4 text-center font-bold text-white">
+            <Link href="/register" className="mt-5 block rounded-2xl btn-gradient p-4 text-center font-bold text-white">
               নিবন্ধন করে আপনার এলাকার মানুষ দেখুন →
             </Link>
             <p className="mt-3 text-center text-xs text-ink-soft">

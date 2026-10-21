@@ -70,7 +70,7 @@ export default function StarRating({
   );
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <p className="text-sm font-bold text-ink">তথ্য কতটা সঠিক?</p>
       <div className="mt-2 flex items-center gap-1" role="radiogroup" aria-label="রেটিং">
         {[1, 2, 3, 4, 5].map((s) => (

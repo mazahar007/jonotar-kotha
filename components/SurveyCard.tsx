@@ -52,7 +52,7 @@ export default function SurveyCard({
   const showResults = state.results !== null && (state.my_vote !== null || state.status === 'closed');
 
   return (
-    <section className="rounded-2xl bg-white p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <section className="rounded-2xl bg-surface border border-white/10 p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
       <div className="mb-1 flex items-center gap-2 text-xs font-bold text-ink-soft">
         <span className="rounded-full bg-cream-dark px-2.5 py-1">জরিপ · {state.target_label}</span>
         {state.status === 'closed' && <span className="rounded-full bg-red-50 px-2.5 py-1 text-brand">বন্ধ</span>}
@@ -66,7 +66,7 @@ export default function SurveyCard({
               <div className="mb-1 flex items-center justify-between text-sm">
                 <span className="flex items-center gap-1.5 font-semibold text-ink">
                   {o.option}
-                  {state.my_vote === i && <IconCheck className="h-4 w-4 text-emerald-600" />}
+                  {state.my_vote === i && <IconCheck className="h-4 w-4 text-emerald-400" />}
                 </span>
                 <span className="text-xs font-bold text-ink-soft">{o.pct}% · {o.count} ভোট</span>
               </div>
@@ -91,7 +91,7 @@ export default function SurveyCard({
           </div>
           <Link
             href="/register"
-            className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-ink py-3 text-sm font-bold text-white"
+            className="mt-3 flex items-center justify-center gap-2 rounded-xl btn-gradient py-3 text-sm font-bold text-white"
           >
             <IconUsers className="h-4 w-4" /> ভোট দিতে নিবন্ধন করুন
           </Link>

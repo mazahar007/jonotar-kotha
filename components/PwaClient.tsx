@@ -81,8 +81,8 @@ export function InstallAppButton() {
 
   if (installed) {
     return (
-      <div className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+      <div className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-300">
           <IconCheck className="h-6 w-6" />
         </span>
         <span className="flex-1">
@@ -96,11 +96,11 @@ export function InstallAppButton() {
   if (!deferred) return null; // graceful hide: browser doesn't offer install
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
       <button
         onClick={install}
         disabled={busy}
-        className="flex min-h-11 w-full items-center gap-3 rounded-2xl bg-[#cc1414] px-4 py-2 text-left text-white disabled:opacity-50"
+        className="flex min-h-11 w-full items-center gap-3 rounded-2xl bg-red-500 px-4 py-2 text-left text-white disabled:opacity-50"
       >
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/20">
           <IconChevronRight className="h-6 w-6" />

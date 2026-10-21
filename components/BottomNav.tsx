@@ -14,7 +14,7 @@ const tabs = [
 export default function BottomNav() {
   const pathname = usePathname();
   return (
-    <nav className="sticky bottom-0 z-40 border-t border-[#efe3d3] bg-white/95 backdrop-blur lg:hidden">
+    <nav className="sticky bottom-0 z-40 border-t border-white/10 bg-surface/90 backdrop-blur-xl lg:hidden">
       <div className="relative mx-auto flex max-w-md items-end justify-around px-2 pb-[env(safe-area-inset-bottom)] pt-1">
         {tabs.slice(0, 2).map(({ href, label, Icon }) => (
           <Tab key={href} href={href} label={label} Icon={Icon} active={pathname === href} />
@@ -23,7 +23,7 @@ export default function BottomNav() {
         <Link
           href="/sos"
           aria-label="জরুরি SOS"
-          className="sos-pulse -mt-9 flex h-16 w-16 flex-col items-center justify-center rounded-full bg-brand text-[11px] font-bold text-white"
+          className="sos-pulse -mt-9 flex h-16 w-16 flex-col items-center justify-center rounded-full btn-danger text-[11px] font-bold text-white"
         >
           <span className="text-lg font-bold leading-none">SOS</span>
         </Link>

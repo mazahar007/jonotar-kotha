@@ -16,9 +16,10 @@ export default function RoadsPage() {
       <Header />
       <main className="px-4 pb-6 pt-4 lg:px-6">
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconRoute className="h-6 w-6" />}
-          tileClassName="bg-orange-100 text-orange-700"
+          tileClassName="bg-orange-500/15 text-orange-300"
           title="রোড ও মোড়ের অবস্থা"
           subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
         />

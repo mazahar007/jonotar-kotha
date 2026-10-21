@@ -19,7 +19,7 @@ const PURPOSE_META: {
   icon: React.ReactNode;
   activeClass: string;
 }[] = [
-  { id: 'danger', icon: <IconAlert className="h-6 w-6" />, activeClass: 'bg-brand ring-white/70' },
+  { id: 'danger', icon: <IconAlert className="h-6 w-6" />, activeClass: 'bg-red-500 ring-white/70' },
   { id: 'blood', icon: <IconDroplet className="h-6 w-6" />, activeClass: 'bg-rose-600 ring-white/70' },
   { id: 'help', icon: <IconUsers className="h-6 w-6" />, activeClass: 'bg-amber-500 ring-white/70' },
   { id: 'general', icon: <IconNav className="h-6 w-6" />, activeClass: 'bg-blue-600 ring-white/70' },
@@ -375,7 +375,7 @@ export default function LiveSharePanel() {
       <SectionHeader
         dark
         icon={<IconNav className="h-6 w-6" />}
-        tileClassName="bg-brand text-white"
+        tileClassName="bg-red-500 text-white"
         title="লাইভ লোকেশন শেয়ার করুন"
         subtitle="এক ট্যাপে আপনার লাইভ অবস্থান পরিচিতদের কাছে পাঠান"
       />
@@ -470,7 +470,7 @@ export default function LiveSharePanel() {
           <button
             onClick={start}
             disabled={starting}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-4 font-bold shadow-lg shadow-red-900/50 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl btn-danger py-4 font-bold disabled:opacity-60"
           >
             <IconSend className="h-5 w-5" />
             {starting ? 'লোকেশন নেওয়া হচ্ছে...' : 'লাইভ শেয়ার শুরু করুন'}
@@ -487,7 +487,7 @@ export default function LiveSharePanel() {
               <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500" />
             </span>
             <p className="font-bold">লাইভ শেয়ার চলছে</p>
-            <span className="rounded-full bg-brand px-2.5 py-1 text-xs font-bold">
+            <span className="rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold">
               {LIVE_PURPOSE_LABEL[sharing.purpose]}
             </span>
           </div>

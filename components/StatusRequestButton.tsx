@@ -82,8 +82,8 @@ export default function StatusRequestButton({
         aria-live="polite"
         className={`flex min-h-11 w-full items-center justify-center gap-2 rounded-full border px-4 text-[13px] font-bold transition ${
           requested
-            ? 'cursor-default border-emerald-200 bg-emerald-50 text-emerald-700'
-            : 'border-[#efe3d3] bg-white text-ink hover:bg-cream disabled:opacity-60'
+            ? 'cursor-default border-emerald-500/30 bg-emerald-500/10 text-emerald-300'
+            : 'border-white/10 bg-surface text-ink hover:bg-cream disabled:opacity-60'
         }`}
       >
         {loading ? 'পাঠানো হচ্ছে...' : requested ? '✅ অনুরোধ পাঠানো হয়েছে' : '🔔 বর্তমান অবস্থা জানতে চাই'}

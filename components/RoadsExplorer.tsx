@@ -107,7 +107,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
 
   const chipCls = (active: boolean) =>
     `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold shadow-sm transition ${
-      active ? 'bg-ink text-white' : 'bg-white text-ink hover:bg-cream-dark'
+      active ? 'btn-gradient text-white' : 'bg-surface text-ink hover:bg-cream-dark'
     }`;
 
   const body = (
@@ -116,7 +116,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
       <QuickPostStrip onPosted={refetch} />
 
       {/* Shared area filter */}
-      <div className="rounded-2xl bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="rounded-2xl bg-surface border border-white/10 p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
@@ -162,11 +162,11 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
       {display === null ? (
         <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       ) : items !== null && items.length === 0 ? (
-        <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
           এই এলাকায় এখনো কোনো রোড বা মোড় যোগ হয়নি।
         </p>
       ) : display.length === 0 ? (
-        <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+        <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
           এই অবস্থায় কোনো জায়গা নেই।
         </p>
       ) : isHome ? (
@@ -179,7 +179,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           />
           <Link
             href="/roads"
-            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-ink text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-stone-800"
+            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-white/10"
           >
             আরও দেখুন
             <IconChevronRight className="h-5 w-5" />
@@ -201,7 +201,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     <section className="space-y-5">
       <SectionHeader
         icon={<IconRoute className="h-6 w-6" />}
-        tileClassName="bg-orange-100 text-orange-700"
+        tileClassName="bg-orange-500/15 text-orange-300"
         title="রোড ও মোড়ের অবস্থা"
         subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
         action={

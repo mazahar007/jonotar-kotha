@@ -33,13 +33,13 @@ export default function LiveBloodStrip() {
   if (shares.length === 0) return null;
 
   return (
-    <section className="mt-4 rounded-3xl bg-rose-50 p-4 ring-1 ring-rose-200">
+    <section className="mt-4 rounded-3xl bg-rose-500/10 p-4 ring-1 ring-rose-500/30">
       <div className="flex items-center gap-2">
         <span className="relative flex h-2.5 w-2.5">
           <span className="absolute h-full w-full animate-ping rounded-full bg-rose-400 opacity-75" />
           <span className="relative h-2.5 w-2.5 rounded-full bg-rose-600" />
         </span>
-        <h2 className="font-bold text-rose-900">লাইভ রক্তের প্রয়োজন</h2>
+        <h2 className="font-bold text-rose-300">লাইভ রক্তের প্রয়োজন</h2>
         <span className="rounded-full bg-rose-600 px-2 py-0.5 text-xs font-bold text-white">
           {bnNum(shares.length)}টি
         </span>
@@ -49,7 +49,7 @@ export default function LiveBloodStrip() {
           <Link
             key={s.id}
             href={`/live/${s.id}`}
-            className="flex items-center gap-3 rounded-2xl bg-white p-3.5 shadow-sm transition active:scale-[0.99]"
+            className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-3.5 shadow-sm transition active:scale-[0.99]"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-100 text-brand">
               <IconDroplet className="h-5 w-5" />
@@ -59,7 +59,7 @@ export default function LiveBloodStrip() {
               <span className="block text-xs text-ink-soft">{timeAgoBn(s.updated_at)} আপডেট হয়েছে</span>
             </span>
             {s.blood_group && (
-              <span className="shrink-0 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-white">
+              <span className="shrink-0 rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold text-white">
                 {s.blood_group}
               </span>
             )}

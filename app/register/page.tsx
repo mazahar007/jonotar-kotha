@@ -10,7 +10,7 @@ import { registerWithOtp, useMember, type OtpSendResponse } from '@/lib/member';
 import { IconCheck, IconUsers } from '@/components/icons';
 
 const inputCls =
-  'w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand';
+  'w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand';
 
 /** Phase 17 — safe post-login destination: only same-origin paths allowed. */
 function safeReturnTo(raw: string | null): string {
@@ -48,8 +48,8 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6">
-      <div className="rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-100 text-sky-700">
+      <div className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-sky-500/15 text-sky-300">
           <IconUsers className="h-6 w-6" />
         </span>
         <h1 className="mt-3 text-xl font-bold text-ink">সদস্য নিবন্ধন</h1>
@@ -84,7 +84,7 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
                 className={inputCls}
               />
             </div>
-            <p className="flex items-start gap-2 rounded-xl bg-emerald-50 px-4 py-3 text-xs text-emerald-900">
+            <p className="flex items-start gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-xs text-emerald-900">
               <IconCheck className="mt-0.5 h-4 w-4 shrink-0" />
               <span>মোবাইল নম্বর যাচাই করলে অ্যাকাউন্ট সম্পূর্ণ ভেরিফাইড হয়। শুধু ইমেইল দিয়ে নিবন্ধন করলে পরে ফোন নম্বর যোগ করে ভেরিফাই করতে হবে। নম্বর/ইমেইল কখনো অন্য সদস্যদের দেখানো হয় না।</span>
             </p>
@@ -94,7 +94,7 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
             <button
               onClick={sendCode}
               disabled={busy}
-              className="min-h-[52px] w-full rounded-2xl bg-brand py-4 font-bold text-white disabled:opacity-50"
+              className="min-h-[52px] w-full rounded-2xl btn-gradient py-4 font-bold text-white disabled:opacity-50"
             >
               {busy ? 'কোড পাঠানো হচ্ছে...' : 'কোড পাঠাও'}
             </button>
@@ -118,7 +118,7 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
         )}
       </div>
 
-      <div className="mt-4 rounded-3xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+      <div className="mt-4 rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <h2 className="font-bold text-ink">আগে থেকে নিবন্ধিত?</h2>
         <p className="mt-1 text-sm text-ink-soft">আপনার মোবাইল নম্বর বা ইমেইলে পাঠানো কোড দিয়ে প্রবেশ করুন।</p>
         <div className="mt-3">

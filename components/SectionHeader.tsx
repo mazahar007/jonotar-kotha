@@ -17,6 +17,7 @@ export default function SectionHeader({
   dark = false,
   as = 'h2',
   className = '',
+  gradient = false,
 }: {
   icon: ReactNode;
   tileClassName?: string;
@@ -26,6 +27,8 @@ export default function SectionHeader({
   dark?: boolean;
   as?: 'h1' | 'h2';
   className?: string;
+  /** Phase 19 — signature blue→violet→teal gradient title (page-level headings) */
+  gradient?: boolean;
 }) {
   const Title = as;
   return (
@@ -38,7 +41,7 @@ export default function SectionHeader({
       <div className="min-w-0 flex-1">
         <Title
           className={`text-[22px] font-bold leading-snug lg:text-2xl ${
-            dark ? 'text-white' : 'text-ink'
+            gradient ? 'text-gradient' : dark ? 'text-white' : 'text-ink'
           }`}
         >
           {title}

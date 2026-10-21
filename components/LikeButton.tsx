@@ -72,7 +72,7 @@ export default function LikeButton({
       aria-pressed={liked}
       title={loggedIn ? (liked ? 'লাইক তুলে নিন' : 'লাইক দিন') : 'লাইক দিতে লগিন করুন'}
       className={`flex min-h-[44px] items-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors ${
-        liked ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
+        liked ? 'bg-rose-600 text-white' : 'bg-rose-500/10 text-rose-300 hover:bg-rose-500/15'
       } ${loggedIn ? '' : 'opacity-70'}`}
     >
       <span aria-hidden className="text-base leading-none">

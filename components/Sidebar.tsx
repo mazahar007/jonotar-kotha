@@ -35,7 +35,7 @@ export default function Sidebar() {
   if (pathname.startsWith('/admin') || pathname.startsWith('/login')) return null;
 
   return (
-    <aside className="sticky top-0 hidden h-dvh w-72 shrink-0 flex-col border-r border-[#efe3d3] bg-cream px-5 py-6 lg:flex">
+    <aside className="sticky top-0 hidden h-dvh w-72 shrink-0 flex-col border-r border-white/10 bg-cream px-5 py-6 lg:flex">
       <Link href="/" className="block">
         <span className="text-2xl font-bold leading-tight text-ink">জনতার কথা</span>
         <span className="mt-0.5 block text-[13px] text-ink-soft">নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং</span>
@@ -49,7 +49,7 @@ export default function Sidebar() {
               key={href}
               href={href}
               className={`flex min-h-12 items-center gap-3 rounded-2xl px-4 py-3 text-base font-semibold transition ${
-                active ? 'bg-ink text-white' : 'text-ink-soft hover:bg-white hover:text-ink'
+                active ? 'btn-gradient text-white' : 'text-ink-soft hover:bg-surface hover:text-ink'
               }`}
             >
               <Icon className="h-6 w-6" />
@@ -61,7 +61,7 @@ export default function Sidebar() {
 
       <Link
         href="/sos"
-        className="sos-pulse mt-auto flex items-center justify-center gap-2 rounded-2xl bg-brand py-4 text-lg font-bold text-white"
+        className="sos-pulse mt-auto flex items-center justify-center gap-2 rounded-2xl btn-danger py-4 text-lg font-bold text-white"
       >
         জরুরি SOS
       </Link>

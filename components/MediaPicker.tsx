@@ -86,7 +86,7 @@ export default function MediaPicker({
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-[#e0d2bd] bg-white py-4 text-sm font-bold text-ink-soft"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-white/15 bg-surface py-4 text-sm font-bold text-ink-soft"
       >
         <IconCamera className="h-5 w-5" />
         ছবি / ভিডিও যোগ করুন
@@ -98,7 +98,7 @@ export default function MediaPicker({
       {items.length > 0 && (
         <div className="mt-3 grid grid-cols-4 gap-2">
           {items.map((it, i) => (
-            <div key={it.previewUrl} className="relative aspect-square overflow-hidden rounded-xl bg-stone-200">
+            <div key={it.previewUrl} className="relative aspect-square overflow-hidden rounded-xl bg-white/10">
               {it.isVideo ? (
                 <>
                   {/* eslint-disable-next-line jsx-a11y/media-has-caption */}

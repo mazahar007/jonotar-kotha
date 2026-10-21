@@ -116,9 +116,9 @@ export default function PushSubscribeToggle({ memberId }: { memberId: number | n
   const unavailable = status === 'unsupported' || status === 'no-vapid';
 
   return (
-    <div className="rounded-3xl bg-white p-5 shadow-sm">
+    <div className="rounded-3xl bg-surface border border-white/10 p-5 shadow-sm">
       <div className="flex items-center gap-3">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#efe9ff] text-[#5b3df0]">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-500/15 text-violet-300">
           <IconBell className="h-6 w-6" />
         </span>
         <div className="min-w-0 flex-1">
@@ -139,15 +139,15 @@ export default function PushSubscribeToggle({ memberId }: { memberId: number | n
             aria-pressed={on}
             aria-label={on ? 'পুশ নোটিফিকেশন বন্ধ করুন' : 'পুশ নোটিফিকেশন চালু করুন'}
             className={`relative h-8 w-14 shrink-0 rounded-full transition-colors disabled:opacity-40 ${
-              on ? 'bg-emerald-500' : 'bg-stone-300'
+              on ? 'bg-emerald-500' : 'bg-white/20'
             }`}
           >
             <span
-              className={`absolute top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow transition-all ${
+              className={`absolute top-1 flex h-6 w-6 items-center justify-center rounded-full bg-surface shadow transition-all ${
                 on ? 'left-7' : 'left-1'
               }`}
             >
-              {on && <IconCheck className="h-4 w-4 text-emerald-600" />}
+              {on && <IconCheck className="h-4 w-4 text-emerald-400" />}
             </span>
           </button>
         )}
@@ -161,7 +161,7 @@ export default function PushSubscribeToggle({ memberId }: { memberId: number | n
         </button>
       )}
       {msg && (
-        <p className={`mt-3 text-xs font-semibold ${on ? 'text-emerald-700' : 'text-ink-soft'}`}>
+        <p className={`mt-3 text-xs font-semibold ${on ? 'text-emerald-300' : 'text-ink-soft'}`}>
           {msg}
         </p>
       )}

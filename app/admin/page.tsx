@@ -191,7 +191,7 @@ export default function AdminPage() {
 
   return (
     <main className="min-h-dvh bg-cream">
-      <header className="sticky top-0 z-40 flex items-center justify-between bg-ink px-4 py-3 text-white">
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-surface/95 px-4 py-3 text-ink backdrop-blur">
         <h1 className="font-bold">জনতার কথা — অ্যাডমিন</h1>
         <button onClick={logout} className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold">
           <IconLogout className="h-4 w-4" /> লগআউট
@@ -204,7 +204,7 @@ export default function AdminPage() {
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold ${
-              tab === t.id ? 'bg-brand text-white' : 'bg-white text-ink-soft shadow-sm'
+              tab === t.id ? 'bg-brand text-white' : 'bg-surface text-ink-soft shadow-sm'
             }`}
           >
             {t.label}
@@ -232,7 +232,7 @@ export default function AdminPage() {
         {tab === 'sos' && <AdminLiveShares />}
         <button
           onClick={openAdd}
-          className="mb-3 w-full rounded-2xl border-2 border-dashed border-[#e0d2bd] py-3 text-sm font-bold text-ink-soft"
+          className="mb-3 w-full rounded-2xl border-2 border-dashed border-white/15 py-3 text-sm font-bold text-ink-soft"
         >
           + নতুন যোগ করুন
         </button>
@@ -241,7 +241,7 @@ export default function AdminPage() {
 
         <div className="grid gap-2 lg:grid-cols-2">
           {rows.map((r) => (
-            <div key={r.id} className="rounded-2xl bg-white p-4 shadow-sm">
+            <div key={r.id} className="rounded-2xl bg-surface border border-white/10 p-4 shadow-sm">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-bold text-ink">{rowTitle(r)}</p>
@@ -291,7 +291,7 @@ export default function AdminPage() {
                       key={s.value}
                       onClick={() => setStatus(r.id, s.value)}
                       className={`rounded-full px-3 py-1.5 text-xs font-bold ${
-                        r.status === s.value ? 'bg-ink text-white' : 'bg-cream text-ink-soft'
+                        r.status === s.value ? 'btn-gradient text-white' : 'bg-cream text-ink-soft'
                       }`}
                     >
                       {s.label}
@@ -304,7 +304,7 @@ export default function AdminPage() {
         </div>
 
         {!loading && rows.length === 0 && (
-          <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">কোনো ডেটা নেই।</p>
+          <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">কোনো ডেটা নেই।</p>
         )}
           </>
         )}
@@ -320,7 +320,7 @@ export default function AdminPage() {
                   setEditing(null);
                   setAdding(false);
                 }}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-white"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-surface"
               >
                 <IconX className="h-4 w-4" />
               </button>
@@ -334,7 +334,7 @@ export default function AdminPage() {
                       type="button"
                       onClick={() => setForm({ ...form, [f.key]: !form[f.key] })}
                       className={`flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold ${
-                        form[f.key] ? 'bg-emerald-100 text-emerald-700' : 'bg-white text-ink-soft'
+                        form[f.key] ? 'bg-emerald-500/15 text-emerald-300' : 'bg-surface text-ink-soft'
                       }`}
                     >
                       {form[f.key] ? <IconCheck className="h-4 w-4" /> : <IconX className="h-4 w-4" />}
@@ -350,7 +350,7 @@ export default function AdminPage() {
                           [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value,
                         })
                       }
-                      className="w-full rounded-xl border border-[#efe3d3] bg-white px-3 py-2.5 text-sm outline-none focus:border-brand"
+                      className="w-full rounded-xl border border-white/10 bg-surface px-3 py-2.5 text-sm outline-none focus:border-brand"
                     />
                   )}
                 </label>
@@ -358,7 +358,7 @@ export default function AdminPage() {
             </div>
             <button
               onClick={save}
-              className="mt-5 w-full rounded-2xl bg-brand py-3.5 font-bold text-white"
+              className="mt-5 w-full rounded-2xl btn-gradient py-3.5 font-bold text-white"
             >
               সংরক্ষণ করুন
             </button>

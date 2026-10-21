@@ -35,9 +35,10 @@ export default function SurveysPage() {
       <Header />
       <main className="mx-auto w-full max-w-2xl px-4 py-6 lg:max-w-3xl">
         <SectionHeader
+          gradient
           as="h1"
           icon={<IconCheck className="h-6 w-6" />}
-          tileClassName="bg-[#efe9ff] text-[#5b3df0]"
+          tileClassName="bg-violet-500/15 text-violet-300"
           title="এলাকার জরিপ"
           subtitle="আপনার এলাকার প্রশ্নে মত দিন"
         />
@@ -46,7 +47,7 @@ export default function SurveysPage() {
         </p>
 
         {member === null && (
-          <Link href="/register" className="mt-4 block rounded-2xl bg-ink p-4 text-center text-sm font-bold text-white">
+          <Link href="/register" className="mt-4 block rounded-2xl btn-gradient p-4 text-center text-sm font-bold text-white">
             ভোট দিতে প্রথমে নিবন্ধন করুন →
           </Link>
         )}
@@ -54,7 +55,7 @@ export default function SurveysPage() {
         <div className="mt-5 space-y-4">
           {surveys === null && <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>}
           {surveys !== null && surveys.length === 0 && (
-            <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">এখন কোনো সক্রিয় জরিপ নেই।</p>
+            <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">এখন কোনো সক্রিয় জরিপ নেই।</p>
           )}
           {surveys?.map((s) => (
             <SurveyCard

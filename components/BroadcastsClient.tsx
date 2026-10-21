@@ -68,7 +68,7 @@ export default function BroadcastsClient() {
         <LocationPicker compact value={area} onChange={setArea} />
         <div className="space-y-2">
           {active.length === 0 && (
-            <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
+            <p className="rounded-2xl bg-surface border border-white/10 p-6 text-center text-sm text-ink-soft">
               এই এলাকায় এখন কোনো সক্রিয় ঘোষণা নেই। ✅
             </p>
           )}
@@ -97,7 +97,7 @@ export default function BroadcastsClient() {
         <section className="space-y-4">
           <SectionHeader
             icon={<IconClock className="h-6 w-6" />}
-            tileClassName="bg-stone-200 text-stone-600"
+            tileClassName="bg-white/10 text-ink-soft"
             title="সম্প্রতি শেষ হওয়া"
             subtitle="মেয়াদ শেষ হওয়া পুরনো ঘোষণা"
           />
@@ -106,7 +106,7 @@ export default function BroadcastsClient() {
               <Link
                 key={b.id}
                 href={`/broadcasts/${b.id}`}
-                className="block rounded-2xl bg-white p-4 opacity-75 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+                className="block rounded-2xl bg-surface border border-white/10 p-4 opacity-75 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
               >
                 <p className="text-sm font-bold text-ink">{b.title}</p>
                 <p className="mt-0.5 line-clamp-2 text-xs text-ink-soft">{b.body}</p>

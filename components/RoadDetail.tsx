@@ -113,7 +113,7 @@ export default function RoadDetail({ id }: { id: number }) {
   if (notFound) {
     return (
       <main className="px-4 py-10">
-        <p className="rounded-2xl bg-white p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
+        <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
       </main>
     );
   }
@@ -133,12 +133,12 @@ export default function RoadDetail({ id }: { id: number }) {
     <main className="px-4 pb-8 pt-4 lg:px-6">
       <div className="mx-auto w-full max-w-3xl space-y-4">
         {/* Header */}
-        <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <h1 className="min-w-0 flex-1 text-xl font-bold leading-snug text-ink">
               {road.name}
               {isSpot && (
-                <span className="ml-2 inline-block rounded-full bg-violet-100 px-2.5 py-0.5 align-middle text-[11px] font-bold text-violet-700">
+                <span className="ml-2 inline-block rounded-full bg-violet-500/15 px-2.5 py-0.5 align-middle text-[11px] font-bold text-violet-300">
                   গুরুত্বপূর্ণ স্থান
                 </span>
               )}
@@ -173,7 +173,7 @@ export default function RoadDetail({ id }: { id: number }) {
         </section>
 
         {/* Post an update */}
-        <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="font-bold text-ink">আপডেট দিন</h2>
           <p className="mt-0.5 text-xs text-ink-soft">
             {isSpot
@@ -207,7 +207,7 @@ export default function RoadDetail({ id }: { id: number }) {
                     onClick={() => setStatus(o.value)}
                     className={`inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-bold transition ${
                       status === o.value
-                        ? 'bg-ink text-white'
+                        ? 'btn-gradient text-white'
                         : 'bg-cream text-ink-soft hover:bg-cream-dark'
                     }`}
                   >
@@ -224,7 +224,7 @@ export default function RoadDetail({ id }: { id: number }) {
                 onChange={(e) => setNote(e.target.value)}
                 placeholder="কী অবস্থা দেখলেন? যেমন: বড় গর্ত হয়েছে, পানি জমে আছে..."
                 rows={3}
-                className="w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand"
+                className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
               />
             </div>
 
@@ -239,13 +239,13 @@ export default function RoadDetail({ id }: { id: number }) {
                 value={reporter}
                 onChange={(e) => setReporter(e.target.value)}
                 placeholder={member ? member.name : 'নাম না দিলে বেনামী হিসেবে যাবে'}
-                className="w-full rounded-2xl border border-[#efe3d3] bg-white px-4 py-3 text-[15px] outline-none focus:border-brand"
+                className="w-full rounded-2xl border border-white/10 bg-surface px-4 py-3 text-[15px] outline-none focus:border-brand"
               />
             </div>
 
             {error && <p className="text-sm font-semibold text-brand">{error}</p>}
             {posted && (
-              <p className="rounded-xl bg-emerald-50 px-4 py-2.5 text-sm font-bold text-emerald-700">
+              <p className="rounded-xl bg-emerald-500/10 px-4 py-2.5 text-sm font-bold text-emerald-300">
                 আপডেট যোগ হয়েছে — রোডের বর্তমান অবস্থা বদলে গেছে।
               </p>
             )}
@@ -253,7 +253,7 @@ export default function RoadDetail({ id }: { id: number }) {
             <button
               onClick={submit}
               disabled={sending}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3.5 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-3.5 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
             >
               <IconSend className="h-5 w-5" />
               {sending ? 'পাঠানো হচ্ছে...' : 'আপডেট পাঠান'}
@@ -274,7 +274,7 @@ export default function RoadDetail({ id }: { id: number }) {
         <StarRating targetType={isSpot ? 'spot' : 'road'} targetId={road.id} />
 
         {/* Live timeline */}
-        <section className="rounded-2xl bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+        <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
           <h2 className="mb-4 font-bold text-ink">লাইভ আপডেট টাইমলাইন</h2>
           {road.updates.length === 0 ? (
             <p className="py-4 text-center text-sm text-ink-soft">এখনো কোনো আপডেট নেই।</p>
