@@ -37,7 +37,7 @@ export default function RoadCard({ road: initial }: { road: Road }) {
   const isSpot = road.kind === 'spot';
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition hover:shadow-[0_4px_18px_rgba(0,0,0,0.09)]">
+    <div className="h-full overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition hover:shadow-[0_4px_18px_rgba(0,0,0,0.09)]">
       <Link href={`/roads/${road.id}`} className="block">
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element

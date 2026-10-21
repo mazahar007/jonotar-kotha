@@ -55,6 +55,9 @@ export const IconCheck = ({ className }: P) => (
 export const IconChevronRight = ({ className }: P) => (
   <svg {...base(className)}><path d="m9 18 6-6-6-6" /></svg>
 );
+export const IconChevronLeft = ({ className }: P) => (
+  <svg {...base(className)}><path d="m15 18-6-6 6-6" /></svg>
+);
 export const IconMegaphone = ({ className }: P) => (
   <svg {...base(className)}><path d="m3 11 18-5v12L3 14v-3z" /><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" /></svg>
 );

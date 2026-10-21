@@ -18,21 +18,25 @@ function isVideoUrl(url: string): boolean {
   return VIDEO_EXT.some((e) => clean.endsWith(e));
 }
 
-export default function ReportCard({ report }: { report: Report }) {
+export default function ReportCard({ report, large = false }: { report: Report; large?: boolean }) {
   const media = (report.media_urls ?? []).filter(Boolean);
   const images = media.filter((u) => !isVideoUrl(u));
   const videos = media.filter((u) => isVideoUrl(u));
   const breadcrumb = [report.union_name, report.upazila_name, report.district_name].filter(Boolean) as string[];
 
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+    <article
+      className={`overflow-hidden rounded-2xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
+        large ? 'flex h-full flex-col' : ''
+      }`}
+    >
       {/* Cover: first uploaded photo */}
       {images.length > 0 && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={images[0]} alt="" className="h-44 w-full object-cover" loading="lazy" />
+        <img src={images[0]} alt="" className={`${large ? 'h-52' : 'h-44'} w-full object-cover`} loading="lazy" />
       )}
 
-      <div className="p-4">
+      <div className={large ? 'flex flex-1 flex-col p-5 lg:p-6' : 'p-4'}>
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-cream-dark px-2.5 py-1 text-xs font-semibold text-ink-soft">
             {report.category}
@@ -45,8 +49,16 @@ export default function ReportCard({ report }: { report: Report }) {
             </span>
           )}
         </div>
-        <h3 className="text-[15px] font-bold leading-snug text-ink">{report.title}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{report.description}</p>
+        <h3 className={`${large ? 'text-xl' : 'text-[15px]'} font-bold leading-snug text-ink`}>
+          {report.title}
+        </h3>
+        <p
+          className={`leading-relaxed text-ink-soft ${
+            large ? 'mt-2 line-clamp-3 text-[15px]' : 'mt-1.5 text-sm'
+          }`}
+        >
+          {report.description}
+        </p>
 
         {/* Extra photos as a thumbnail row */}
         {images.length > 1 && (
@@ -84,7 +96,11 @@ export default function ReportCard({ report }: { report: Report }) {
           </p>
         )}
         {/* Phase 7 — verify votes + link to detail/comments; Phase 15 — like */}
-        <div className="mt-3 flex items-center justify-between gap-2 border-t border-stone-100 pt-3">
+        <div
+          className={`flex items-center justify-between gap-2 border-t border-stone-100 pt-3 ${
+            large ? 'mt-auto' : 'mt-3'
+          }`}
+        >
           <div className="flex items-center gap-2">
             <VerifyButton reportId={report.id} variant="compact" />
             <LikeButton targetType="report" targetId={report.id} />

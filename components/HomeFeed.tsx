@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
 import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/types';
-import ReportCard from './ReportCard';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
+import ReportsSlider from './ReportsSlider';
 import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
 import TopContributors from './TopContributors';
@@ -22,11 +21,6 @@ export default function HomeFeed({
   volunteers: Volunteer[];
   updates: MunicipalityUpdate[];
 }) {
-  const [active, setActive] = useState('সব');
-  const filtered = useMemo(
-    () => (active === 'সব' ? reports : reports.filter((r) => r.category === active)),
-    [active, reports]
-  );
 
   return (
     <div className="px-4 pb-10 lg:px-6">
@@ -73,42 +67,8 @@ export default function HomeFeed({
           {/* Phase 3 — amar-elaka card (members) + newest survey */}
           <HomeMemberSections />
 
-          {/* Report feed — জনতার রিপোর্ট */}
-          <section className="space-y-4">
-            <SectionHeader
-              icon={<IconMegaphone className="h-6 w-6" />}
-              tileClassName="bg-red-100 text-brand"
-              title="জনতার রিপোর্ট"
-              subtitle="এলাকার সমস্যা ও ঘটনার আপডেট"
-            />
-
-            {/* Category chips */}
-            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:-mx-6 lg:px-6">
-              {categories.map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setActive(c.name)}
-                  className={`flex min-h-11 shrink-0 items-center rounded-full px-4 text-sm font-semibold transition ${
-                    active === c.name ? 'bg-ink text-white' : 'bg-white text-ink-soft shadow-sm'
-                  }`}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
-
-            {/* Report cards — 1 col mobile, 2 col from md up */}
-            <div className="grid gap-3 md:grid-cols-2">
-              {filtered.length === 0 && (
-                <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft md:col-span-2">
-                  এই ক্যাটাগরিতে এখনো কোনো রিপোর্ট নেই।
-                </p>
-              )}
-              {filtered.map((r) => (
-                <ReportCard key={r.id} report={r} />
-              ))}
-            </div>
-          </section>
+          {/* Phase 16 — Report feed as a big-card slider (top 10, newest first) */}
+          <ReportsSlider categories={categories} reports={reports} />
 
           {/* Phase 10 — এলাকার সেফটি স্কোর */}
           <SafetyScoreSection />

@@ -1,14 +1,16 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
+import CardSlider from '@/components/CardSlider';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import QuickPostStrip from '@/components/QuickPostStrip';
 import RoadCard from '@/components/RoadCard';
 import SectionHeader, { SectionActionLink } from '@/components/SectionHeader';
-import { IconPin, IconRoute } from '@/components/icons';
+import { IconChevronRight, IconPin, IconRoute } from '@/components/icons';
 import { bnNum } from '@/lib/time';
 import SafetyScoreChip from '@/components/SafetyScoreChip';
-import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
+import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadKind, type RoadStatus } from '@/lib/types';
 
 type StatusFilter = RoadStatus | 'none' | null;
 
@@ -82,6 +84,9 @@ function RoadGroup({
   emptyText,
   gridClassName,
   headerAction,
+  slider = false,
+  seeMoreHref,
+  seeMoreLabel,
 }: {
   icon: ReactNode;
   tileClassName: string;
@@ -92,6 +97,10 @@ function RoadGroup({
   emptyText: string;
   gridClassName: string;
   headerAction?: ReactNode;
+  /** Phase 16 — slider mode: latest 10 by latest update + big See More button. */
+  slider?: boolean;
+  seeMoreHref?: string;
+  seeMoreLabel?: string;
 }) {
   const [filter, setFilter] = useState<StatusFilter>(null);
 
@@ -115,6 +124,17 @@ function RoadGroup({
     if (filter === 'none') return items.filter((r) => !r.current_status);
     return items.filter((r) => r.current_status === filter);
   }, [items, filter]);
+
+  // Phase 16 — slider shows the 10 most recently updated (filtered set when a chip is active).
+  const display = useMemo(() => {
+    if (!visible) return null;
+    const sorted = [...visible].sort((a, b) => {
+      const at = a.latest_update ? new Date(a.latest_update.created_at).getTime() : 0;
+      const bt = b.latest_update ? new Date(b.latest_update.created_at).getTime() : 0;
+      return bt - at;
+    });
+    return slider ? sorted.slice(0, 10) : sorted;
+  }, [visible, slider]);
 
   const chipCls = (active: boolean) =>
     `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold shadow-sm transition ${
@@ -168,17 +188,35 @@ function RoadGroup({
         </div>
       )}
 
-      {visible === null ? (
+      {display === null ? (
         <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       ) : items !== null && items.length === 0 ? (
         <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">{emptyText}</p>
-      ) : visible.length === 0 ? (
+      ) : display.length === 0 ? (
         <p className="rounded-2xl bg-white p-6 text-center text-sm text-ink-soft">
           এই অবস্থায় কোনো {totalLabel} নেই।
         </p>
+      ) : slider ? (
+        <>
+          <CardSlider
+            items={display}
+            keyOf={(r) => r.id}
+            ariaLabel={`${title} স্লাইডার`}
+            renderCard={(r) => <RoadCard road={r} />}
+          />
+          {seeMoreHref && seeMoreLabel && (
+            <Link
+              href={seeMoreHref}
+              className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-ink text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-stone-800"
+            >
+              {seeMoreLabel}
+              <IconChevronRight className="h-5 w-5" />
+            </Link>
+          )}
+        </>
       ) : (
         <div className={gridClassName}>
-          {visible.map((r) => (
+          {display.map((r) => (
             <RoadCard key={r.id} road={r} />
           ))}
         </div>
@@ -193,8 +231,17 @@ function RoadGroup({
  * clearly-labeled sub-groups — 🛣️ রোডসমূহ and 📍 মোড় ও গুরুত্বপূর্ণ স্থান.
  * No tabs (per the user's earlier complaint). `home` variant adds the
  * umbrella header + link; `full` variant is the /roads page body.
+ * Phase 16 — `home` variant shows each sub-group as a big-card slider
+ * (latest 10) with a big See More button; `initialKind` (from ?kind= on
+ * /roads) shows only that sub-group in full grid form.
  */
-export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' | 'full' }) {
+export default function RoadsExplorer({
+  variant = 'full',
+  initialKind = null,
+}: {
+  variant?: 'home' | 'full';
+  initialKind?: RoadKind | null;
+}) {
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
   const [roads, setRoads] = useState<Road[] | null>(null);
   const [spots, setSpots] = useState<Road[] | null>(null);
@@ -224,6 +271,9 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   }, [load, area]);
 
   const gridClassName = `grid gap-3 md:grid-cols-2 ${variant === 'full' ? 'xl:grid-cols-3' : ''}`;
+  const isHome = variant === 'home';
+  const showRoads = !initialKind || initialKind === 'road';
+  const showSpots = !initialKind || initialKind === 'spot';
 
   const body = (
     <>
@@ -237,29 +287,39 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
       </div>
 
       {/* Sub-group A — roads */}
-      <RoadGroup
-        icon={<IconRoute className="h-5 w-5" />}
-        tileClassName="bg-orange-100 text-orange-700"
-        title="🛣️ রোডসমূহ"
-        subtitle="কোন রোডের কী অবস্থা — লাইভ আপডেট"
-        items={roads}
-        totalLabel="রোড"
-        emptyText="এই এলাকায় এখনো কোনো রোড যোগ হয়নি।"
-        gridClassName={gridClassName}
-        headerAction={<SafetyScoreChip area={area} />}
-      />
+      {showRoads && (
+        <RoadGroup
+          icon={<IconRoute className="h-5 w-5" />}
+          tileClassName="bg-orange-100 text-orange-700"
+          title="🛣️ রোডসমূহ"
+          subtitle="কোন রোডের কী অবস্থা — লাইভ আপডেট"
+          items={roads}
+          totalLabel="রোড"
+          emptyText="এই এলাকায় এখনো কোনো রোড যোগ হয়নি।"
+          gridClassName={gridClassName}
+          headerAction={<SafetyScoreChip area={area} />}
+          slider={isHome}
+          seeMoreHref="/roads?kind=road"
+          seeMoreLabel="আরও রোড দেখুন"
+        />
+      )}
 
       {/* Sub-group B — spots / মোড় */}
-      <RoadGroup
-        icon={<IconPin className="h-5 w-5" />}
-        tileClassName="bg-violet-100 text-violet-700"
-        title="📍 মোড় ও গুরুত্বপূর্ণ স্থান"
-        subtitle="মোড় ও গুরুত্বপূর্ণ জায়গার লাইভ অবস্থা"
-        items={spots}
-        totalLabel="স্থান"
-        emptyText="এই এলাকায় এখনো কোনো গুরুত্বপূর্ণ স্থান যোগ হয়নি।"
-        gridClassName={gridClassName}
-      />
+      {showSpots && (
+        <RoadGroup
+          icon={<IconPin className="h-5 w-5" />}
+          tileClassName="bg-violet-100 text-violet-700"
+          title="📍 মোড় ও গুরুত্বপূর্ণ স্থান"
+          subtitle="মোড় ও গুরুত্বপূর্ণ জায়গার লাইভ অবস্থা"
+          items={spots}
+          totalLabel="স্থান"
+          emptyText="এই এলাকায় এখনো কোনো গুরুত্বপূর্ণ স্থান যোগ হয়নি।"
+          gridClassName={gridClassName}
+          slider={isHome}
+          seeMoreHref="/roads?kind=spot"
+          seeMoreLabel="আরও স্থান দেখুন"
+        />
+      )}
     </>
   );
 
