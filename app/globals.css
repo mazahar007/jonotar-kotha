@@ -287,6 +287,17 @@ body {
   mask-image: linear-gradient(to bottom, black 55%, transparent 96%);
 }
 
+/* full-bleed hero: break out of the centered max-w wrapper so the
+   background layers span the entire viewport width (no "two screens") */
+.hero-fullbleed {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+html,
+body {
+  overflow-x: clip;
+}
+
 /* glow effects (sample port) */
 .glow-blue {
   box-shadow: 0 0 40px rgba(59, 130, 246, 0.18), 0 0 80px rgba(59, 130, 246, 0.07);
