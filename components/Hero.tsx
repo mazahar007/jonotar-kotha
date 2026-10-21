@@ -107,11 +107,10 @@ export default function Hero() {
                 📝 রিপোর্ট করুন
               </Link>
               {/* Phase 21d: solid RED SOS per user annotation (both themes) —
-                  user 2026-10-22: lighter red + softer glow */}
+                  user 2026-10-22: lighter red + softer glow; slow pulse */}
               <Link
                 href="/sos"
-                style={{ boxShadow: '0 14px 34px -12px rgba(239,68,68,0.35), 0 6px 18px -8px rgba(239,68,68,0.22)' }}
-                className="group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-500 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-400"
+                className="sos-pulse group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-500 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-red-400"
               >
                 🆘 জরুরি SOS
                 <svg
