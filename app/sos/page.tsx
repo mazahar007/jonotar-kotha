@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import LiveSharePanel from '@/components/LiveSharePanel';
 import { SOS_NUMBERS } from '@/lib/mock';
 import {
   IconAlert,
@@ -48,6 +49,8 @@ export default function SosPage() {
               <p className="text-sm text-white/60">১ ট্যাপে কল — লোকেশন স্বয়ংক্রিয়ভাবে যাবে</p>
             </div>
           </div>
+
+          <LiveSharePanel />
 
           <div className="mt-6 space-y-3">
             {SOS_NUMBERS.map((n) => (

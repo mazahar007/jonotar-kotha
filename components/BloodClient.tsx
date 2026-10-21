@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import LiveBloodStrip from '@/components/LiveBloodStrip';
 import SectionHeader from '@/components/SectionHeader';
 import { IconDroplet, IconPin, IconSend } from '@/components/icons';
 import type { BloodDonor } from '@/lib/types';
@@ -25,6 +26,8 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
             </>
           }
         />
+
+        <LiveBloodStrip />
 
         {!requested ? (
           <button

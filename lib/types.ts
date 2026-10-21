@@ -85,6 +85,76 @@ export interface SosAlert {
   created_at: string;
 }
 
+/* ---------- Live location shares (Phase 6) ---------- */
+
+export type LiveSharePurpose = 'danger' | 'blood' | 'help' | 'general';
+
+export const LIVE_PURPOSES: LiveSharePurpose[] = ['danger', 'blood', 'help', 'general'];
+
+export const LIVE_PURPOSE_LABEL: Record<LiveSharePurpose, string> = {
+  danger: 'বিপদে আছি',
+  blood: 'রক্ত দরকার',
+  help: 'সাহায্য দরকার',
+  general: 'সাধারণ শেয়ার',
+};
+
+/** Big banner text shown to viewers of a live share. */
+export const LIVE_PURPOSE_BANNER: Record<LiveSharePurpose, string> = {
+  danger: 'বিপদে আছেন — সাহায্য প্রয়োজন',
+  blood: 'রক্ত প্রয়োজন',
+  help: 'সাহায্য প্রয়োজন',
+  general: 'লাইভ লোকেশন শেয়ার করেছেন',
+};
+
+export const BLOOD_GROUPS = ['A+', 'A−', 'B+', 'B−', 'O+', 'O−', 'AB+', 'AB−'] as const;
+
+/** Sanitized payload of GET /api/live-shares/[id] — never carries owner_token. */
+export interface LiveSharePublic {
+  id: string;
+  sharer_name: string;
+  purpose: LiveSharePurpose;
+  blood_group: string | null;
+  note: string | null;
+  lat: number;
+  lng: number;
+  accuracy: number | null;
+  is_active: boolean;
+  expired: boolean;
+  expires_at: string;
+  updated_at: string;
+  /** Present ONLY when the sharer opted to show their number. */
+  phone?: string;
+}
+
+/** Minimal card payload for the /blood live strip. */
+export interface LiveBloodShare {
+  id: string;
+  sharer_name: string;
+  blood_group: string | null;
+  updated_at: string;
+}
+
+/** Admin SOS-inbox view of a live share (still no owner_token). */
+export interface LiveShareAdmin {
+  id: string;
+  sharer_name: string;
+  purpose: LiveSharePurpose;
+  blood_group: string | null;
+  note: string | null;
+  lat: number;
+  lng: number;
+  accuracy: number | null;
+  is_active: boolean;
+  expired: boolean;
+  expires_at: string;
+  updated_at: string;
+  /** Admin always sees the number when one was given. */
+  phone: string | null;
+  show_phone: boolean;
+  member_id: number | null;
+  created_at: string;
+}
+
 export interface EvidenceItem {
   id: number;
   title: string;

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { STATUS_LABEL, STATUS_OPTIONS, type ReportStatus } from '@/lib/types';
 import { IconCheck, IconLogout, IconX } from '@/components/icons';
 import AdminLocations from '@/components/AdminLocations';
+import AdminLiveShares from '@/components/AdminLiveShares';
 import AdminMembers from '@/components/AdminMembers';
 import AdminRoads from '@/components/AdminRoads';
 import AdminSurveys from '@/components/AdminSurveys';
@@ -211,6 +212,7 @@ export default function AdminPage() {
           <AdminRoads />
         ) : (
           <>
+        {tab === 'sos' && <AdminLiveShares />}
         <button
           onClick={openAdd}
           className="mb-3 w-full rounded-2xl border-2 border-dashed border-[#e0d2bd] py-3 text-sm font-bold text-ink-soft"

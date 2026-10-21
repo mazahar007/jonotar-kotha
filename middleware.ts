@@ -35,6 +35,11 @@ export async function middleware(req: NextRequest) {
     const isVote = /^\/api\/surveys\/\d+\/vote$/.test(pathname);
     // Phase 4 — posting a road update ("লাইভ আপডেট দিন") is a public citizen write.
     const isRoadUpdate = /^\/api\/roads\/\d+\/updates$/.test(pathname);
+    // Phase 6 — live location share create + owner ping/stop are public writes
+    // (ping/stop are secured by the owner_token inside the handlers).
+    const isLiveShareWrite =
+      pathname === '/api/live-shares' ||
+      /^\/api\/live-shares\/[^/]+\/(ping|stop)$/.test(pathname);
     const publicPost =
       req.method === 'POST' &&
       (pathname === '/api/reports' ||
@@ -42,6 +47,7 @@ export async function middleware(req: NextRequest) {
         pathname === '/api/area-ratings' ||
         pathname === '/api/upload' ||
         isRoadUpdate ||
+        isLiveShareWrite ||
         // Phase 3 — member endpoints enforce their own session auth in the handler
         pathname === '/api/members/register' ||
         pathname === '/api/members/login' ||
