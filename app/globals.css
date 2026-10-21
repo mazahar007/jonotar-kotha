@@ -603,9 +603,9 @@ select.input-dark option {
    hairline dividers. Deep red in dark theme, light red in light theme. */
 .emergency-strip {
   --strip-divide: rgba(252, 165, 165, 0.22);
-  background: linear-gradient(135deg, rgba(127, 29, 29, 0.55) 0%, rgba(153, 27, 27, 0.42) 50%, rgba(127, 29, 29, 0.55) 100%);
+  background: linear-gradient(135deg, rgba(153, 27, 27, 0.5) 0%, rgba(185, 28, 28, 0.38) 50%, rgba(153, 27, 27, 0.5) 100%);
   border: 1px solid rgba(248, 113, 113, 0.35);
-  box-shadow: 0 0 44px rgba(220, 38, 38, 0.16), 0 10px 36px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 36px rgba(239, 68, 68, 0.12), 0 10px 36px rgba(0, 0, 0, 0.28);
 }
 :root:not(.dark) .emergency-strip {
   --strip-divide: rgba(185, 28, 28, 0.16);

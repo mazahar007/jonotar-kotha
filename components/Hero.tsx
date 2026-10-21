@@ -20,17 +20,17 @@ const ORBITS: { icon: string; pos: string; label: string }[] = [
  */
 export default function Hero() {
   return (
-    <section className="noise relative flex min-h-screen items-center overflow-hidden">
-      {/* gradient orbs */}
-      <div aria-hidden className="animate-pulse-slow pointer-events-none absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-brand/15 blur-[120px]" />
+    <section className="noise relative flex min-h-screen items-center overflow-hidden bg-[var(--bg)]">
+      {/* gradient orbs — softened so edges dissolve invisibly into the page bg */}
+      <div aria-hidden className="animate-pulse-slow pointer-events-none absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-brand/10 blur-[140px]" />
       <div
         aria-hidden
-        className="animate-pulse-slow pointer-events-none absolute -bottom-[20%] -right-[10%] h-[500px] w-[500px] rounded-full bg-brand-dark/10 blur-[120px]"
+        className="animate-pulse-slow pointer-events-none absolute -bottom-[20%] -right-[10%] h-[500px] w-[500px] rounded-full bg-brand-dark/10 blur-[140px]"
         style={{ animationDelay: '2s' }}
       />
       <div
         aria-hidden
-        className="animate-pulse-slow pointer-events-none absolute left-[50%] top-[40%] h-[300px] w-[300px] rounded-full bg-teal-glow/10 blur-[100px]"
+        className="animate-pulse-slow pointer-events-none absolute left-[50%] top-[40%] h-[300px] w-[300px] rounded-full bg-teal-glow/10 blur-[120px]"
         style={{ animationDelay: '4s' }}
       />
 
@@ -104,11 +104,12 @@ export default function Hero() {
               >
                 📝 রিপোর্ট করুন
               </Link>
-              {/* Phase 21d: solid RED SOS per user annotation (both themes) */}
+              {/* Phase 21d: solid RED SOS per user annotation (both themes) —
+                  user 2026-10-22: lighter red + softer glow */}
               <Link
                 href="/sos"
-                style={{ boxShadow: '0 18px 45px -10px rgba(220,38,38,0.7), 0 8px 24px -8px rgba(220,38,38,0.5)' }}
-                className="group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-500"
+                style={{ boxShadow: '0 14px 34px -12px rgba(239,68,68,0.35), 0 6px 18px -8px rgba(239,68,68,0.22)' }}
+                className="group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-500 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-400"
               >
                 🆘 জরুরি SOS
                 <svg
@@ -137,15 +138,15 @@ export default function Hero() {
 
           {/* ============ RIGHT: phone composition (sample parity) ============ */}
           <div className="relative mx-auto flex min-h-[400px] w-full max-w-[340px] items-center justify-center sm:min-h-[480px] sm:max-w-[440px] lg:max-w-[520px]">
-            {/* red/coral circle backdrop */}
+            {/* red/coral circle backdrop — lightened per user feedback */}
             <div
               aria-hidden
-              className="absolute h-[280px] w-[280px] rounded-full bg-gradient-to-br from-[#f87171] to-[#dc2626] sm:h-[360px] sm:w-[360px] lg:h-[400px] lg:w-[400px]"
+              className="absolute h-[280px] w-[280px] rounded-full bg-gradient-to-br from-[#fca5a5] to-[#ef4444] sm:h-[360px] sm:w-[360px] lg:h-[400px] lg:w-[400px]"
             />
-            {/* soft red glow under circle */}
+            {/* soft red glow under circle — reduced */}
             <div
               aria-hidden
-              className="absolute h-[280px] w-[280px] rounded-full bg-[#ef4444]/25 blur-[70px] sm:h-[360px] sm:w-[360px] lg:h-[400px] lg:w-[400px]"
+              className="absolute h-[280px] w-[280px] rounded-full bg-[#ef4444]/15 blur-[70px] sm:h-[360px] sm:w-[360px] lg:h-[400px] lg:w-[400px]"
             />
             {/* decorative rings */}
             <div
@@ -262,8 +263,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* bottom fade into page bg */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[var(--bg)] to-transparent" />
+      {/* bottom fade into page bg — tall for a seamless section blend */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)] to-transparent" />
     </section>
   );
 }
