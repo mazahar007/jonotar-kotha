@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { IconMegaphone, IconPin } from './icons';
+import { IconMegaphone, IconPin, IconUser } from './icons';
 import NotificationBell from './NotificationBell';
 import ThemeToggle from './ThemeToggle';
 
@@ -135,10 +135,14 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
 
         {/* right cluster */}
         <div className="flex shrink-0 items-center gap-1.5">
-          <span className="chip-violet hidden items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold sm:flex">
-            <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-violet-400" />
-            নীরব
-          </span>
+          <Link
+            href="/profile"
+            aria-label="প্রোফাইল"
+            className="chip-violet hidden items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold sm:flex"
+          >
+            <IconUser className="h-3.5 w-3.5" />
+            প্রোফাইল
+          </Link>
           <ThemeToggle />
           <NotificationBell />
           <Link
