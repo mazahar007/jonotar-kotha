@@ -20,7 +20,7 @@ const ORBITS: { icon: string; pos: string; label: string }[] = [
  */
 export default function Hero() {
   return (
-    <section className="noise relative flex min-h-screen items-center overflow-hidden bg-[var(--bg)]">
+    <section className="noise hero-fade-noise relative flex min-h-screen items-center overflow-hidden bg-[var(--bg)]">
       {/* gradient orbs — softened so edges dissolve invisibly into the page bg */}
       <div aria-hidden className="animate-pulse-slow pointer-events-none absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-brand/10 blur-[140px]" />
       <div
