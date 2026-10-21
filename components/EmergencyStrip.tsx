@@ -126,7 +126,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
             </div>
           </div>
           <Link
-            href="#resolution-tracker"
+            href="/reports"
             aria-label="সমাধান ট্র্যাকার দেখুন"
             className="flex w-full gap-3 rounded-xl bg-cream p-3 text-sm"
           >

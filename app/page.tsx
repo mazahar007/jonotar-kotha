@@ -27,7 +27,7 @@ export default async function HomePage() {
         <EmergencyStrip updates={updates} />
       </div>
       <main className="pt-4">
-        <HomeFeed categories={categories} reports={reports} volunteers={volunteers} updates={updates} />
+        <HomeFeed categories={categories} reports={reports} volunteers={volunteers} />
       </main>
       <BottomNav />
     </>

@@ -1,25 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/types';
+import type { Category, Report, Volunteer } from '@/lib/types';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
 import ReportsSlider from './ReportsSlider';
 import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
 import TopContributors from './TopContributors';
-import { IconPhone, IconShield, IconStar } from './icons';
+import { IconPhone, IconStar } from './icons';
 
 export default function HomeFeed({
   categories,
   reports,
   volunteers,
-  updates,
 }: {
   categories: Category[];
   reports: Report[];
   volunteers: Volunteer[];
-  updates: MunicipalityUpdate[];
 }) {
 
   return (
@@ -46,32 +44,11 @@ export default function HomeFeed({
           <RoadsExplorer variant="home" />
         </div>
 
-        {/* Right rail on xl (সমাধান ট্র্যাকার + লিডারবোর্ড + জরুরি নম্বর);
-            stacked below the feed on smaller screens, same order as before. */}
+        {/* Right rail on xl (লিডারবোর্ড + জরুরি নম্বর);
+            stacked below the feed on smaller screens, same order as before.
+            Phase 21p: the সমাধান ট্র্যাকার card was removed (now lives in the
+            EmergencyStrip above the feed) per user request. */}
         <div className="mt-10 min-w-0 space-y-10 md:mt-14 md:space-y-14 xl:mt-0">
-          {/* Resolution tracker (Phase 21d: anchor target of the EmergencyStrip column) */}
-          {updates.length > 0 && (
-            <section id="resolution-tracker" className="scroll-mt-24 rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-              <SectionHeader
-                icon={<IconShield className="h-6 w-6" />}
-                tileClassName="bg-emerald-500/15 text-emerald-300"
-                title="সমাধান ট্র্যাকার"
-                subtitle="পৌরসভা কোন রিপোর্টে কী করল"
-              />
-              <div className="mt-4 space-y-2">
-                {updates.slice(0, 3).map((u) => (
-                  <div key={u.id} className="flex gap-3 rounded-xl bg-cream p-3 text-sm">
-                    <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
-                    <p className="text-ink-soft">{u.note}</p>
-                  </div>
-                ))}
-              </div>
-              <Link href="/report" className="mt-3 block text-center text-sm font-bold text-brand">
-                পৌরসভাকে ট্যাগ করুন →
-              </Link>
-            </section>
-          )}
-
           {/* Volunteer leaderboard */}
           <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
             <SectionHeader
