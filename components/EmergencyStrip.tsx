@@ -63,7 +63,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
             aria-label={b ? `সতর্কতা: ${b.title}` : 'জরুরি সতর্কতা'}
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
+          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
             <IconAlert className="h-5 w-5" />
           </span>
           <span className="emergency-strip-title line-clamp-2 text-sm font-bold leading-snug">
@@ -91,7 +91,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
             aria-label="জরুরি কল — ১ ট্যাপে কল"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
+          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-500/15 text-red-400">
             <IconPhone className="h-5 w-5" />
           </span>
           <span className="emergency-strip-title text-sm font-bold leading-snug">জরুরি কল</span>
@@ -105,7 +105,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
             aria-label="ভ্রমণ মোড"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
+          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
             <IconMegaphone className="h-5 w-5" />
           </span>
           <span className="emergency-strip-title text-sm font-bold leading-snug">ভ্রমণ মোড</span>
@@ -121,7 +121,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
             aria-label="সমাধান ট্র্যাকার"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl">
+          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
             <IconShield className="h-5 w-5" />
           </span>
           <span className="emergency-strip-title text-sm font-bold leading-snug">

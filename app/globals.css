@@ -618,29 +618,29 @@ select.input-dark option {
   color: #5eead4;
 }
 
-/* ============ Emergency strip — unified red quick-action strip (Phase 21d) ============
-   Sample's stats-section pattern: one rounded container, 4 equal columns,
-   hairline dividers. Deep red in dark theme, light red in light theme. */
+/* ============ Emergency strip — tracker-card style (Phase 21k) ============
+   User: "২য় ছবির স্টাইলে হবে" — solid dark surface like the সমাধান ট্র্যাকার
+   card (rounded-3xl bg-surface, hairline border), per-column tinted icon
+   tiles (sample's stats pattern). */
 .emergency-strip {
-  --strip-divide: rgba(148, 163, 255, 0.2);
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.17) 0%, rgba(139, 92, 246, 0.15) 50%, rgba(59, 130, 246, 0.17) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  box-shadow: 0 0 40px rgba(99, 102, 241, 0.13), 0 10px 36px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  --strip-divide: rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 :root:not(.dark) .emergency-strip {
-  --strip-divide: rgba(99, 102, 241, 0.18);
-  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
-  border: 1px solid rgba(99, 102, 241, 0.32);
-  box-shadow: 0 10px 32px rgba(99, 102, 241, 0.13);
+  --strip-divide: rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 .emergency-strip-title { color: #fff; }
-:root:not(.dark) .emergency-strip-title { color: #1e1b4b; }
-.emergency-strip-sub { color: rgba(255, 255, 255, 0.72); }
-:root:not(.dark) .emergency-strip-sub { color: #4c1d95; }
-.emergency-strip-chip { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; }
-:root:not(.dark) .emergency-strip-chip { background: rgba(99, 102, 241, 0.12); color: #5b21b6; }
+:root:not(.dark) .emergency-strip-title { color: #0f172a; }
+.emergency-strip-sub { color: rgba(255, 255, 255, 0.65); }
+:root:not(.dark) .emergency-strip-sub { color: #64748b; }
+/* per-column tinted icon tiles (tracker-card style) — colors come from the
+   tile utility classes in the component; this class is structural only */
+.emergency-strip-chip { /* bg + color set per-column in TSX */ }
 .emergency-strip-col { transition: background 0.2s ease; }
 .emergency-strip-col:hover { background: rgba(255, 255, 255, 0.05); }
 :root:not(.dark) .emergency-strip-col:hover { background: rgba(99, 102, 241, 0.07); }
