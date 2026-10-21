@@ -43,7 +43,7 @@ export default function BroadcastDetail({ id }: { id: number }) {
   const active = new Date(b.expires_at).getTime() > Date.now();
   return (
     <div>
-      <div className="rounded-3xl bg-gradient-to-l from-red-600 to-red-700 p-5 text-white shadow-lg shadow-red-200">
+      <div className="rounded-3xl bg-gradient-to-l from-red-600 to-red-700 p-5 text-white shadow-lg">
         <div className="flex items-center gap-3">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20">
             <IconAlert className="h-6 w-6" />

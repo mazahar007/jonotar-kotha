@@ -37,7 +37,7 @@ export default function LockerClient({ items }: { items: EvidenceItem[] }) {
         {!unlocked ? (
           <button
             onClick={() => setUnlocked(true)}
-            className="mt-5 w-full rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg shadow-red-200"
+            className="mt-5 w-full rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg"
           >
             লকার খুলুন
           </button>

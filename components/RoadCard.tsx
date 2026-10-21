@@ -79,7 +79,7 @@ export default function RoadCard({
             <h3 className="min-w-0 flex-1 text-[15px] font-bold leading-snug text-ink">
               {road.name}
               {isSpot && (
-                <span className="ml-2 inline-block rounded-full bg-violet-500/15 px-2 py-0.5 align-middle text-[10px] font-bold text-violet-300">
+                <span className="ml-2 inline-block rounded-full bg-violet-500/15 px-2 py-0.5 align-middle text-[11px] font-bold text-violet-300">
                   📍 মোড়
                 </span>
               )}

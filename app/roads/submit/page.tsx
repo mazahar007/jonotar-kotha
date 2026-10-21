@@ -202,7 +202,7 @@ function SubmitForm() {
           <div className="mt-6 space-y-2">
             <Link
               href={`/roads/${doneId}`}
-              className="flex min-h-13 items-center justify-center rounded-2xl btn-gradient px-4 py-3.5 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
+              className="flex min-h-13 items-center justify-center rounded-2xl btn-gradient px-4 py-3.5 font-bold text-white transition active:scale-[0.98]"
             >
               জায়গাটি দেখুন
             </Link>
@@ -216,7 +216,7 @@ function SubmitForm() {
                 setNewName('');
                 setPlaceId('new');
               }}
-              className="min-h-12 w-full rounded-2xl bg-cream px-4 font-bold text-ink transition active:scale-[0.98]"
+              className="min-h-12 w-full rounded-2xl btn-ghost px-4 font-bold transition active:scale-[0.98]"
             >
               আরও পোস্ট করুন
             </button>
@@ -393,7 +393,7 @@ function SubmitForm() {
           type="button"
           onClick={submit}
           disabled={sending}
-          className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
+          className="flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-4 font-bold text-white shadow-lg disabled:opacity-60"
         >
           <IconSend className="h-5 w-5" />
           {sending ? 'পোস্ট হচ্ছে...' : 'পোস্ট করুন'}

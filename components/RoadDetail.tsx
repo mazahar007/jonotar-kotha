@@ -253,7 +253,7 @@ export default function RoadDetail({ id }: { id: number }) {
             <button
               onClick={submit}
               disabled={sending}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-3.5 font-bold text-white shadow-lg shadow-red-200 disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-2xl btn-gradient py-3.5 font-bold text-white shadow-lg disabled:opacity-60"
             >
               <IconSend className="h-5 w-5" />
               {sending ? 'পাঠানো হচ্ছে...' : 'আপডেট পাঠান'}

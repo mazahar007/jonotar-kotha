@@ -246,7 +246,7 @@ export default function AdminRoads() {
                 <p className="text-sm font-bold text-ink">
                   {r.name}
                   <span
-                    className={`ml-2 inline-block rounded-full px-2 py-0.5 align-middle text-[10px] font-bold ${
+                    className={`ml-2 inline-block rounded-full px-2 py-0.5 align-middle text-[11px] font-bold ${
                       r.kind === 'spot' ? 'bg-violet-500/15 text-violet-300' : 'bg-sky-500/15 text-sky-300'
                     }`}
                   >

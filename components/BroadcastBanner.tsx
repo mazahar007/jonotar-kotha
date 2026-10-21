@@ -58,7 +58,7 @@ export default function BroadcastBanner() {
     <div className="px-4 lg:px-6">
       <div
         role="alert"
-        className="relative flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white shadow-lg shadow-red-200"
+        className="relative flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white shadow-lg"
       >
         <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20">
           <IconAlert className="h-6 w-6" />

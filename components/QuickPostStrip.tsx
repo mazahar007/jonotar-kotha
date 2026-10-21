@@ -271,7 +271,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
             </p>
             <Link
               href={`/roads/${successId}`}
-              className="mt-5 flex min-h-12 items-center justify-center rounded-2xl btn-gradient px-4 font-bold text-white shadow-lg shadow-red-200 transition active:scale-[0.98]"
+              className="mt-5 flex min-h-12 items-center justify-center rounded-2xl btn-gradient px-4 font-bold text-white shadow-lg transition active:scale-[0.98]"
             >
               বিস্তারিত দেখো
             </Link>
