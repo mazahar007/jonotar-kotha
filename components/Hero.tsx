@@ -97,10 +97,12 @@ export default function Hero() {
 
             {/* CTAs — upgraded: larger + stronger glow */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
+              {/* Phase 21g: solid vibrant blue (less gradient) per user —
+                  matches the SOS button's flat vibrant feel */}
               <Link
                 href="/report"
-                style={{ boxShadow: '0 18px 45px -10px rgba(99,102,241,0.75), 0 8px 24px -8px rgba(99,102,241,0.55)' }}
-                className="btn-gradient group relative inline-flex min-h-14 items-center gap-x-2 rounded-2xl px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5"
+                style={{ boxShadow: '0 14px 34px -12px rgba(59,130,246,0.5), 0 6px 18px -8px rgba(59,130,246,0.35)' }}
+                className="group relative inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-[#3B82F6] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2563EB]"
               >
                 📝 রিপোর্ট করুন
               </Link>
