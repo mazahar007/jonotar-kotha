@@ -82,19 +82,19 @@
 
 /* ---------- DARK theme: lighter-weight (default, NOT near-black) ---------- */
 .dark {
-  --bg: #161d2e;
-  --bg-alt: #1a2235;
+  --bg: #111a2e;
+  --bg-alt: #151f35;
   --ink: #f1f5f9;
   --ink-soft: #b6c0d4;
-  --surface: #1e2639;
-  --surface2: #232c42;
+  --surface: #1a2338;
+  --surface2: #1f2942;
   --teal: #2dd4bf;
 
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.18);
   --overlay: rgba(255, 255, 255, 0.05);
   --overlay-strong: rgba(255, 255, 255, 0.1);
-  --glass-bg: rgba(30, 38, 57, 0.72);
+  --glass-bg: rgba(26, 35, 56, 0.72);
   --glass-border: rgba(255, 255, 255, 0.1);
 
   --chip-blue-bg: rgba(59, 130, 246, 0.16);
@@ -122,28 +122,28 @@
   --input-bg: rgba(255, 255, 255, 0.05);
   --input-bd: rgba(255, 255, 255, 0.12);
   --input-ph: #6b7280;
-  --option-bg: #1e2639;
+  --option-bg: #1a2338;
 
-  --scroll-track: #161d2e;
-  --scroll-thumb: #2c3a58;
+  --scroll-track: #111a2e;
+  --scroll-thumb: #28334f;
 
   color-scheme: dark;
 }
 
 /* Force-dark subtree (emergency pages stay dark in both themes) */
 .force-dark {
-  --bg: #161d2e;
-  --bg-alt: #1a2235;
+  --bg: #111a2e;
+  --bg-alt: #151f35;
   --ink: #f1f5f9;
   --ink-soft: #b6c0d4;
-  --surface: #1e2639;
-  --surface2: #232c42;
+  --surface: #1a2338;
+  --surface2: #1f2942;
   --teal: #2dd4bf;
   --line: rgba(255, 255, 255, 0.1);
   --line-strong: rgba(255, 255, 255, 0.18);
   --overlay: rgba(255, 255, 255, 0.05);
   --overlay-strong: rgba(255, 255, 255, 0.1);
-  --glass-bg: rgba(30, 38, 57, 0.72);
+  --glass-bg: rgba(26, 35, 56, 0.72);
   --glass-border: rgba(255, 255, 255, 0.1);
   background-color: var(--bg);
   color: var(--ink);
@@ -597,3 +597,28 @@ select.input-dark option {
 :root:not(.dark) .force-dark .text-teal-300 {
   color: #5eead4;
 }
+
+/* ============ Emergency strip — unified red quick-action strip (Phase 21d) ============
+   Sample's stats-section pattern: one rounded container, 4 equal columns,
+   hairline dividers. Deep red in dark theme, light red in light theme. */
+.emergency-strip {
+  --strip-divide: rgba(252, 165, 165, 0.22);
+  background: linear-gradient(135deg, rgba(127, 29, 29, 0.55) 0%, rgba(153, 27, 27, 0.42) 50%, rgba(127, 29, 29, 0.55) 100%);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  box-shadow: 0 0 44px rgba(220, 38, 38, 0.16), 0 10px 36px rgba(0, 0, 0, 0.28);
+}
+:root:not(.dark) .emergency-strip {
+  --strip-divide: rgba(185, 28, 28, 0.16);
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 1px solid rgba(220, 38, 38, 0.28);
+  box-shadow: 0 10px 32px rgba(220, 38, 38, 0.14);
+}
+.emergency-strip-title { color: #fff; }
+:root:not(.dark) .emergency-strip-title { color: #7f1d1d; }
+.emergency-strip-sub { color: rgba(255, 255, 255, 0.72); }
+:root:not(.dark) .emergency-strip-sub { color: #991b1b; }
+.emergency-strip-chip { background: rgba(248, 113, 113, 0.16); color: #fca5a5; }
+:root:not(.dark) .emergency-strip-chip { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+.emergency-strip-col { transition: background 0.2s ease; }
+.emergency-strip-col:hover { background: rgba(255, 255, 255, 0.05); }
+:root:not(.dark) .emergency-strip-col:hover { background: rgba(153, 27, 27, 0.05); }

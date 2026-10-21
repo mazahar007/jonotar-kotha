@@ -8,7 +8,7 @@ import ReportsSlider from './ReportsSlider';
 import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
 import TopContributors from './TopContributors';
-import { IconChevronRight, IconMegaphone, IconPhone, IconShield, IconStar } from './icons';
+import { IconPhone, IconShield, IconStar } from './icons';
 
 export default function HomeFeed({
   categories,
@@ -30,40 +30,9 @@ export default function HomeFeed({
           sections can never visually merge. */}
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-6">
         <div className="min-w-0 space-y-10 md:space-y-14">
-          {/* Emergency call strip */}
-          <Link
-            href="/sos"
-            className="flex items-center gap-3 rounded-2xl bg-gradient-to-l from-red-500 to-red-600 p-4 text-white shadow-lg shadow-red-950/50"
-          >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-overlay-strong">
-              <IconPhone className="h-6 w-6" />
-            </span>
-            <span className="flex-1">
-              <span className="block font-bold">জরুরি কল — ১ ট্যাপে কল</span>
-              <span className="block text-xs text-white/85">
-                বিপদে পড়লে সরাসরি কল করুন, আপনার লাইভ লোকেশন স্বয়ংক্রিয়ভাবে যাবে
-              </span>
-            </span>
-            <IconChevronRight className="h-5 w-5" />
-          </Link>
-
-          {/* Travel mode teaser */}
-          <Link
-            href="/travel"
-            className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
-          >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-500/15 text-sky-300">
-              <IconMegaphone className="h-6 w-6" />
-            </span>
-            <span className="flex-1">
-              <span className="block font-bold text-ink">
-                ভ্রমণ মোড <span className="ml-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[11px] text-emerald-300">চালু</span>
-              </span>
-              <span className="block text-xs text-ink-soft">আশেপাশে বিশ্বস্ত গাইড ও নিরাপদ আশ্রয় দেখুন</span>
-            </span>
-            <IconChevronRight className="h-5 w-5 text-ink-soft" />
-          </Link>
-
+          {/* Phase 21d — the old separate emergency-call strip + travel-mode
+              teaser were merged into the unified red EmergencyStrip above
+              the feed (see app/page.tsx). */}
           {/* Phase 3 — amar-elaka card (members) + newest survey */}
           <HomeMemberSections />
 
@@ -80,9 +49,9 @@ export default function HomeFeed({
         {/* Right rail on xl (সমাধান ট্র্যাকার + লিডারবোর্ড + জরুরি নম্বর);
             stacked below the feed on smaller screens, same order as before. */}
         <div className="mt-10 min-w-0 space-y-10 md:mt-14 md:space-y-14 xl:mt-0">
-          {/* Resolution tracker */}
+          {/* Resolution tracker (Phase 21d: anchor target of the EmergencyStrip column) */}
           {updates.length > 0 && (
-            <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
+            <section id="resolution-tracker" className="scroll-mt-24 rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
               <SectionHeader
                 icon={<IconShield className="h-6 w-6" />}
                 tileClassName="bg-emerald-500/15 text-emerald-300"

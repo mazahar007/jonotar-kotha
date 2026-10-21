@@ -1,5 +1,5 @@
 import BottomNav from '@/components/BottomNav';
-import BroadcastBanner from '@/components/BroadcastBanner';
+import EmergencyStrip from '@/components/EmergencyStrip';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
@@ -21,8 +21,10 @@ export default async function HomePage() {
       <Header overlay />
       {/* Phase 20 — landing hero at the very top, then the broadcast banner (renders nothing when inactive), then the feed */}
       <Hero />
-      <div className="pt-4">
-        <BroadcastBanner />
+      {/* Phase 21d — unified red emergency strip (replaces the old separate
+          broadcast banner + emergency cards): 4 equal columns */}
+      <div className="mx-auto w-full max-w-7xl px-4 pt-6 md:pt-10">
+        <EmergencyStrip updates={updates} />
       </div>
       <main className="pt-4">
         <HomeFeed categories={categories} reports={reports} volunteers={volunteers} updates={updates} />
