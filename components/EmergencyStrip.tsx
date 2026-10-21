@@ -114,18 +114,21 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
           </span>
         </div>
 
-        {/* 4 — সমাধান ট্র্যাকার (inner-box style per user 2026-10-22) */}
-        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
-          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
-            <IconShield className="h-6 w-6" />
-          </span>
-          <span className="emergency-strip-title text-base font-bold leading-snug">
-            সমাধান ট্র্যাকার
-          </span>
+        {/* 4 — সমাধান ট্র্যাকার: exact tracker-card style (user 2026-10-22) */}
+        <div className="emergency-strip-col flex min-h-[168px] flex-col gap-3 px-4 py-5 text-left">
+          <div className="flex items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
+              <IconShield className="h-6 w-6" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-[22px] font-bold leading-snug text-ink">সমাধান ট্র্যাকার</h2>
+              <p className="mt-0.5 text-sm leading-snug text-ink-soft">পৌরসভা কোন রিপোর্টে কী করল</p>
+            </div>
+          </div>
           <Link
             href="#resolution-tracker"
             aria-label="সমাধান ট্র্যাকার দেখুন"
-            className="flex w-full gap-3 rounded-xl bg-cream p-3 text-left text-sm"
+            className="flex w-full gap-3 rounded-xl bg-cream p-3 text-sm"
           >
             <span className="mt-0.5 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" />
             <p className="text-ink-soft">
@@ -134,7 +137,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
           </Link>
           <Link
             href="/report"
-            className="text-sm font-bold text-brand"
+            className="block text-center text-sm font-bold text-brand"
           >
             পৌরসভাকে ট্যাগ করুন →
           </Link>
