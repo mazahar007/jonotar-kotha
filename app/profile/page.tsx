@@ -3,9 +3,13 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import PushSubscribeToggle from '@/components/PushSubscribeToggle';
+import TrustedContacts from '@/components/TrustedContacts';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import { IconCheck, IconChevronRight, IconLock, IconPin, IconShield, IconUser, IconUsers } from '@/components/icons';
 import { loginMember, logoutMember, updateMe, useMember } from '@/lib/member';
+
+import { InstallAppButton } from '@/components/PwaClient';
 
 export default function ProfilePage() {
   const { member, setMember } = useMember();
@@ -154,6 +158,16 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
+
+        <div className="mt-4">
+          <PushSubscribeToggle memberId={member?.id ?? null} />
+        </div>
+
+        <div className="mt-3">
+          <InstallAppButton />
+        </div>
+
+        {member && <TrustedContacts />}
 
         <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {!member && (

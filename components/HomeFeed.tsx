@@ -6,6 +6,7 @@ import type { Category, MunicipalityUpdate, Report, Volunteer } from '@/lib/type
 import ReportCard from './ReportCard';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
+import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
 import { IconChevronRight, IconMegaphone, IconPhone, IconShield, IconStar } from './icons';
 
@@ -107,6 +108,9 @@ export default function HomeFeed({
               ))}
             </div>
           </section>
+
+          {/* Phase 10 — এলাকার সেফটি স্কোর */}
+          <SafetyScoreSection />
 
           {/* Phase 4 — রোডের অবস্থা (এলাকাভিত্তিক লাইভ আপডেট), main column */}
           <RoadsExplorer variant="home" />

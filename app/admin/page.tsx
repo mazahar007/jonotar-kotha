@@ -4,13 +4,15 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { STATUS_LABEL, STATUS_OPTIONS, type ReportStatus } from '@/lib/types';
 import { IconCheck, IconLogout, IconX } from '@/components/icons';
-import AdminLocations from '@/components/AdminLocations';
+import AdminBroadcasts from '@/components/AdminBroadcasts';
+import AdminComments from '@/components/AdminComments';import AdminLocations from '@/components/AdminLocations';
 import AdminLiveShares from '@/components/AdminLiveShares';
 import AdminMembers from '@/components/AdminMembers';
+import AdminPush from '@/components/AdminPush';
 import AdminRoads from '@/components/AdminRoads';
 import AdminSurveys from '@/components/AdminSurveys';
 
-type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members' | 'roads';
+type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members' | 'roads' | 'comments' | 'push' | 'broadcasts';
 
 const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'reports', label: 'রিপোর্ট', endpoint: '/api/reports' },
@@ -25,6 +27,9 @@ const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'surveys', label: 'জরিপ', endpoint: '' },
   { id: 'members', label: 'সদস্য', endpoint: '' },
   { id: 'roads', label: 'রোড', endpoint: '' },
+  { id: 'comments', label: 'মন্তব্য', endpoint: '' },
+  { id: 'push', label: 'নোটিফিকেশন', endpoint: '' },
+  { id: 'broadcasts', label: 'ঘোষণা', endpoint: '' },
 ];
 
 // editable fields per tab (excluding id)
@@ -77,6 +82,12 @@ const FIELDS: Record<Tab, { key: string; label: string; type?: 'text' | 'number'
   surveys: [],
   members: [],
   roads: [],
+  // Managed by a dedicated UI (AdminComments), not the generic form.
+  comments: [],
+  // Managed by a dedicated UI (AdminPush), not the generic form.
+  push: [],
+  // Managed by a dedicated UI (AdminBroadcasts), not the generic form.
+  broadcasts: [],
 };
 
 interface Row {
@@ -210,6 +221,12 @@ export default function AdminPage() {
           <AdminMembers />
         ) : tab === 'roads' ? (
           <AdminRoads />
+        ) : tab === 'comments' ? (
+          <AdminComments />
+        ) : tab === 'push' ? (
+          <AdminPush />
+        ) : tab === 'broadcasts' ? (
+          <AdminBroadcasts />
         ) : (
           <>
         {tab === 'sos' && <AdminLiveShares />}

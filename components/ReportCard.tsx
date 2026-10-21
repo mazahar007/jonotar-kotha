@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import type { Report } from '@/lib/types';
 import { IconClock, IconEye, IconPin } from './icons';
 import StatusBadge from './StatusBadge';
+import VerifyButton from './VerifyButton';
 
 function distanceLabel(m: number | null): string {
   if (m == null) return '';
@@ -80,6 +82,16 @@ export default function ReportCard({ report }: { report: Report }) {
             {breadcrumb.join(', ')}
           </p>
         )}
+        {/* Phase 7 — verify votes + link to detail/comments */}
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-stone-100 pt-3">
+          <VerifyButton reportId={report.id} variant="compact" />
+          <Link
+            href={`/reports/${report.id}`}
+            className="flex min-h-[44px] items-center text-sm font-bold text-brand"
+          >
+            বিস্তারিত ও মন্তব্য →
+          </Link>
+        </div>
       </div>
     </article>
   );

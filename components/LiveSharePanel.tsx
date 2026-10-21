@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import SectionHeader from '@/components/SectionHeader';
+import SosAlertContacts from '@/components/SosAlertContacts';
 import { IconAlert, IconDroplet, IconNav, IconSend, IconUsers } from '@/components/icons';
 import { getStoredToken, useMember } from '@/lib/member';
 import { bnNum, timeAgoBn } from '@/lib/time';
@@ -529,6 +530,9 @@ export default function LiveSharePanel() {
               SMS
             </a>
           </div>
+
+          {/* Phase 11 — alert trusted contacts one-tap per contact */}
+          <SosAlertContacts shareUrl={shareUrl} />
 
           <button
             onClick={stop}

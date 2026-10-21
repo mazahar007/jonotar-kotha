@@ -12,13 +12,15 @@
     "jose": "^6.2.12",
     "next": "15.5.28",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "@types/web-push": "^3.6.4",
     "tailwindcss": "^4.1.0",
     "typescript": "^5.7.2"
   }

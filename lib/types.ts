@@ -403,3 +403,25 @@ export const STATUS_OPTIONS: { value: ReportStatus; label: string }[] = [
   { value: 'resolved', label: 'সমাধান হয়েছে' },
   { value: 'urgent', label: 'জরুরি' },
 ];
+
+/* ---------- Phase 7: report comments + verify votes ---------- */
+
+export interface ReportComment {
+  id: number;
+  report_id: number;
+  member_id: number | null;
+  display_name: string;
+  body: string;
+  created_at: string;
+}
+
+export interface ReportVerification {
+  id: number;
+  report_id: number;
+  member_id: number | null;
+  voter_key: string;
+  created_at: string;
+}
+
+/** ≥3 verify votes earns the "যাচাইকৃত" badge. */
+export const VERIFY_BADGE_THRESHOLD = 3;

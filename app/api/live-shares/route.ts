@@ -6,6 +6,9 @@ import {
   sanitizeBlood,
 } from '@/lib/live-shares';
 import { getSessionMemberRow } from '@/lib/member-session';
+import { getMemberRowByPhone } from '@/lib/members-store';
+import { createNotification } from '@/lib/push';
+import { listContacts } from '@/lib/trusted-contacts';
 import { BLOOD_GROUPS, LIVE_PURPOSES, type LiveSharePurpose } from '@/lib/types';
 
 function validCoord(v: unknown, max: number): v is number {
@@ -55,6 +58,35 @@ export async function POST(req: NextRequest) {
       lng: body.lng,
       accuracy: typeof body.accuracy === 'number' && Number.isFinite(body.accuracy) ? body.accuracy : null,
     });
+
+    // Phase 11 (best-effort, never fails the share): if a trusted contact's
+    // phone belongs to a registered member, record an SOS alert in the
+    // Phase 8 in-app notification center. Documented limitation: the center
+    // is a global feed (Phase 8 has no per-member targeting), so this alert
+    // reaches the contact through the shared feed, not as a private ping.
+    if (member) {
+      try {
+        const contacts = await listContacts(member.id);
+        const link = `${process.env.NEXT_PUBLIC_APP_URL || ''}/live/${created.id}`;
+        for (const c of contacts) {
+          try {
+            const row = await getMemberRowByPhone(c.phone);
+            if (!row) continue; // contact is not a registered member
+            await createNotification({
+              title: '🆘 জরুরি SOS অ্যালার্ট',
+              body: `${name} বিপদে আছেন — লাইভ লোকেশন: ${link || `/live/${created.id}`} — জনতার কথা`,
+              url: `/live/${created.id}`,
+              kind: 'sos',
+            });
+          } catch {
+            /* best-effort — one contact's failure skips, never throws */
+          }
+        }
+      } catch {
+        /* best-effort — the share itself already succeeded */
+      }
+    }
+
     return ok({ ...created, url: `/live/${created.id}` }, 201);
   } catch {
     return err('শেয়ার শুরু করা যায়নি');

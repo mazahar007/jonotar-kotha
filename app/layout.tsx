@@ -1,10 +1,24 @@
 import type { Metadata, Viewport } from 'next';
 import Sidebar from '@/components/Sidebar';
+import { SwRegister } from '@/components/PwaClient';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: 'জনতার কথা — ময়মনসিংহ',
   description: 'নাগরিক নিরাপত্তা ও সমস্যা রিপোর্টিং অ্যাপ — ময়মনসিংহ',
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+  appleWebApp: {
+    capable: true,
+    title: 'জনতার কথা',
+    statusBarStyle: 'default',
+  },
 };
 
 export const viewport: Viewport = {
@@ -26,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <SwRegister />
         {/* Mobile (<lg): the original phone-width column, unchanged.
             Desktop (lg+): sidebar + wide content column (max-w-7xl). */}
         <div className="mx-auto flex min-h-dvh w-full max-w-md bg-cream shadow-[0_0_40px_rgba(0,0,0,0.06)] lg:max-w-none lg:shadow-none">

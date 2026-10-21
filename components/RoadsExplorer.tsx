@@ -6,6 +6,7 @@ import RoadCard from '@/components/RoadCard';
 import SectionHeader, { SectionActionLink } from '@/components/SectionHeader';
 import { IconPin, IconRoute } from '@/components/icons';
 import { bnNum } from '@/lib/time';
+import SafetyScoreChip from '@/components/SafetyScoreChip';
 import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
 
 type StatusFilter = RoadStatus | 'none' | null;
@@ -48,6 +49,7 @@ function RoadGroup({
   totalLabel,
   emptyText,
   gridClassName,
+  headerAction,
 }: {
   icon: ReactNode;
   tileClassName: string;
@@ -57,6 +59,7 @@ function RoadGroup({
   totalLabel: string;
   emptyText: string;
   gridClassName: string;
+  headerAction?: ReactNode;
 }) {
   const [filter, setFilter] = useState<StatusFilter>(null);
 
@@ -88,7 +91,7 @@ function RoadGroup({
 
   return (
     <section className="space-y-4">
-      <SectionHeader icon={icon} tileClassName={tileClassName} title={title} subtitle={subtitle} />
+      <SectionHeader icon={icon} tileClassName={tileClassName} title={title} subtitle={subtitle} action={headerAction} />
 
       {items !== null && items.length > 0 && (
         <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
@@ -191,6 +194,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
         totalLabel="রোড"
         emptyText="এই এলাকায় এখনো কোনো রোড যোগ হয়নি।"
         gridClassName={gridClassName}
+        headerAction={<SafetyScoreChip area={area} />}
       />
 
       <RoadGroup

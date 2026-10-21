@@ -94,3 +94,6 @@ export const IconSend = ({ className }: P) => (
 export const IconLogout = ({ className }: P) => (
   <svg {...base(className)}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5M21 12H9" /></svg>
 );
+export const IconWifi = ({ className }: P) => (
+  <svg {...base(className)}><path d="M5 12.55a11 11 0 0 1 14.08 0" /><path d="M8.53 16.11a6 6 0 0 1 6.95 0" /><line x1="12" y1="20" x2="12.01" y2="20" /></svg>
+);
