@@ -12,7 +12,7 @@ const PILLS = ['বেনামী রিপোর্ট', 'লাইভ SOS', '
  */
 export default function Hero() {
   return (
-    <section className="noise relative overflow-hidden">
+    <section className="noise relative flex min-h-screen items-center overflow-hidden">
       {/* gradient orbs */}
       <div aria-hidden className="animate-pulse-slow pointer-events-none absolute -left-[10%] -top-[20%] h-[600px] w-[600px] rounded-full bg-brand/15 blur-[120px]" />
       <div
@@ -38,7 +38,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-10 pt-8 md:pb-14 md:pt-12 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-28 md:pb-28 md:pt-36 lg:px-8">
         {/* live badge */}
         <span className="inline-flex items-center gap-x-3 rounded-full bg-overlay px-4 py-2 text-sm ring-1 ring-line">
           <span className="flex items-center gap-x-1.5 font-semibold text-emerald-500">
