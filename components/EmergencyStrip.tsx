@@ -57,19 +57,19 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
     <section aria-label="জরুরি সেবা" className="emergency-strip overflow-hidden rounded-3xl">
       <div className="grid grid-cols-2 divide-x divide-y divide-[var(--strip-divide)] lg:grid-cols-4 lg:divide-y-0">
         {/* 1 — সতর্কতা (active broadcast, dismissible) */}
-        <div className="emergency-strip-col group relative flex min-h-[136px] flex-col items-center gap-2 px-3 py-6 text-center">
+        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
           <Link
             href={b ? `/broadcasts/${b.id}` : '/broadcasts'}
             aria-label={b ? `সতর্কতা: ${b.title}` : 'জরুরি সতর্কতা'}
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
-            <IconAlert className="h-5 w-5" />
+          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
+            <IconAlert className="h-6 w-6" />
           </span>
-          <span className="emergency-strip-title line-clamp-2 text-sm font-bold leading-snug">
+          <span className="emergency-strip-title line-clamp-2 text-base font-bold leading-snug">
             {b ? b.title : 'জরুরি সতর্কতা'}
           </span>
-          <span className="emergency-strip-sub line-clamp-2 max-w-full text-xs leading-snug">
+          <span className="emergency-strip-sub line-clamp-2 max-w-full text-sm leading-snug">
             {b ? b.body : 'সক্রিয় সতর্কতা নেই'}
           </span>
           {b && (
@@ -85,49 +85,49 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
         </div>
 
         {/* 2 — জরুরি কল */}
-        <div className="emergency-strip-col group relative flex min-h-[136px] flex-col items-center gap-2 px-3 py-6 text-center">
+        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
           <Link
             href="/sos"
             aria-label="জরুরি কল — ১ ট্যাপে কল"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-red-500/15 text-red-400">
-            <IconPhone className="h-5 w-5" />
+          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-red-500/15 text-red-400">
+            <IconPhone className="h-6 w-6" />
           </span>
-          <span className="emergency-strip-title text-sm font-bold leading-snug">জরুরি কল</span>
-          <span className="emergency-strip-sub text-xs leading-snug">১ ট্যাপে কল করুন</span>
+          <span className="emergency-strip-title text-base font-bold leading-snug">জরুরি কল</span>
+          <span className="emergency-strip-sub text-sm leading-snug">১ ট্যাপে কল করুন</span>
         </div>
 
         {/* 3 — ভ্রমণ মোড */}
-        <div className="emergency-strip-col group relative flex min-h-[136px] flex-col items-center gap-2 px-3 py-6 text-center">
+        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
           <Link
             href="/travel"
             aria-label="ভ্রমণ মোড"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
-            <IconMegaphone className="h-5 w-5" />
+          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
+            <IconMegaphone className="h-6 w-6" />
           </span>
-          <span className="emergency-strip-title text-sm font-bold leading-snug">ভ্রমণ মোড</span>
+          <span className="emergency-strip-title text-base font-bold leading-snug">ভ্রমণ মোড</span>
           <span className="emergency-strip-sub line-clamp-2 text-xs leading-snug">
             গাইড ও নিরাপদ আশ্রয়
           </span>
         </div>
 
         {/* 4 — সমাধান ট্র্যাকার */}
-        <div className="emergency-strip-col group relative flex min-h-[136px] flex-col items-center gap-2 px-3 py-6 text-center">
+        <div className="emergency-strip-col group relative flex min-h-[168px] flex-col items-center gap-2.5 px-4 py-8 text-center">
           <Link
             href="#resolution-tracker"
             aria-label="সমাধান ট্র্যাকার"
             className="absolute inset-0 z-0"
           />
-          <span className="emergency-strip-chip flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
-            <IconShield className="h-5 w-5" />
+          <span className="emergency-strip-chip flex h-13 w-13 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-300">
+            <IconShield className="h-6 w-6" />
           </span>
-          <span className="emergency-strip-title text-sm font-bold leading-snug">
+          <span className="emergency-strip-title text-base font-bold leading-snug">
             সমাধান ট্র্যাকার
           </span>
-          <span className="emergency-strip-sub line-clamp-2 max-w-full text-xs leading-snug">
+          <span className="emergency-strip-sub line-clamp-2 max-w-full text-sm leading-snug">
             {latestUpdate ? latestUpdate.note : 'পৌরসভার পদক্ষেপ দেখুন'}
           </span>
         </div>
