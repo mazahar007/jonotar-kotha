@@ -602,23 +602,25 @@ select.input-dark option {
    Sample's stats-section pattern: one rounded container, 4 equal columns,
    hairline dividers. Deep red in dark theme, light red in light theme. */
 .emergency-strip {
-  --strip-divide: rgba(252, 165, 165, 0.22);
-  background: linear-gradient(135deg, rgba(153, 27, 27, 0.5) 0%, rgba(185, 28, 28, 0.38) 50%, rgba(153, 27, 27, 0.5) 100%);
-  border: 1px solid rgba(248, 113, 113, 0.35);
-  box-shadow: 0 0 36px rgba(239, 68, 68, 0.12), 0 10px 36px rgba(0, 0, 0, 0.28);
+  --strip-divide: rgba(148, 163, 255, 0.2);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.17) 0%, rgba(139, 92, 246, 0.15) 50%, rgba(59, 130, 246, 0.17) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow: 0 0 40px rgba(99, 102, 241, 0.13), 0 10px 36px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 :root:not(.dark) .emergency-strip {
-  --strip-divide: rgba(185, 28, 28, 0.16);
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-  border: 1px solid rgba(220, 38, 38, 0.28);
-  box-shadow: 0 10px 32px rgba(220, 38, 38, 0.14);
+  --strip-divide: rgba(99, 102, 241, 0.18);
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%);
+  border: 1px solid rgba(99, 102, 241, 0.32);
+  box-shadow: 0 10px 32px rgba(99, 102, 241, 0.13);
 }
 .emergency-strip-title { color: #fff; }
-:root:not(.dark) .emergency-strip-title { color: #7f1d1d; }
+:root:not(.dark) .emergency-strip-title { color: #1e1b4b; }
 .emergency-strip-sub { color: rgba(255, 255, 255, 0.72); }
-:root:not(.dark) .emergency-strip-sub { color: #991b1b; }
-.emergency-strip-chip { background: rgba(248, 113, 113, 0.16); color: #fca5a5; }
-:root:not(.dark) .emergency-strip-chip { background: rgba(220, 38, 38, 0.12); color: #b91c1c; }
+:root:not(.dark) .emergency-strip-sub { color: #4c1d95; }
+.emergency-strip-chip { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; }
+:root:not(.dark) .emergency-strip-chip { background: rgba(99, 102, 241, 0.12); color: #5b21b6; }
 .emergency-strip-col { transition: background 0.2s ease; }
 .emergency-strip-col:hover { background: rgba(255, 255, 255, 0.05); }
-:root:not(.dark) .emergency-strip-col:hover { background: rgba(153, 27, 27, 0.05); }
+:root:not(.dark) .emergency-strip-col:hover { background: rgba(99, 102, 241, 0.07); }
