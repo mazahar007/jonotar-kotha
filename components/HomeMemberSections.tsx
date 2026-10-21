@@ -6,14 +6,33 @@ import { getStoredToken, useMember } from '@/lib/member';
 import type { AmarElakaData, SurveyWithState } from '@/lib/types';
 import SurveyCard from './SurveyCard';
 import SectionHeader from './SectionHeader';
-import { IconCheck, IconChevronRight, IconUsers } from './icons';
+import { IconChevronRight, IconUsers } from './icons';
 
 /**
  * Phase 3 home sections: newest active survey (everyone) + an
  * "আমার এলাকার মানুষ" summary card (registered members only).
  * Rendered inside the home feed's main column; fetches are client-side
  * so the server-rendered feed is unchanged.
+ * Phase 21s: survey section header follows the sample's section style
+ * (badge pill + big gradient headline + subtext) per user request.
  */
+function SurveySectionHead() {
+  return (
+    <div>
+      <span className="inline-flex items-center rounded-full bg-violet-500/15 px-3 py-1 text-xs font-bold text-violet-300">
+        জরিপ
+      </span>
+      <h2 className="mt-3 text-3xl font-extrabold leading-tight text-ink">
+        আপনার এলাকার
+        <br />
+        <span className="text-gradient">জরিপে মত দিন</span>
+      </h2>
+      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+        চলমান জরিপে ভোট দিন — আপনার মতামতই এলাকার উন্নয়নে ভূমিকা রাখে
+      </p>
+    </div>
+  );
+}
 export default function HomeMemberSections() {
   const { member } = useMember();
   const [survey, setSurvey] = useState<SurveyWithState | null>(null);
@@ -68,13 +87,8 @@ export default function HomeMemberSections() {
       )}
 
       {survey && (
-        <section className="space-y-3">
-          <SectionHeader
-            icon={<IconCheck className="h-6 w-6" />}
-            tileClassName="bg-violet-500/15 text-violet-300"
-            title="এলাকার জরিপ"
-            subtitle="আপনার এলাকার প্রশ্নে মত দিন"
-          />
+        <section className="space-y-4">
+          <SurveySectionHead />
           <SurveyCard
             survey={survey}
             isMember={!!member}
@@ -84,16 +98,11 @@ export default function HomeMemberSections() {
       )}
 
       {member === null && (
-        <section className="space-y-3">
-          <SectionHeader
-            icon={<IconCheck className="h-6 w-6" />}
-            tileClassName="bg-violet-500/15 text-violet-300"
-            title="এলাকার জরিপ"
-            subtitle="আপনার এলাকার প্রশ্নে মত দিন"
-          />
+        <section className="space-y-4">
+          <SurveySectionHead />
           <Link
             href="/surveys"
-            className="flex items-center gap-3 rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
+            className="flex items-center gap-3 rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]"
           >
             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-amber-300">
               <IconUsers className="h-6 w-6" />
