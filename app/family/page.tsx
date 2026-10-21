@@ -11,7 +11,7 @@ export default async function FamilyPage() {
   const members = await getFamily();
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         <SectionHeader
           gradient
           as="h1"
@@ -48,7 +48,7 @@ export default async function FamilyPage() {
                 </p>
               </div>
               {m.is_live ? (
-                <span className="flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-1 text-xs font-bold text-red-700">
+                <span className="flex items-center gap-1 rounded-full bg-red-500/15 px-2.5 py-1 text-xs font-bold text-red-300">
                   <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-red-600" />
                   লাইভ
                 </span>

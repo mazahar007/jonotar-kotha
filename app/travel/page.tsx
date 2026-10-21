@@ -10,7 +10,7 @@ export default async function TravelPage() {
   const [guides, shelters] = await Promise.all([getGuides(), getShelters()]);
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         <SectionHeader
           gradient
           as="h1"

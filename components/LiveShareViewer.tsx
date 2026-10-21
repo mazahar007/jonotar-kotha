@@ -62,7 +62,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
 
   if (notFound) {
     return (
-      <main className="px-4 py-10">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <div className="rounded-3xl bg-surface border border-white/10 p-8 text-center shadow-sm">
           <p className="font-bold text-ink">শেয়ারটি পাওয়া যায়নি</p>
           <p className="mt-1 text-sm text-ink-soft">লিংকটি ভুল হতে পারে অথবা শেয়ারটি মুছে ফেলা হয়েছে।</p>
@@ -76,7 +76,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
 
   if (!data) {
     return (
-      <main className="px-4 py-10">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       </main>
     );
@@ -87,7 +87,7 @@ export default function LiveShareViewer({ id }: { id: string }) {
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${data.lat},${data.lng}`;
 
   return (
-    <main className="px-4 pb-8 pt-4 lg:px-6">
+    <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
       <div className="mx-auto w-full max-w-3xl space-y-4">
         {active ? (
           <section className={`rounded-3xl p-5 text-white shadow-lg ${BANNER_CLASS[data.purpose]}`}>

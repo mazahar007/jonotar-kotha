@@ -1,6 +1,7 @@
 import BottomNav from '@/components/BottomNav';
 import BroadcastBanner from '@/components/BroadcastBanner';
 import Header from '@/components/Header';
+import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
 import { getCategories, getMunicipalityUpdates, getReports, getVolunteers } from '@/lib/store';
 
@@ -16,7 +17,8 @@ export default async function HomePage() {
   return (
     <>
       <Header />
-      {/* Phase 9 — emergency broadcast banner (renders nothing when no active broadcast) */}
+      {/* Phase 20 — landing hero at the very top, then the broadcast banner (renders nothing when inactive), then the feed */}
+      <Hero />
       <div className="pt-4">
         <BroadcastBanner />
       </div>

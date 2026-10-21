@@ -84,12 +84,12 @@ function RegisterForm({ returnTo }: { returnTo: string }) {
                 className={inputCls}
               />
             </div>
-            <p className="flex items-start gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-xs text-emerald-900">
+            <p className="flex items-start gap-2 rounded-xl bg-emerald-500/10 px-4 py-3 text-xs text-emerald-300">
               <IconCheck className="mt-0.5 h-4 w-4 shrink-0" />
               <span>মোবাইল নম্বর যাচাই করলে অ্যাকাউন্ট সম্পূর্ণ ভেরিফাইড হয়। শুধু ইমেইল দিয়ে নিবন্ধন করলে পরে ফোন নম্বর যোগ করে ভেরিফাই করতে হবে। নম্বর/ইমেইল কখনো অন্য সদস্যদের দেখানো হয় না।</span>
             </p>
 
-            {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-brand">{error}</p>}
+            {error && <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-300">{error}</p>}
 
             <button
               onClick={sendCode}

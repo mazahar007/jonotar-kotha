@@ -9,7 +9,7 @@ export default async function BroadcastDetailPage({ params }: { params: Promise<
   return (
     <>
       <Header />
-      <main className="px-4 pb-10 pt-4 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <BroadcastDetail id={Number(id)} />
       </main>
       <BottomNav />

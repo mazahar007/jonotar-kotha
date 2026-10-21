@@ -277,7 +277,7 @@ export default function AdminPage() {
                   </button>
                   <button
                     onClick={() => remove(r.id)}
-                    className="rounded-full bg-red-50 px-3 py-1.5 text-xs font-bold text-brand"
+                    className="rounded-full bg-red-500/15 px-3 py-1.5 text-xs font-bold text-red-300"
                   >
                     মুছুন
                   </button>

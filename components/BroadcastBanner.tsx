@@ -55,7 +55,7 @@ export default function BroadcastBanner() {
 
   const b = visible[0];
   return (
-    <div className="px-4 lg:px-6">
+    <div className="px-4">
       <div
         role="alert"
         className="relative flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-l from-red-600 to-red-700 p-4 text-white shadow-lg"

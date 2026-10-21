@@ -61,7 +61,7 @@ export default function MapClient({
           </svg>
 
           {/* Safe route overlay */}
-          <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-emerald-300 shadow">
+          <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-surface/95 px-3 py-1.5 text-xs font-bold text-emerald-300 shadow backdrop-blur">
             <IconRoute className="h-4 w-4" /> ১.২ কিমি নিরাপদ রুট
           </div>
 
@@ -83,7 +83,7 @@ export default function MapClient({
           })}
 
           {selected && (
-            <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/95 p-3 text-sm shadow-xl backdrop-blur">
+            <div className="absolute bottom-4 left-4 right-4 rounded-2xl bg-surface/95 p-3 text-sm shadow-xl backdrop-blur">
               <p className="font-bold text-ink">{selected.label}</p>
               <p className="text-xs text-ink-soft">{kindStyle[selected.kind]?.label ?? ''}</p>
               <button

@@ -23,7 +23,7 @@ export default function ReportsGrid({
 
   return (
     <div className="space-y-4">
-      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 lg:-mx-6 lg:px-6">
+      <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4">
         {categories.map((c) => (
           <button
             key={c.id}

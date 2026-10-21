@@ -109,7 +109,7 @@ export default function CardSlider<T>({
         role="region"
         aria-roledescription="carousel"
         aria-label={ariaLabel}
-        className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50 lg:-mx-6 lg:px-6"
+        className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
       >
         {items.map((item, i) => (
           <div key={keyOf(item, i)} className={`h-full shrink-0 snap-start ${cardClass}`}>

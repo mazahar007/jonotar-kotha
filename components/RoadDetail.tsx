@@ -112,14 +112,14 @@ export default function RoadDetail({ id }: { id: number }) {
 
   if (notFound) {
     return (
-      <main className="px-4 py-10">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <p className="rounded-2xl bg-surface border border-white/10 p-8 text-center text-sm text-ink-soft">রোড/স্থানটি পাওয়া যায়নি।</p>
       </main>
     );
   }
   if (!road) {
     return (
-      <main className="px-4 py-10">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       </main>
     );
@@ -130,7 +130,7 @@ export default function RoadDetail({ id }: { id: number }) {
   const isSpot = road.kind === 'spot';
 
   return (
-    <main className="px-4 pb-8 pt-4 lg:px-6">
+    <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
       <div className="mx-auto w-full max-w-3xl space-y-4">
         {/* Header */}
         <section className="rounded-2xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">

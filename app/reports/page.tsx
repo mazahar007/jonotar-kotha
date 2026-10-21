@@ -15,7 +15,7 @@ export default async function ReportsPage() {
   return (
     <>
       <Header />
-      <main className="px-4 pb-10 pt-4 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <Link
           href="/"
           className="mb-3 flex min-h-11 w-fit items-center gap-1 text-sm font-bold text-ink-soft"
@@ -27,7 +27,7 @@ export default async function ReportsPage() {
           gradient
           as="h1"
           icon={<IconMegaphone className="h-6 w-6" />}
-          tileClassName="bg-red-100 text-brand"
+          tileClassName="bg-red-500/15 text-red-300"
           title="সব রিপোর্ট"
           subtitle="সব এলাকার সব রিপোর্ট — নতুন থেকে পুরনো ক্রমে"
         />

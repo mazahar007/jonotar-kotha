@@ -8,7 +8,7 @@ export default function BroadcastsPage() {
   return (
     <>
       <Header />
-      <main className="px-4 pb-10 pt-4 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <BroadcastsClient />
       </main>
       <BottomNav />

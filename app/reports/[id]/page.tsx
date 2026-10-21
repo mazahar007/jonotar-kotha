@@ -23,7 +23,7 @@ export default async function ReportDetailPage({ params }: { params: Promise<{ i
   return (
     <>
       <Header />
-      <main className="mx-auto max-w-2xl space-y-6 px-4 pb-10 lg:px-6">
+      <main className="mx-auto w-full max-w-2xl space-y-6 px-4 pb-10 pt-4">
         <Link
           href="/"
           className="inline-flex min-h-[44px] items-center text-sm font-bold text-brand"

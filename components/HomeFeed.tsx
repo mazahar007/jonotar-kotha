@@ -23,13 +23,13 @@ export default function HomeFeed({
 }) {
 
   return (
-    <div className="px-4 pb-10 lg:px-6">
+    <div className="mx-auto w-full max-w-7xl px-4 pb-10">
       {/* Desktop (xl): main column + right rail. Mobile: single stacked column,
           in the exact original order. One uniform vertical rhythm
-          (space-y-10 / lg:space-y-12) separates every section so two
+          (space-y-10 / md:space-y-14) separates every section so two
           sections can never visually merge. */}
       <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_340px] xl:gap-6">
-        <div className="min-w-0 space-y-10 lg:space-y-12">
+        <div className="min-w-0 space-y-10 md:space-y-14">
           {/* Emergency call strip */}
           <Link
             href="/sos"
@@ -79,7 +79,7 @@ export default function HomeFeed({
 
         {/* Right rail on xl (সমাধান ট্র্যাকার + লিডারবোর্ড + জরুরি নম্বর);
             stacked below the feed on smaller screens, same order as before. */}
-        <div className="mt-10 min-w-0 space-y-10 lg:space-y-12 xl:mt-0">
+        <div className="mt-10 min-w-0 space-y-10 md:mt-14 md:space-y-14 xl:mt-0">
           {/* Resolution tracker */}
           {updates.length > 0 && (
             <section className="rounded-3xl bg-surface border border-white/10 p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">

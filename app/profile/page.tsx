@@ -57,7 +57,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         {member === undefined ? (
           <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
         ) : member ? (
@@ -242,7 +242,7 @@ export default function ProfilePage() {
 
           {member && (
             <button onClick={doLogout} className="flex items-center gap-3 rounded-2xl bg-surface border border-white/10 p-4 text-left shadow-sm">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-red-50 text-brand">
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-red-500/15 text-red-300">
                 <IconUser className="h-6 w-6" />
               </span>
               <span className="flex-1">

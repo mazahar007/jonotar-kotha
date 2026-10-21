@@ -49,7 +49,7 @@ export default function NotificationsPage() {
 
   return (
     <>
-      <main className="min-h-dvh bg-cream px-4 py-6 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         <SectionHeader
           icon={<IconBell className="h-6 w-6" />}
           tileClassName="bg-violet-500/15 text-violet-300"

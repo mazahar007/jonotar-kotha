@@ -14,7 +14,7 @@ export default function RoadsPage() {
   return (
     <>
       <Header />
-      <main className="px-4 pb-6 pt-4 lg:px-6">
+      <main className="mx-auto w-full max-w-7xl px-4 pb-10 pt-4">
         <SectionHeader
           gradient
           as="h1"

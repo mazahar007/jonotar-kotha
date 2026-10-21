@@ -387,7 +387,7 @@ function SubmitForm() {
           </div>
         </section>
 
-        {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-brand">{error}</p>}
+        {error && <p className="rounded-xl bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-300">{error}</p>}
 
         <button
           type="button"
