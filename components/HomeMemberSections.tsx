@@ -97,7 +97,11 @@ export default function HomeMemberSections() {
         </section>
       )}
 
-      {member === null && (
+      {/* Non-members see the compact link card ONLY when there is no active
+          survey — otherwise the poll card above (with its register CTA)
+          already covers it. Phase 21t: fixes the duplicated "একটা সেকশন"
+          headers the user reported (user: "একটা সেকশন হবে"). */}
+      {member === null && !survey && (
         <section className="space-y-4">
           <SurveySectionHead />
           <Link

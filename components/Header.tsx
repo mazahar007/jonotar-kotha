@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import { IconMegaphone, IconPin, IconUser } from './icons';
 import NotificationBell from './NotificationBell';
 import ThemeToggle from './ThemeToggle';
@@ -50,6 +51,7 @@ function ChevronDown({ className = '' }: { className?: string }) {
  */
 export default function Header({ overlay = false }: { overlay?: boolean }) {
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
   const isActive = (href: string) =>
     href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(href + '/');
 
@@ -135,6 +137,42 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
 
         {/* right cluster */}
         <div className="flex shrink-0 items-center gap-1.5">
+          {/* mobile hamburger menu (Phase 21u, user: "মেনু টা হেডারে এড করে দাও") */}
+          <div className="relative lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-expanded={menuOpen}
+              aria-label="মেনু"
+              className="flex h-10 w-10 items-center justify-center rounded-xl text-ink-soft transition hover:bg-overlay hover:text-ink"
+            >
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" aria-hidden>
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            </button>
+            {menuOpen && (
+              <div className="glass absolute right-0 top-full z-50 mt-2 w-60 rounded-2xl p-2 shadow-xl shadow-black/20">
+                {[...NAV_LINKS, ...MENU_LINKS].map((link) => {
+                  const active = isActive(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMenuOpen(false)}
+                      aria-current={active ? 'page' : undefined}
+                      className={`flex min-h-11 items-center rounded-xl px-4 py-2.5 text-sm font-medium transition ${
+                        active
+                          ? 'bg-brand/15 text-ink'
+                          : 'text-ink-soft hover:bg-overlay hover:text-ink'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
           <Link
             href="/profile"
             aria-label="প্রোফাইল"
