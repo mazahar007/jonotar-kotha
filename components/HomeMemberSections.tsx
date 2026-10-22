@@ -9,8 +9,8 @@ import SectionHeader from './SectionHeader';
 import { IconChevronRight, IconUsers } from './icons';
 
 /**
- * Phase 3 home sections: newest active survey (everyone) + an
- * "আমার এলাকার মানুষ" summary card (registered members only).
+ * Phase 3 home sections: "আমার এলাকার মানুষ" summary card (registered members
+ * only) + the survey section (now a standalone full-bleed block, Phase 21x).
  * Rendered inside the home feed's main column; fetches are client-side
  * so the server-rendered feed is unchanged.
  * Phase 21s: survey section header follows the sample's section style
@@ -33,25 +33,23 @@ function SurveySectionHead() {
     </div>
   );
 }
+/**
+ * Phase 3 home sections: "আমার এলাকার মানুষ" summary card (registered members
+ * only). Rendered inside the home feed's main column; fetches are client-side
+ * so the server-rendered feed is unchanged.
+ */
 export default function HomeMemberSections() {
   const { member } = useMember();
-  const [survey, setSurvey] = useState<SurveyWithState | null>(null);
   const [elaka, setElaka] = useState<AmarElakaData | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
         const token = getStoredToken();
-        const headers: Record<string, string> = token ? { 'x-member-token': token } : {};
-        const res = await fetch('/api/surveys', { headers, cache: 'no-store' });
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setSurvey(data.find((s: SurveyWithState) => s.status === 'active') ?? null);
-        }
-        if (token) {
-          const r2 = await fetch('/api/members/amar-elaka', { headers, cache: 'no-store' });
-          if (r2.ok) setElaka(await r2.json());
-        }
+        if (!token) return;
+        const headers: Record<string, string> = { 'x-member-token': token };
+        const r2 = await fetch('/api/members/amar-elaka', { headers, cache: 'no-store' });
+        if (r2.ok) setElaka(await r2.json());
       } catch {
         /* sections are optional — never break the feed */
       }
@@ -85,7 +83,38 @@ export default function HomeMemberSections() {
           </Link>
         </section>
       )}
+    </>
+  );
+}
 
+/**
+ * Phase 21x — the survey section as a STANDALONE full-bleed home section
+ * (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।"). Rendered at page level
+ * in app/page.tsx inside a .section-fullbleed wrapper, NOT inside the feed's
+ * constrained main column.
+ */
+export function HomeSurveySection() {
+  const { member } = useMember();
+  const [survey, setSurvey] = useState<SurveyWithState | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = getStoredToken();
+        const headers: Record<string, string> = token ? { 'x-member-token': token } : {};
+        const res = await fetch('/api/surveys', { headers, cache: 'no-store' });
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setSurvey(data.find((s: SurveyWithState) => s.status === 'active') ?? null);
+        }
+      } catch {
+        /* sections are optional — never break the feed */
+      }
+    })();
+  }, [member]);
+
+  return (
+    <>
       {survey && (
         <section className="space-y-4">
           <SurveySectionHead />

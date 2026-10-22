@@ -3,6 +3,7 @@ import EmergencyStrip from '@/components/EmergencyStrip';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
+import { HomeSurveySection } from '@/components/HomeMemberSections';
 import { getCategories, getMunicipalityUpdates, getReports, getVolunteers } from '@/lib/store';
 
 export const dynamic = 'force-dynamic';
@@ -25,6 +26,13 @@ export default async function HomePage() {
           broadcast banner + emergency cards): 4 equal columns */}
       <div className="mx-auto w-full max-w-7xl px-4 pt-6 md:pt-10">
         <EmergencyStrip updates={updates} />
+      </div>
+      {/* Phase 21x — survey as a standalone full-screen-width section
+          (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।") */}
+      <div className="section-fullbleed pt-10 md:pt-14">
+        <div className="mx-auto w-full max-w-7xl px-4">
+          <HomeSurveySection />
+        </div>
       </div>
       <main className="pt-4">
         <HomeFeed categories={categories} reports={reports} volunteers={volunteers} />

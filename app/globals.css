@@ -293,6 +293,12 @@ body {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 }
+/* Phase 21x — generic full-bleed for standalone home sections
+   (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।") */
+.section-fullbleed {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
 html,
 body {
   overflow-x: clip;
