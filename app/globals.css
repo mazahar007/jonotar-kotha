@@ -630,15 +630,20 @@ select.input-dark option {
    tiles (sample's stats pattern). */
 .emergency-strip {
   --strip-divide: rgba(255, 255, 255, 0.08);
+}
+/* Phase 21aa — each strip column is its own box: 20px radius on all four
+   sides, 2px gaps between boxes (user: "এই বক্সগুলোতে 2px করে গ্যাপ হবে।
+   আর চতুর্দিকে ২০px radious হবে।"). The outer wrapper has no box styling. */
+.emergency-strip-col {
   background: var(--surface);
   border: 1px solid var(--line);
+  border-radius: 20px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
-:root:not(.dark) .emergency-strip {
-  --strip-divide: rgba(15, 23, 42, 0.08);
+:root:not(.dark) .emergency-strip-col {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0;
 }
 .emergency-strip-title { color: #fff; }
 :root:not(.dark) .emergency-strip-title { color: #0f172a; }

@@ -58,8 +58,8 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
   const b = visible[0];
 
   return (
-    <section aria-label="জরুরি সেবা" className="emergency-strip overflow-hidden rounded-[20px]">
-      <div className="grid grid-cols-2 divide-x divide-y divide-[var(--strip-divide)] lg:grid-cols-4 lg:divide-y-0">
+    <section aria-label="জরুরি সেবা" className="emergency-strip">
+      <div className="grid grid-cols-2 gap-[2px] lg:grid-cols-4">
         {/* 1 — জরুরি সতর্কতা (active broadcast, dismissible) */}
         <div className="emergency-strip-col relative">
           <Link
