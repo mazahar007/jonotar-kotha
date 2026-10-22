@@ -116,7 +116,7 @@ export function HomeSurveySection() {
   return (
     <>
       {survey && (
-        <section className="space-y-4">
+        <section className="space-y-[30px]">
           <SurveySectionHead />
           <SurveyCard
             survey={survey}
@@ -131,7 +131,7 @@ export function HomeSurveySection() {
           already covers it. Phase 21t: fixes the duplicated "একটা সেকশন"
           headers the user reported (user: "একটা সেকশন হবে"). */}
       {member === null && !survey && (
-        <section className="space-y-4">
+        <section className="space-y-[30px]">
           <SurveySectionHead />
           <Link
             href="/surveys"

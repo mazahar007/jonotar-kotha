@@ -29,10 +29,10 @@ export default async function HomePage() {
       </div>
       {/* Phase 21x — survey as a standalone full-screen-width section
           (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।")
-          Phase 21ab — sample-matched section rhythm: py-24 sm:py-32
-          (96px/128px) like the sample's Safety section
-          (user: "এই সাইজ হবে। উপরে নিচে গ্যাপ টা দেখ।") */}
-      <div className="section-fullbleed py-24 sm:py-32">
+          Phase 21ad — one full page per screen: min-h-screen + centered,
+          subtext→box gap 30px (user: "এক পেজে শুধু এই সেকশন টা দেখা যাবে।
+          সেভাবে px fixed করো... এই টেক্সটের পরে ৩০ px হবে বক্স টা থেকে") */}
+      <div className="section-fullbleed flex min-h-screen items-center py-24 sm:py-32">
         <div className="mx-auto w-full max-w-7xl px-4">
           <HomeSurveySection />
         </div>
