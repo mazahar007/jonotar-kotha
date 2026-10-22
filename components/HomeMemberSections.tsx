@@ -22,12 +22,12 @@ function SurveySectionHead() {
       <span className="inline-flex items-center rounded-full bg-violet-500/15 px-3 py-1 text-xs font-bold text-violet-300">
         জরিপ
       </span>
-      <h2 className="mt-3 text-3xl font-extrabold leading-tight text-ink">
+      <h2 className="mt-3 text-4xl font-extrabold leading-tight text-ink md:text-5xl">
         আপনার এলাকার
         <br />
         <span className="text-gradient">জরিপে মত দিন</span>
       </h2>
-      <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+      <p className="mt-3 text-base leading-relaxed text-ink-soft">
         চলমান জরিপে ভোট দিন — আপনার মতামতই এলাকার উন্নয়নে ভূমিকা রাখে
       </p>
     </div>
