@@ -105,7 +105,7 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
               type="button"
               aria-haspopup="menu"
               aria-label="আরও মেনু"
-              className="flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold text-ink-soft transition hover:bg-overlay hover:text-ink"
+              className="flex items-center gap-1 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold text-ink transition hover:bg-overlay"
             >
               <span aria-hidden>☰</span> মেনু
               <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
