@@ -24,12 +24,13 @@ export default async function HomePage() {
       <Hero />
       {/* Phase 21d — unified red emergency strip (replaces the old separate
           broadcast banner + emergency cards): 4 equal columns */}
-      <div className="mx-auto w-full max-w-7xl px-4 pt-6 md:pt-10">
+      <div className="mx-auto w-full max-w-7xl px-4 pt-[10px] pb-[10px]">
         <EmergencyStrip updates={updates} />
       </div>
       {/* Phase 21x — survey as a standalone full-screen-width section
-          (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।") */}
-      <div className="section-fullbleed pt-10 md:pt-14">
+          (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।")
+          Phase 21z — 30px gaps top/bottom for full-page view. */}
+      <div className="section-fullbleed pt-[30px] pb-[30px]">
         <div className="mx-auto w-full max-w-7xl px-4">
           <HomeSurveySection />
         </div>

@@ -18,7 +18,7 @@ import { IconChevronRight, IconUsers } from './icons';
  */
 function SurveySectionHead() {
   return (
-    <div>
+    <div className="text-center">
       <span className="inline-flex items-center rounded-full bg-violet-500/15 px-3 py-1 text-xs font-bold text-violet-300">
         জরিপ
       </span>
@@ -27,7 +27,7 @@ function SurveySectionHead() {
         <br />
         <span className="text-gradient">জরিপে মত দিন</span>
       </h2>
-      <p className="mt-3 text-base leading-relaxed text-ink-soft">
+      <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-ink-soft">
         চলমান জরিপে ভোট দিন — আপনার মতামতই এলাকার উন্নয়নে ভূমিকা রাখে
       </p>
     </div>
