@@ -24,7 +24,6 @@ const MENU_LINKS = [
   { label: 'পরিবার', href: '/family' },
   { label: 'আমার এলাকার মানুষ', href: '/amar-elaka' },
   { label: 'প্রমাণ লকার', href: '/locker' },
-  { label: 'প্রোফাইল', href: '/profile' },
 ];
 
 function ChevronDown({ className = '' }: { className?: string }) {
@@ -112,7 +111,7 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
               <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
             </button>
             <div className="invisible absolute right-0 top-full z-50 pt-2 opacity-0 transition-all duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-              <div role="menu" className="glass w-60 rounded-2xl p-2 shadow-xl shadow-black/20">
+              <div role="menu" className="menu-dropdown w-60 rounded-2xl p-2 shadow-xl shadow-black/40">
                 {MENU_LINKS.map((link) => {
                   const active = isActive(link.href);
                   return (
@@ -151,7 +150,7 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
               </svg>
             </button>
             {menuOpen && (
-              <div className="glass absolute right-0 top-full z-50 mt-2 w-60 rounded-2xl p-2 shadow-xl shadow-black/20">
+              <div className="menu-dropdown absolute right-0 top-full z-50 mt-2 w-60 rounded-2xl p-2 shadow-xl shadow-black/40">
                 {[...NAV_LINKS, ...MENU_LINKS].map((link) => {
                   const active = isActive(link.href);
                   return (

@@ -645,6 +645,15 @@ select.input-dark option {
   background: #ffffff;
   border-color: #e2e8f0;
 }
+/* Phase 21ac — header menu dropdowns: solid dark background
+   (user: "menu এর ব্যাকগ্রাউন্ড ডার্ক করে দাও") */
+.menu-dropdown {
+  background: #0d1424;
+  border: 1px solid var(--line);
+}
+:root:not(.dark) .menu-dropdown {
+  background: #ffffff;
+}
 .emergency-strip-title { color: #fff; }
 :root:not(.dark) .emergency-strip-title { color: #0f172a; }
 .emergency-strip-sub { color: rgba(255, 255, 255, 0.65); }
