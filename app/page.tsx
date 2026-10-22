@@ -3,6 +3,7 @@ import EmergencyStrip from '@/components/EmergencyStrip';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
+import HomeReportsSection from '@/components/HomeReportsSection';
 import { HomeSurveySection } from '@/components/HomeMemberSections';
 import { getCategories, getMunicipalityUpdates, getReports, getVolunteers } from '@/lib/store';
 
@@ -35,6 +36,14 @@ export default async function HomePage() {
       <div className="section-fullbleed flex min-h-screen items-center py-24 sm:py-32">
         <div className="mx-auto w-full max-w-7xl px-4">
           <HomeSurveySection />
+        </div>
+      </div>
+      {/* Phase 21ag — reports as a standalone full-page section, same rhythm
+          as the survey section (user: "এটার জন্য উপরের মত সেকশন করে দাও।
+          পুরো এক পেজ জুড়ে হবে।") */}
+      <div className="section-fullbleed flex min-h-screen items-center py-24 sm:py-32">
+        <div className="mx-auto w-full max-w-7xl px-4">
+          <HomeReportsSection categories={categories} reports={reports} />
         </div>
       </div>
       <main className="pt-4">

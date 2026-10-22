@@ -4,7 +4,6 @@ import Link from 'next/link';
 import type { Category, Report, Volunteer } from '@/lib/types';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
-import ReportsSlider from './ReportsSlider';
 import SafetyScoreSection from './SafetyScoreSection';
 import SectionHeader from './SectionHeader';
 import TopContributors from './TopContributors';
@@ -34,8 +33,8 @@ export default function HomeFeed({
           {/* Phase 3 — amar-elaka card (members) + newest survey */}
           <HomeMemberSections />
 
-          {/* Phase 16 — Report feed as a big-card slider (top 10, newest first) */}
-          <ReportsSlider categories={categories} reports={reports} />
+          {/* Phase 21ag — reports moved to a standalone full-page section
+              at page level (see app/page.tsx) per user request. */}
 
           {/* Phase 10 — এলাকার সেফটি স্কোর */}
           <SafetyScoreSection />
