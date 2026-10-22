@@ -634,6 +634,27 @@ select.input-dark option {
 /* Phase 21aa — each strip column is its own box: 20px radius on all four
    sides, 2px gaps between boxes (user: "এই বক্সগুলোতে 2px করে গ্যাপ হবে।
    আর চতুর্দিকে ২০px radious হবে।"). The outer wrapper has no box styling. */
+.emergency-strip {
+  position: relative;
+}
+/* Phase 21af — a very light background wash behind the strip boxes
+   (user: "এই সেকশনে ব্যাকগ্রাউন্ডে একদম হাল্কা একটা কালার হবে।") */
+.emergency-strip::before {
+  content: "";
+  position: absolute;
+  inset: -48px -32px;
+  background: radial-gradient(
+    ellipse 70% 90% at 50% 50%,
+    rgba(59, 130, 246, 0.09),
+    rgba(139, 92, 246, 0.045) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.emergency-strip > div {
+  position: relative;
+  z-index: 1;
+}
 .emergency-strip-col {
   background: var(--surface);
   border: 1px solid var(--line);
