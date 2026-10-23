@@ -17,6 +17,14 @@ const NAV_LINKS = [
   { label: 'SOS', href: '/sos' },
 ];
 
+/**
+ * Phase 21ah — links hidden from the MOBILE hamburger menu only
+ * (user: "শুধু মোবাইল ভিউ এর জন্যে মেনু থেকে এই ৩টা অপশন বাদ দেও।
+ * শুধু মোবাইল ভিউ। ওয়েবে থাকবে।"). These already live in the mobile
+ * bottom nav, so the hamburger would just duplicate them.
+ */
+const MOBILE_MENU_HIDDEN = new Set(['/blood', '/sos', '/map']);
+
 /** Secondary links inside the ☰ মেনু dropdown (moved from the removed sidebar). */
 const MENU_LINKS = [
   { label: 'ম্যাপ', href: '/map' },
@@ -151,7 +159,9 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
             </button>
             {menuOpen && (
               <div className="menu-dropdown absolute right-0 top-full z-50 mt-2 w-60 rounded-2xl p-2 shadow-xl shadow-black/40">
-                {[...NAV_LINKS, ...MENU_LINKS].map((link) => {
+                {[...NAV_LINKS, ...MENU_LINKS]
+                  .filter((link) => !MOBILE_MENU_HIDDEN.has(link.href))
+                  .map((link) => {
                   const active = isActive(link.href);
                   return (
                     <Link
