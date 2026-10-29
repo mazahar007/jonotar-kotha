@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { IconCheck, IconPin, IconHome, IconMap, IconBell, IconUser } from './icons';
-
-const PILLS = ['বেনামী রিপোর্ট', 'লাইভ SOS', 'সম্পূর্ণ ফ্রি', 'রোড আপডেট'];
+import { DEFAULT_SETTINGS, type SiteSettings } from '@/lib/settings';
 
 /** Orbit badges around the red circle — glass circles, emoji only (no assets). */
 const ORBITS: { icon: string; pos: string; label: string }[] = [
@@ -17,8 +16,12 @@ const ORBITS: { icon: string; pos: string; label: string }[] = [
  * জনতার কথা app UI (static), two floating glass cards (honest labels only),
  * 4 orbiting glass icon badges. No photos, no invented stats.
  * Theme-aware via CSS vars (dark lightweight + light).
+ * Phase 21aj — headline/badge/subtext/pills come from site settings
+ * (admin → সেটিংস); DEFAULT_SETTINGS keep the current live copy.
  */
-export default function Hero() {
+export default function Hero({ settings }: { settings?: SiteSettings }) {
+  const s = settings ?? DEFAULT_SETTINGS;
+  const pills = s.hero_pills.length > 0 ? s.hero_pills : DEFAULT_SETTINGS.hero_pills;
   return (
     <section className="noise hero-fade-noise hero-fullbleed relative flex min-h-screen items-center overflow-hidden bg-[var(--bg)]">
       {/* gradient orbs — softened so edges dissolve invisibly into the page bg */}
@@ -60,25 +63,24 @@ export default function Hero() {
                 লাইভ
               </span>
               <span aria-hidden className="h-3 w-px bg-line" />
-              <span className="text-ink-soft">সেবা চালু আছে আপনার এলাকায়</span>
+              <span className="text-ink-soft">{s.hero_badge}</span>
             </span>
 
             {/* display headline — Phase 21d: 3 lines per user annotation */}
             <h1 className="mt-6 text-5xl font-bold leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
-              <span className="block text-ink">জনতার কথা</span>
-              <span className="text-gradient block">আপনার এলাকার</span>
-              <span className="text-gradient block">ডিজিটাল প্ল্যাটফর্ম</span>
+              <span className="block text-ink">{s.hero_line1}</span>
+              <span className="text-gradient block">{s.hero_line2}</span>
+              <span className="text-gradient block">{s.hero_line3}</span>
             </h1>
 
             {/* subtext */}
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
-              সমস্যা জানান, রোডের অবস্থা দেখুন, জরুরি SOS — সব এক অ্যাপে। গ্রাম
-              থেকে শহর, আমরা আছি সবখানে।
+              {s.hero_subtext}
             </p>
 
             {/* feature pills */}
             <div className="mt-8 flex flex-wrap gap-3">
-              {PILLS.map((tag) => (
+              {pills.map((tag) => (
                 <span
                   key={tag}
                   className="inline-flex items-center gap-x-1.5 rounded-full bg-overlay px-3.5 py-1.5 text-xs font-medium text-ink ring-1 ring-line"
@@ -180,7 +182,7 @@ export default function Hero() {
                     <span className="btn-gradient flex h-6 w-6 items-center justify-center rounded-lg text-[11px]">
                       📢
                     </span>
-                    <span className="text-[12px] font-bold text-ink">জনতার কথা</span>
+                    <span className="text-[12px] font-bold text-ink">{s.site_name}</span>
                     <span className="ml-auto flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[9px] font-semibold text-emerald-500">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                       লাইভ

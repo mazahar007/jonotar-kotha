@@ -6,15 +6,17 @@ import HomeFeed from '@/components/HomeFeed';
 import HomeReportsSection from '@/components/HomeReportsSection';
 import { HomeSurveySection } from '@/components/HomeMemberSections';
 import { getCategories, getMunicipalityUpdates, getReports, getVolunteers } from '@/lib/store';
+import { getSettings } from '@/lib/settings';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const [categories, reports, volunteers, updates] = await Promise.all([
+  const [categories, reports, volunteers, updates, settings] = await Promise.all([
     getCategories(),
     getReports(),
     getVolunteers(),
     getMunicipalityUpdates(),
+    getSettings(),
   ]);
   return (
     <>
@@ -22,7 +24,7 @@ export default async function HomePage() {
           whose background spans the full viewport from the top edge. */}
       <Header overlay />
       {/* Phase 20 — landing hero at the very top, then the broadcast banner (renders nothing when inactive), then the feed */}
-      <Hero />
+      <Hero settings={settings} />
       {/* Phase 21d — unified red emergency strip (replaces the old separate
           broadcast banner + emergency cards): 4 equal columns */}
       <div className="mx-auto w-full max-w-7xl px-4 pt-[10px] pb-[10px]">
@@ -47,7 +49,7 @@ export default async function HomePage() {
         </div>
       </div>
       <main className="pt-4">
-        <HomeFeed categories={categories} reports={reports} volunteers={volunteers} />
+        <HomeFeed categories={categories} reports={reports} volunteers={volunteers} emergencyNumbers={settings.emergency_numbers} />
       </main>
       <BottomNav />
     </>

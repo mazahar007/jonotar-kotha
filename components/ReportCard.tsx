@@ -18,25 +18,39 @@ function isVideoUrl(url: string): boolean {
   return VIDEO_EXT.some((e) => clean.endsWith(e));
 }
 
-export default function ReportCard({ report, large = false }: { report: Report; large?: boolean }) {
+/**
+ * Phase 21ai — `tall` variant: bigger + taller cards for the home reports
+ * slider (user: "স্লাইড পার্ট আরো বড় এবং লম্বা হবে"). Larger cover,
+ * roomier padding, bigger title, longer description.
+ */
+export default function ReportCard({
+  report,
+  large = false,
+  tall = false,
+}: {
+  report: Report;
+  large?: boolean;
+  tall?: boolean;
+}) {
   const media = (report.media_urls ?? []).filter(Boolean);
   const images = media.filter((u) => !isVideoUrl(u));
   const videos = media.filter((u) => isVideoUrl(u));
   const breadcrumb = [report.union_name, report.upazila_name, report.district_name].filter(Boolean) as string[];
+  const roomy = large || tall;
 
   return (
     <article
       className={`overflow-hidden rounded-2xl bg-surface border border-line shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
-        large ? 'flex h-full flex-col' : ''
+        roomy ? 'flex h-full flex-col' : ''
       }`}
     >
       {/* Cover: first uploaded photo */}
       {images.length > 0 && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={images[0]} alt="" className={`${large ? 'h-52' : 'h-44'} w-full object-cover`} loading="lazy" />
+        <img src={images[0]} alt="" className={`${tall ? 'h-64 lg:h-72' : large ? 'h-52' : 'h-44'} w-full object-cover`} loading="lazy" />
       )}
 
-      <div className={large ? 'flex flex-1 flex-col p-5 lg:p-6' : 'p-4'}>
+      <div className={tall ? 'flex flex-1 flex-col p-6 lg:p-8' : large ? 'flex flex-1 flex-col p-5 lg:p-6' : 'p-4'}>
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <span className="rounded-full bg-cream-dark px-2.5 py-1 text-xs font-semibold text-ink-soft">
             {report.category}
@@ -49,12 +63,12 @@ export default function ReportCard({ report, large = false }: { report: Report; 
             </span>
           )}
         </div>
-        <h3 className={`${large ? 'text-xl' : 'text-[15px]'} font-bold leading-snug text-ink`}>
+        <h3 className={`${tall ? 'text-2xl' : large ? 'text-xl' : 'text-[15px]'} font-bold leading-snug text-ink`}>
           {report.title}
         </h3>
         <p
           className={`leading-relaxed text-ink-soft ${
-            large ? 'mt-2 line-clamp-3 text-[15px]' : 'mt-1.5 text-sm'
+            tall ? 'mt-3 line-clamp-4 text-base' : large ? 'mt-2 line-clamp-3 text-[15px]' : 'mt-1.5 text-sm'
           }`}
         >
           {report.description}
@@ -65,7 +79,7 @@ export default function ReportCard({ report, large = false }: { report: Report; 
           <div className="mt-3 flex gap-2">
             {images.slice(1, 4).map((u) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={u} src={u} alt="" className="h-16 w-16 rounded-xl object-cover" loading="lazy" />
+              <img key={u} src={u} alt="" className={`${tall ? 'h-20 w-20' : 'h-16 w-16'} rounded-xl object-cover`} loading="lazy" />
             ))}
           </div>
         )}
@@ -98,7 +112,7 @@ export default function ReportCard({ report, large = false }: { report: Report; 
         {/* Phase 7 — verify votes + link to detail/comments; Phase 15 — like */}
         <div
           className={`flex items-center justify-between gap-2 border-t border-line pt-3 ${
-            large ? 'mt-auto' : 'mt-3'
+            roomy ? 'mt-auto' : 'mt-3'
           }`}
         >
           <div className="flex items-center gap-2">

@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SectionHeader from './SectionHeader';
-import { IconStar } from './icons';
+import SampleSectionHead from './SampleSectionHead';
 
 interface Leader {
   id: number;
@@ -42,12 +41,13 @@ export default function TopContributors() {
   const bn = ['১', '২', '৩', '৪', '৫'];
 
   return (
-    <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-      <SectionHeader
-        icon={<IconStar className="h-6 w-6" />}
-        tileClassName="bg-amber-500/15 text-amber-400"
-        title="শীর্ষ অবদানকারী"
-        subtitle="পয়েন্টে এলাকার সেরারা"
+    <section className="rounded-2xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-colors duration-300 hover:border-white/10">
+      <SampleSectionHead
+        badge="অবদান"
+        color="violet"
+        title="শীর্ষ"
+        gradient="অবদানকারী"
+        subtext="পয়েন্টে এলাকার সেরারা"
       />
       <div className="mt-4 space-y-2">
         {leaders.slice(0, 5).map((l, i) => (

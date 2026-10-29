@@ -10,9 +10,10 @@ import AdminLiveShares from '@/components/AdminLiveShares';
 import AdminMembers from '@/components/AdminMembers';
 import AdminPush from '@/components/AdminPush';
 import AdminRoads from '@/components/AdminRoads';
+import AdminSettings from '@/components/AdminSettings';
 import AdminSurveys from '@/components/AdminSurveys';
 
-type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members' | 'roads' | 'comments' | 'push' | 'broadcasts';
+type Tab = 'reports' | 'categories' | 'volunteers' | 'donors' | 'sos' | 'evidence' | 'guides' | 'shelters' | 'locations' | 'surveys' | 'members' | 'roads' | 'comments' | 'push' | 'broadcasts' | 'settings';
 
 const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'reports', label: 'রিপোর্ট', endpoint: '/api/reports' },
@@ -30,6 +31,7 @@ const TABS: { id: Tab; label: string; endpoint: string }[] = [
   { id: 'comments', label: 'মন্তব্য', endpoint: '' },
   { id: 'push', label: 'নোটিফিকেশন', endpoint: '' },
   { id: 'broadcasts', label: 'ঘোষণা', endpoint: '' },
+  { id: 'settings', label: 'সেটিংস', endpoint: '' },
 ];
 
 // editable fields per tab (excluding id)
@@ -88,6 +90,8 @@ const FIELDS: Record<Tab, { key: string; label: string; type?: 'text' | 'number'
   push: [],
   // Managed by a dedicated UI (AdminBroadcasts), not the generic form.
   broadcasts: [],
+  // Managed by a dedicated UI (AdminSettings), not the generic form.
+  settings: [],
 };
 
 interface Row {
@@ -227,6 +231,8 @@ export default function AdminPage() {
           <AdminPush />
         ) : tab === 'broadcasts' ? (
           <AdminBroadcasts />
+        ) : tab === 'settings' ? (
+          <AdminSettings />
         ) : (
           <>
         {tab === 'sos' && <AdminLiveShares />}

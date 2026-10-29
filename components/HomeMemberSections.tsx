@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { getStoredToken, useMember } from '@/lib/member';
 import type { AmarElakaData, SurveyWithState } from '@/lib/types';
 import SurveyCard from './SurveyCard';
-import SectionHeader from './SectionHeader';
+import SampleSectionHead from './SampleSectionHead';
 import { IconChevronRight, IconUsers } from './icons';
 
 /**
@@ -60,11 +60,12 @@ export default function HomeMemberSections() {
     <>
       {member && elaka && (
         <section className="space-y-3">
-          <SectionHeader
-            icon={<IconUsers className="h-6 w-6" />}
-            tileClassName="bg-emerald-500/15 text-emerald-300"
-            title="আমার এলাকার মানুষ"
-            subtitle="নিজ এলাকার কে কোথায় আছেন"
+          <SampleSectionHead
+            badge="সদস্য"
+            color="teal"
+            title="আমার এলাকার"
+            gradient="মানুষ"
+            subtext="নিজ এলাকার কে কোথায় আছেন"
           />
           <Link
             href="/amar-elaka"

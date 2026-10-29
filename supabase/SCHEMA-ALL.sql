@@ -1242,3 +1242,30 @@ alter table notifications
 
 create index if not exists idx_notifications_member
   on notifications (member_id);
+
+-- ============ SITE SETTINGS (Phase 21aj: fully dynamic site) ============
+-- Key/value site content editable from /admin → সেটিংস (hero text, pills,
+-- emergency numbers, site name). Public read; writes go through the
+-- service-role API (admin session enforced by middleware).
+create table if not exists settings (
+  key text primary key,
+  value text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+alter table settings enable row level security;
+
+drop policy if exists "public read" on settings;
+create policy "public read" on settings for select using (true);
+
+-- Seed: the values currently hardcoded on the live site.
+insert into settings (key, value) values
+  ('site_name', 'জনতার কথা'),
+  ('hero_badge', 'সেবা চালু আছে আপনার এলাকায়'),
+  ('hero_line1', 'জনতার কথা'),
+  ('hero_line2', 'আপনার এলাকার'),
+  ('hero_line3', 'ডিজিটাল প্ল্যাটফর্ম'),
+  ('hero_subtext', 'সমস্যা জানান, রোডের অবস্থা দেখুন, জরুরি SOS — সব এক অ্যাপে। গ্রাম থেকে শহর, আমরা আছি সবখানে।'),
+  ('hero_pills', '["বেনামী রিপোর্ট","লাইভ SOS","সম্পূর্ণ ফ্রি","রোড আপডেট"]'),
+  ('emergency_numbers', '[{"name":"জাতীয় জরুরি সেবা","number":"999"},{"name":"নারী নির্যাতন প্রতিরোধ","number":"109"},{"name":"সরকারি তথ্য ও সেবা","number":"333"}]')
+on conflict (key) do nothing;

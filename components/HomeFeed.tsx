@@ -2,22 +2,29 @@
 
 import Link from 'next/link';
 import type { Category, Report, Volunteer } from '@/lib/types';
+import type { EmergencyNumber } from '@/lib/settings';
+import { DEFAULT_SETTINGS } from '@/lib/settings';
+import { bnNum } from '@/lib/time';
 import HomeMemberSections from './HomeMemberSections';
 import RoadsExplorer from './RoadsExplorer';
 import SafetyScoreSection from './SafetyScoreSection';
-import SectionHeader from './SectionHeader';
+import SampleSectionHead from './SampleSectionHead';
 import TopContributors from './TopContributors';
-import { IconPhone, IconStar } from './icons';
 
 export default function HomeFeed({
   categories,
   reports,
   volunteers,
+  emergencyNumbers,
 }: {
   categories: Category[];
   reports: Report[];
   volunteers: Volunteer[];
+  emergencyNumbers?: EmergencyNumber[];
 }) {
+  const numbers = emergencyNumbers && emergencyNumbers.length > 0
+    ? emergencyNumbers
+    : DEFAULT_SETTINGS.emergency_numbers;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-4 pb-10">
@@ -49,12 +56,13 @@ export default function HomeFeed({
             EmergencyStrip above the feed) per user request. */}
         <div className="mt-10 min-w-0 space-y-10 md:mt-14 md:space-y-14 xl:mt-0">
           {/* Volunteer leaderboard */}
-          <section className="rounded-3xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-            <SectionHeader
-              icon={<IconStar className="h-6 w-6" />}
-              tileClassName="bg-amber-500/15 text-amber-400"
-              title="স্বেচ্ছাসেবক লিডারবোর্ড"
-              subtitle="এলাকার সেরা স্বেচ্ছাসেবকগণ"
+          <section className="rounded-2xl bg-surface border border-line p-5 shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-colors duration-300 hover:border-white/10">
+            <SampleSectionHead
+              badge="লিডারবোর্ড"
+              color="amber"
+              title="স্বেচ্ছাসেবক"
+              gradient="লিডারবোর্ড"
+              subtext="এলাকার সেরা স্বেচ্ছাসেবকগণ"
             />
             <div className="mt-4 space-y-2">
               {volunteers.slice(0, 3).map((v, i) => (
@@ -81,26 +89,21 @@ export default function HomeFeed({
 
           {/* Emergency numbers (existing SOS hotlines, surfaced in the rail on xl only
               so the mobile stack stays exactly as before) */}
-          <section className="hidden rounded-3xl border border-line bg-surface p-5 text-ink xl:block">
-            <SectionHeader
-              icon={<IconPhone className="h-6 w-6" />}
-              tileClassName="bg-overlay text-ink"
-              title="জরুরি নম্বর"
-              subtitle="১ ট্যাপে সরাসরি কল করুন"
+          <section className="hidden rounded-2xl border border-line bg-surface p-5 text-ink shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition-colors duration-300 hover:border-white/10 xl:block">
+            <SampleSectionHead
+              badge="জরুরি"
+              color="red"
+              title="জরুরি"
+              gradient="নম্বর"
+              subtext="১ ট্যাপে সরাসরি কল করুন"
             />
             <div className="mt-4 space-y-2 text-sm">
-              <a href="tel:999" className="flex items-center justify-between rounded-xl bg-overlay px-3 py-2.5">
-                <span>জাতীয় জরুরি সেবা</span>
-                <span className="font-bold">৯৯৯</span>
-              </a>
-              <a href="tel:109" className="flex items-center justify-between rounded-xl bg-overlay px-3 py-2.5">
-                <span>নারী নির্যাতন প্রতিরোধ</span>
-                <span className="font-bold">১০৯</span>
-              </a>
-              <a href="tel:333" className="flex items-center justify-between rounded-xl bg-overlay px-3 py-2.5">
-                <span>সরকারি তথ্য ও সেবা</span>
-                <span className="font-bold">৩৩৩</span>
-              </a>
+              {numbers.map((n) => (
+                <a key={n.number} href={`tel:${n.number}`} className="flex items-center justify-between rounded-xl bg-overlay px-3 py-2.5">
+                  <span>{n.name}</span>
+                  <span className="font-bold">{bnNum(n.number)}</span>
+                </a>
+              ))}
             </div>
             <Link href="/sos" className="mt-3 block rounded-xl btn-danger py-2.5 text-center text-sm font-bold text-white">
               জরুরি SOS খুলুন

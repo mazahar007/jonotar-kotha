@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LiveSharePanel from '@/components/LiveSharePanel';
 import { SOS_NUMBERS } from '@/lib/mock';
+import { bnNum } from '@/lib/time';
+import type { EmergencyNumber } from '@/lib/settings';
 import {
   IconAlert,
   IconCamera,
@@ -19,6 +21,28 @@ type Step = 'main' | 'confirm' | 'success' | 'silent';
 export default function SosPage() {
   const [step, setStep] = useState<Step>('main');
   const [sending, setSending] = useState(false);
+  // Phase 21aj — emergency numbers come from site settings (admin → সেটিংস);
+  // SOS_NUMBERS is the fallback so the safety flow never breaks.
+  const [sosNumbers, setSosNumbers] = useState(SOS_NUMBERS);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch('/api/settings', { cache: 'no-store' });
+        const data = await res.json();
+        const nums = (data.emergency_numbers ?? []) as EmergencyNumber[];
+        if (nums.length > 0) {
+          setSosNumbers(
+            nums.map((n, i) => ({ id: `emg-${i}`, title: n.name, number: bnNum(n.number), tel: n.number }))
+          );
+        }
+      } catch {
+        /* keep fallback numbers */
+      }
+    })();
+  }, []);
+
+  const primary = sosNumbers[0] ?? SOS_NUMBERS[0];
 
   async function sendAlert() {
     setSending(true);
@@ -53,7 +77,7 @@ export default function SosPage() {
           <LiveSharePanel />
 
           <div className="mt-6 space-y-3">
-            {SOS_NUMBERS.map((n) => (
+            {sosNumbers.map((n) => (
               <a
                 key={n.id}
                 href={`tel:${n.tel}`}
@@ -125,10 +149,10 @@ export default function SosPage() {
               {sending ? 'পাঠানো হচ্ছে...' : 'এখনই পাঠান'}
             </button>
             <a
-              href="tel:999"
+              href={`tel:${primary.tel}`}
               className="block w-full rounded-2xl bg-white/15 py-4 text-center font-bold"
             >
-              ৯৯৯ কল প্রস্তুত — সরাসরি কল করুন
+              {primary.number} কল প্রস্তুত — সরাসরি কল করুন
             </a>
             <button
               onClick={() => setStep('main')}
@@ -154,10 +178,10 @@ export default function SosPage() {
             ৫০ জন স্বেচ্ছাসেবক ও ৯৯৯-এ কল প্রস্তুত। সাহায্য আসছে — শান্ত থাকুন।
           </p>
           <a
-            href="tel:999"
+            href={`tel:${primary.tel}`}
             className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl btn-danger py-4 font-bold"
           >
-            <IconPhone className="h-5 w-5" /> ৯৯৯-এ কল করুন
+            <IconPhone className="h-5 w-5" /> {primary.number}-এ কল করুন
           </a>
           <Link href="/" className="mt-4 text-sm text-white/60">
             হোমে ফিরুন

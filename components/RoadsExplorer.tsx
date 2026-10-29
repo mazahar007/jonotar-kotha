@@ -6,8 +6,9 @@ import CardSlider from '@/components/CardSlider';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import QuickPostStrip from '@/components/QuickPostStrip';
 import RoadCard from '@/components/RoadCard';
-import SectionHeader, { SectionActionLink } from '@/components/SectionHeader';
-import { IconChevronRight, IconRoute } from '@/components/icons';
+import { SectionActionLink } from '@/components/SectionHeader';
+import SampleSectionHead from '@/components/SampleSectionHead';
+import { IconChevronRight } from '@/components/icons';
 import { bnNum } from '@/lib/time';
 import SafetyScoreChip from '@/components/SafetyScoreChip';
 import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
@@ -199,11 +200,12 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
 
   return (
     <section className="space-y-5">
-      <SectionHeader
-        icon={<IconRoute className="h-6 w-6" />}
-        tileClassName="bg-orange-500/15 text-orange-300"
-        title="রোড ও মোড়ের অবস্থা"
-        subtitle="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
+      <SampleSectionHead
+        badge="রাস্তা"
+        color="amber"
+        title="রোড ও মোড়ের"
+        gradient="অবস্থা"
+        subtext="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
         action={
           <span className="flex items-center gap-2">
             <SafetyScoreChip area={area} />

@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from './LocationPicker';
-import SectionHeader from './SectionHeader';
-import { IconShield, IconX } from './icons';
+import SampleSectionHead from './SampleSectionHead';
+import { IconX } from './icons';
 import {
   BAD_ROAD_PENALTY,
   GRADE_META,
@@ -175,11 +175,12 @@ export default function SafetyScoreSection() {
 
   return (
     <section className="space-y-4">
-      <SectionHeader
-        icon={<IconShield className="h-6 w-6" />}
-        tileClassName="bg-emerald-500/15 text-emerald-300"
-        title="এলাকার সেফটি স্কোর"
-        subtitle="গত ৯০ দিনের রিপোর্ট ও রোডের অবস্থা থেকে আনুমানিক"
+      <SampleSectionHead
+        badge="নিরাপত্তা"
+        color="emerald"
+        title="এলাকার"
+        gradient="সেফটি স্কোর"
+        subtext="গত ৯০ দিনের রিপোর্ট ও রোডের অবস্থা থেকে আনুমানিক"
       />
 
       {/* Area picker (reuses home area filter component) */}
