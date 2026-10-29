@@ -70,7 +70,7 @@ export default function Header({ overlay = false }: { overlay?: boolean }) {
           : 'sticky top-0 z-40 px-3 pt-3 lg:px-6'
       }
     >
-      <nav className="glass mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-2xl px-4 py-2.5 shadow-lg shadow-black/10">
+      <nav className="glass menu-bar mx-auto flex max-w-7xl items-center justify-between gap-2 rounded-2xl px-4 py-2.5 shadow-lg shadow-black/10">
         {/* logo + title */}
         <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2.5">
           <span className="btn-gradient flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">

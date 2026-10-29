@@ -11,8 +11,10 @@ const pad = (n: number) => bnNum(String(n).padStart(2, '0'));
 /**
  * Phase 24 — desktop roads browser for the home section: exactly `perPage`
  * cards per page in an equal-height grid (no half-visible neighbours, no
- * arrows sitting on card text) + one control bar with page counter,
- * segmented progress and prev/next — same language as ReportSpotlight.
+ * arrows sitting on card text) + page counter, segmented progress and
+ * prev/next. Phase 25 — cards and controls share ONE box (user: controls
+ * "স্লাইডারের সাথেই"), which fills its grid cell so it matches the
+ * one-tap post box beside it.
  */
 export default function RoadPager({ roads, perPage = 2 }: { roads: Road[]; perPage?: number }) {
   const [page, setPage] = useState(0);
@@ -32,7 +34,7 @@ export default function RoadPager({ roads, perPage = 2 }: { roads: Road[]; perPa
 
   return (
     <div
-      className="flex flex-1 flex-col gap-4"
+      className="flex h-full flex-1 flex-col gap-4 rounded-3xl border border-line bg-surface p-4 sm:p-5"
       role="region"
       aria-roledescription="carousel"
       aria-label="রোড ও মোড়ের অবস্থা"
@@ -54,7 +56,7 @@ export default function RoadPager({ roads, perPage = 2 }: { roads: Road[]; perPa
       </div>
 
       {pages > 1 && (
-        <div className="flex items-center gap-4 rounded-2xl border border-line bg-overlay px-4 py-2.5">
+        <div className="flex items-center gap-4 border-t border-line pt-4">
           <span className="shrink-0 text-sm font-bold tabular-nums text-ink">
             {pad(current + 1)}
             <span className="font-medium text-ink-soft"> / {pad(pages)}</span>

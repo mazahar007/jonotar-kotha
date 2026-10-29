@@ -9,6 +9,7 @@ import RoadCard from '@/components/RoadCard';
 import RoadPager from '@/components/RoadPager';
 import SampleSectionHead from '@/components/SampleSectionHead';
 import { IconChevronRight } from '@/components/icons';
+import { ROAD_STATUS_META } from '@/lib/road-status';
 import { bnNum } from '@/lib/time';
 import SafetyScoreChip from '@/components/SafetyScoreChip';
 import { ROAD_STATUSES, ROAD_STATUS_LABEL, type Road, type RoadStatus } from '@/lib/types';
@@ -116,15 +117,23 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   const display = sorted == null ? null : isHome ? sorted.slice(0, 10) : sorted;
   const gridClassName = `grid gap-3 md:grid-cols-2 ${isHome ? '' : 'xl:grid-cols-3'}`;
 
-  const chipCls = (active: boolean) =>
-    `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold transition ${
+  /* Phase 25 — a selected status chip takes that status's own colour
+     (ভালো → green, যানজট → orange …); "মোট" keeps the brand gradient. */
+  const chipCls = (active: boolean, status?: RoadStatus) =>
+    `flex min-h-11 shrink-0 cursor-pointer items-center gap-1.5 rounded-full border px-3.5 text-xs font-bold transition ${
       isHome ? 'lg:min-h-9' : ''
-    } ${active ? 'btn-gradient text-white' : 'border border-line bg-surface text-ink hover:bg-cream-dark'}`;
+    } ${
+      !active
+        ? 'border-line bg-surface text-ink hover:bg-cream-dark'
+        : status
+          ? `${ROAD_STATUS_META[status].dot} border-white/20 text-white shadow-[0_6px_18px_-8px_rgba(0,0,0,0.5)]`
+          : 'btn-gradient border-transparent text-white'
+    }`;
 
   /* One-tap post strip at section top */
   const quickPost = <QuickPostStrip onPosted={refetch} />;
 
-  const listBody = (
+  const filters = (
     <>
       {/* Shared area filter */}
       <div className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
@@ -151,8 +160,9 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
                   type="button"
                   onClick={() => setFilter(filter === s ? null : s)}
                   aria-pressed={filter === s}
-                  className={chipCls(filter === s)}
+                  className={chipCls(filter === s, s)}
                 >
+                  {filter !== s && <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${ROAD_STATUS_META[s].dot}`} />}
                   {ROAD_STATUS_LABEL[s]}: {bnNum(counts.get(s) ?? 0)}টি
                 </button>
               )
@@ -169,7 +179,11 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           )}
         </div>
       )}
+    </>
+  );
 
+  const list = (
+    <>
       {display === null ? (
         <p className="py-6 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>
       ) : items !== null && items.length === 0 ? (
@@ -204,39 +218,41 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     return (
       <div className="space-y-6">
         {quickPost}
-        {listBody}
+        {filters}
+        {list}
       </div>
     );
 
-  /* Phase 23 — home fits one desktop screen: heading + one-tap post on the
-     left, area filter + status chips + 2-up slider on the right. */
+  /* Phase 25 — home on lg is a 2×2 grid so the boxes line up (user: the
+     cards box must match the left box): row 1 = heading | area filter +
+     chips, row 2 = one-tap post | cards box (equal height, stretched).
+     Phones read: heading → one-tap post → filter + chips → cards. */
   return (
-    <section className="grid gap-10 lg:grid-cols-[400px_minmax(0,1fr)] lg:items-center lg:gap-10">
-      <div className="min-w-0 space-y-7">
-        <div>
-          <SampleSectionHead
-            badge="রাস্তা"
-            color="amber"
-            title="রোড ও মোড়ের"
-            gradient="লাইভ অবস্থা"
-            subtext="কোথায় জ্যাম, কোথায় রাস্তা ভাঙা, বিদ্যুৎ আছে কি নেই — এক ট্যাপে জানুন ও জানান।"
-            size="page"
-            stacked
-          />
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <SafetyScoreChip area={area} />
-            <Link
-              href="/roads"
-              className="group inline-flex min-h-11 items-center gap-x-1.5 rounded-xl border border-line-strong px-5 text-sm font-semibold text-ink transition-all duration-300 hover:bg-overlay"
-            >
-              সব রোড ও মোড় দেখুন
-              <IconChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </div>
+    <section className="grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-x-10 lg:gap-y-6">
+      <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:self-end">
+        <SampleSectionHead
+          badge="রাস্তা"
+          color="amber"
+          title="রোড ও মোড়ের"
+          gradient="লাইভ অবস্থা"
+          subtext="কোথায় জ্যাম, কোথায় রাস্তা ভাঙা, বিদ্যুৎ আছে কি নেই — এক ট্যাপে জানুন ও জানান।"
+          size="page"
+          stacked
+        />
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <SafetyScoreChip area={area} />
+          <Link
+            href="/roads"
+            className="group inline-flex min-h-11 items-center gap-x-1.5 rounded-xl border border-line-strong px-5 text-sm font-semibold text-ink transition-all duration-300 hover:bg-overlay"
+          >
+            সব রোড ও মোড় দেখুন
+            <IconChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Link>
         </div>
-        {quickPost}
       </div>
-      <div className="flex min-w-0 flex-col gap-5">{listBody}</div>
+      <div className="min-w-0 lg:col-start-1 lg:row-start-2 lg:[&>*]:h-full">{quickPost}</div>
+      <div className="flex min-w-0 flex-col gap-5 lg:col-start-2 lg:row-start-1 lg:self-end">{filters}</div>
+      <div className="flex min-w-0 flex-col lg:col-start-2 lg:row-start-2">{list}</div>
     </section>
   );
 }

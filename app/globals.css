@@ -675,6 +675,14 @@ select.input-dark option {
 :root:not(.dark) .menu-dropdown {
   background: #ffffff;
 }
+/* Phase 25 — header bar uses the same solid colour as its dropdown
+   (user: "মেনুর কালার হবে টিক মার্ক দেয়া কালার টা") */
+.glass.menu-bar {
+  background: #0d1424;
+}
+:root:not(.dark) .glass.menu-bar {
+  background: #ffffff;
+}
 .emergency-strip-title { color: #fff; }
 :root:not(.dark) .emergency-strip-title { color: #0f172a; }
 .emergency-strip-sub { color: rgba(255, 255, 255, 0.65); }
