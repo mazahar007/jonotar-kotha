@@ -9,6 +9,7 @@ import RoadCard from '@/components/RoadCard';
 import RoadPager from '@/components/RoadPager';
 import SampleSectionHead from '@/components/SampleSectionHead';
 import { IconChevronRight } from '@/components/icons';
+import { useMember } from '@/lib/member';
 import { ROAD_STATUS_META } from '@/lib/road-status';
 import { bnNum } from '@/lib/time';
 import SafetyScoreChip from '@/components/SafetyScoreChip';
@@ -49,6 +50,10 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
   const [items, setItems] = useState<Road[] | null>(null);
   const [filter, setFilter] = useState<StatusFilter>(null);
+  // Phase 26 — "এক ট্যাপে জানান" is for logged-in members only (user:
+  // "পাবলিক ভিউ এ দরকার নাই"); hidden while the session is loading too.
+  const { member } = useMember();
+  const canPost = Boolean(member);
   // Phase 24 — desktop home uses the paged 2-up grid; phones keep the swipe slider.
   const [isLg, setIsLg] = useState(false);
 
@@ -130,8 +135,8 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           : 'btn-gradient border-transparent text-white'
     }`;
 
-  /* One-tap post strip at section top */
-  const quickPost = <QuickPostStrip onPosted={refetch} />;
+  /* One-tap post strip at section top (members only) */
+  const quickPost = canPost ? <QuickPostStrip onPosted={refetch} /> : null;
 
   const filters = (
     <>
@@ -227,9 +232,11 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
      cards box must match the left box): row 1 = heading | area filter +
      chips, row 2 = one-tap post | cards box (equal height, stretched).
      Phones read: heading → one-tap post → filter + chips → cards. */
+  /* Guests (no one-tap box): heading spans both rows on the left, filter
+     + cards stack on the right. */
   return (
     <section className="grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-x-10 lg:gap-y-6">
-      <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:self-end">
+      <div className={`min-w-0 lg:col-start-1 lg:row-start-1 ${canPost ? 'lg:self-end' : 'lg:row-span-2 lg:self-center'}`}>
         <SampleSectionHead
           badge="রাস্তা"
           color="amber"
@@ -250,7 +257,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           </Link>
         </div>
       </div>
-      <div className="min-w-0 lg:col-start-1 lg:row-start-2 lg:[&>*]:h-full">{quickPost}</div>
+      {quickPost && <div className="min-w-0 lg:col-start-1 lg:row-start-2 lg:[&>*]:h-full">{quickPost}</div>}
       <div className="flex min-w-0 flex-col gap-5 lg:col-start-2 lg:row-start-1 lg:self-end">{filters}</div>
       <div className="flex min-w-0 flex-col lg:col-start-2 lg:row-start-2">{list}</div>
     </section>
