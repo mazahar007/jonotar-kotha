@@ -6,6 +6,7 @@ import CardSlider from '@/components/CardSlider';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import QuickPostStrip from '@/components/QuickPostStrip';
 import RoadCard from '@/components/RoadCard';
+import RoadPager from '@/components/RoadPager';
 import SampleSectionHead from '@/components/SampleSectionHead';
 import { IconChevronRight } from '@/components/icons';
 import { bnNum } from '@/lib/time';
@@ -47,6 +48,16 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   const [area, setArea] = useState<LocationSelection>(EMPTY_LOCATION);
   const [items, setItems] = useState<Road[] | null>(null);
   const [filter, setFilter] = useState<StatusFilter>(null);
+  // Phase 24 — desktop home uses the paged 2-up grid; phones keep the swipe slider.
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const sync = () => setIsLg(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
 
   const load = useCallback(async (a: LocationSelection) => {
     setItems(await fetchAll(a));
@@ -106,9 +117,9 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
   const gridClassName = `grid gap-3 md:grid-cols-2 ${isHome ? '' : 'xl:grid-cols-3'}`;
 
   const chipCls = (active: boolean) =>
-    `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold shadow-sm transition ${
-      active ? 'btn-gradient text-white' : 'border border-line bg-surface text-ink hover:bg-cream-dark'
-    }`;
+    `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold transition ${
+      isHome ? 'lg:min-h-9' : ''
+    } ${active ? 'btn-gradient text-white' : 'border border-line bg-surface text-ink hover:bg-cream-dark'}`;
 
   /* One-tap post strip at section top */
   const quickPost = <QuickPostStrip onPosted={refetch} />;
@@ -123,7 +134,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
 
       {/* One status-filter chip row for the merged list */}
       {items !== null && items.length > 0 && (
-        <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-2">
+        <div className={`no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-2 ${isHome ? 'lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:py-0' : ''}`}>
           <button
             type="button"
             onClick={() => setFilter(null)}
@@ -169,6 +180,8 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
         <p className="rounded-2xl bg-surface border border-line p-6 text-center text-sm text-ink-soft">
           এই অবস্থায় কোনো জায়গা নেই।
         </p>
+      ) : isHome && isLg ? (
+        <RoadPager roads={display} />
       ) : isHome ? (
         <CardSlider
           items={display}
@@ -223,7 +236,7 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
         </div>
         {quickPost}
       </div>
-      <div className="min-w-0 space-y-5">{listBody}</div>
+      <div className="flex min-w-0 flex-col gap-5">{listBody}</div>
     </section>
   );
 }

@@ -69,7 +69,7 @@ export default function RoadCard({
 
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-all duration-500 hover:border-line-strong">
-      <Link href={`/roads/${road.id}`} className="block flex-1">
+      <Link href={`/roads/${road.id}`} className="block">
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={cover} alt="" className="h-36 w-full object-cover" loading="lazy" />
@@ -123,7 +123,7 @@ export default function RoadCard({
         </div>
       </Link>
 
-      <div className="space-y-2.5 p-4 pt-3" onClick={(e) => e.preventDefault()}>
+      <div className="flex flex-1 flex-col gap-2.5 p-4 pt-3" onClick={(e) => e.preventDefault()}>
         {interactive ? (
           <QuickChips
             roadId={road.id}
@@ -138,7 +138,9 @@ export default function RoadCard({
           /* Phase 18 — home: display-only posted statuses, no taps. */
           <PostedStatusBadges statuses={road.current_statuses} />
         )}
-        <StatusRequestButton roadId={road.id} />
+        <div className="mt-auto">
+          <StatusRequestButton roadId={road.id} />
+        </div>
       </div>
       <LoginPromptModal
         open={showLogin}
