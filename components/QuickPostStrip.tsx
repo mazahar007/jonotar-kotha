@@ -159,7 +159,7 @@ export default function QuickPostStrip({ onPosted }: { onPosted?: () => void }) 
   })();
 
   return (
-    <div className="rounded-2xl bg-surface border border-line p-4 shadow-[0_2px_12px_rgba(0,0,0,0.05)] sm:p-5">
+    <div className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-[15px] font-bold text-ink">⚡ এক ট্যাপে জানান</h3>
         <div className="flex items-center gap-2">

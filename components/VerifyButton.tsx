@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { resolveVoterKey } from '@/lib/voter';
 import { announceBadges } from '@/lib/badges-client';
 import { VERIFY_BADGE_THRESHOLD } from '@/lib/types';
+import { bnNum } from '@/lib/time';
 import { IconCheck } from './icons';
 
 /**
@@ -71,7 +72,7 @@ export default function VerifyButton({
   }, [busy, reportId, memberId, count]);
 
   const verified = (count ?? 0) >= VERIFY_BADGE_THRESHOLD;
-  const label = count == null ? '…' : count;
+  const label = count == null ? '…' : bnNum(count);
 
   if (variant === 'compact') {
     return (
@@ -81,6 +82,8 @@ export default function VerifyButton({
           onClick={toggle}
           disabled={busy}
           aria-pressed={voted}
+          title={verified ? 'কমিউনিটি যাচাইকৃত' : 'আমিও দেখেছি'}
+          aria-label={`আমিও দেখেছি — ${label} জন${verified ? ', যাচাইকৃত' : ''}`}
           className={`flex min-h-[44px] items-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors ${
             voted ? 'bg-emerald-600 text-white' : 'bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/15'
           }`}
@@ -88,11 +91,6 @@ export default function VerifyButton({
           <IconCheck className="h-4 w-4" />
           {label}
         </button>
-        {verified && (
-          <span className="rounded-full bg-amber-500/15 px-2.5 py-1 text-xs font-bold text-amber-300">
-            যাচাইকৃত
-          </span>
-        )}
       </div>
     );
   }

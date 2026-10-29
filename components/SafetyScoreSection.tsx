@@ -1,9 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from './LocationPicker';
 import SampleSectionHead from './SampleSectionHead';
-import { IconX } from './icons';
+import { IconAlert, IconLock, IconNav, IconRoute, IconX } from './icons';
 import {
   BAD_ROAD_PENALTY,
   GRADE_META,
@@ -36,7 +37,7 @@ function ScoreRing({ score, grade }: { score: number; grade: Grade }) {
   return (
     <div className="relative h-32 w-32 shrink-0">
       <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
-        <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="12" />
+        <circle cx="60" cy="60" r={r} fill="none" stroke="var(--line)" strokeWidth="12" />
         <circle
           cx="60"
           cy="60"
@@ -109,6 +110,14 @@ function BreakdownRow({
   );
 }
 
+/** Phase 22 — the reference's 2×2 feature cards, pointing at real safety tools. */
+const SAFETY_TOOLS = [
+  { href: '/sos', title: 'জরুরি SOS', text: 'এক ট্যাপে বিশ্বস্ত মানুষদের কাছে সতর্কবার্তা পাঠান।', Icon: IconAlert, tile: 'bg-red-500/10 text-red-400' },
+  { href: '/sos', title: 'লাইভ লোকেশন শেয়ার', text: 'পরিবার রিয়েল-টাইমে আপনার অবস্থান দেখতে পাবে।', Icon: IconNav, tile: 'bg-emerald-500/10 text-emerald-400' },
+  { href: '/travel', title: 'ভ্রমণ মোড', text: 'অচেনা পথে গাইড ও কাছের নিরাপদ আশ্রয়ের তথ্য।', Icon: IconRoute, tile: 'bg-blue-500/10 text-blue-400' },
+  { href: '/locker', title: 'প্রমাণ লকার', text: 'ছবি-ভিডিও প্রমাণ নিরাপদে সংরক্ষণ করুন।', Icon: IconLock, tile: 'bg-amber-500/10 text-amber-400' },
+] as const;
+
 /**
  * Phase 10 — home section "এলাকার সেফটি স্কোর": score ring for the selected
  * area (compact LocationPicker), color-coded grade badge, tap → detail modal
@@ -174,61 +183,86 @@ export default function SafetyScoreSection() {
   const meta = GRADE_META[grade];
 
   return (
-    <section className="space-y-4">
-      <SampleSectionHead
-        badge="নিরাপত্তা"
-        color="emerald"
-        title="এলাকার"
-        gradient="সেফটি স্কোর"
-        subtext="গত ৯০ দিনের রিপোর্ট ও রোডের অবস্থা থেকে আনুমানিক"
-      />
-
-      {/* Area picker (reuses home area filter component) */}
-      <div className="rounded-2xl bg-surface border border-line p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-        <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
-        <LocationPicker compact value={area} onChange={setArea} />
+    <section className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      {/* LEFT — reference "নিরাপত্তা" copy block + 2×2 tool cards */}
+      <div>
+        <SampleSectionHead
+          badge="নিরাপত্তা"
+          color="emerald"
+          title="আপনার এলাকা"
+          gradient="কতটা নিরাপদ?"
+          subtext="গত ৯০ দিনের রিপোর্ট ও রোডের অবস্থা থেকে আনুমানিক সেফটি স্কোর — সাথে বিপদের মুহূর্তের সব টুল এক জায়গায়।"
+          size="page"
+          stacked
+        />
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {SAFETY_TOOLS.map(({ href, title, text, Icon, tile }) => (
+            <Link
+              key={title}
+              href={href}
+              className="group rounded-2xl border border-line bg-overlay p-5 transition-all duration-300 hover:border-line-strong hover:bg-overlay-strong"
+            >
+              <span className={`mb-3 flex h-9 w-9 items-center justify-center rounded-xl ${tile}`}>
+                <Icon className="h-[18px] w-[18px]" />
+              </span>
+              <span className="mb-1 block text-sm font-semibold text-ink">{title}</span>
+              <span className="block text-xs leading-relaxed text-ink-soft">{text}</span>
+            </Link>
+          ))}
+        </div>
       </div>
 
-      {/* Score card — tap opens the detail modal */}
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="flex min-h-11 w-full items-center gap-5 rounded-3xl bg-surface border border-line p-5 text-left shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition active:scale-[0.99]"
-        aria-label="সেফটি স্কোরের বিস্তারিত দেখুন"
-      >
-        {data ? (
-          <ScoreRing score={data.score} grade={data.grade} />
-        ) : (
-          <div className="flex h-32 w-32 items-center justify-center rounded-full bg-cream-dark text-sm font-bold text-ink-soft">
-            লোড হচ্ছে…
-          </div>
-        )}
-        <div className="min-w-0 flex-1 space-y-2">
-          <span
-            className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-black ${
-              grade === 'safe'
-                ? 'bg-emerald-500/15 text-emerald-300'
-                : grade === 'caution'
-                  ? 'bg-amber-500/15 text-amber-300'
-                  : 'bg-red-100 text-red-800'
-            }`}
+      {/* RIGHT — gradient + noise panel holding the live score */}
+      <div className="relative overflow-hidden rounded-3xl border border-line">
+        <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-brand/10 via-brand-dark/5 to-emerald-500/10" />
+        <div aria-hidden className="noise absolute inset-0" />
+        <div className="relative px-5 py-8 sm:px-10 sm:py-12">
+          <p className="mb-2 text-xs font-semibold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
+          <LocationPicker compact value={area} onChange={setArea} />
+
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="mt-8 flex w-full flex-col items-center text-center"
+            aria-label="সেফটি স্কোরের বিস্তারিত দেখুন"
           >
-            {meta.label}
-          </span>
-          {data && (
-            <>
-              <p className="text-sm leading-snug text-ink-soft">
-                গত ৯০ দিনে {bnNum(data.breakdown.total_reports)}টি রিপোর্ট ও{' '}
-                {bnNum(data.breakdown.roads_checked)}টি রোড/মোড়ের অবস্থা হিসাব করা হয়েছে।
-              </p>
-              <TrendLine trend={data.breakdown.trend} />
-            </>
-          )}
-          <p className="text-xs font-bold text-brand">বিস্তারিত দেখুন →</p>
+            {data ? (
+              <ScoreRing score={data.score} grade={data.grade} />
+            ) : (
+              <div className="flex h-32 w-32 items-center justify-center rounded-full bg-overlay-strong text-sm font-bold text-ink-soft">
+                লোড হচ্ছে…
+              </div>
+            )}
+            <span
+              className={`mt-5 inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ring-1 ring-inset ${
+                grade === 'safe'
+                  ? 'bg-emerald-500/15 text-emerald-300 ring-emerald-500/25'
+                  : grade === 'caution'
+                    ? 'bg-amber-500/15 text-amber-300 ring-amber-500/25'
+                    : 'bg-red-500/15 text-red-300 ring-red-500/25'
+              }`}
+            >
+              {meta.label}
+            </span>
+            {data && (
+              <>
+                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-ink-soft">
+                  গত ৯০ দিনে {bnNum(data.breakdown.total_reports)}টি রিপোর্ট ও{' '}
+                  {bnNum(data.breakdown.roads_checked)}টি রোড/মোড়ের অবস্থা হিসাব করা হয়েছে।
+                </p>
+                <span className="mt-3">
+                  <TrendLine trend={data.breakdown.trend} />
+                </span>
+              </>
+            )}
+            <span className="mt-6 inline-flex min-h-11 items-center rounded-xl bg-ink px-6 text-sm font-semibold text-[var(--bg)] shadow-lg transition-all hover:-translate-y-0.5 hover:shadow-xl">
+              স্কোরের হিসাব দেখুন
+            </span>
+          </button>
           {/* Always-visible honest disclaimer (also repeated inside the detail modal) */}
-          <p className="text-[11px] leading-snug text-ink-soft">{SCORE_DISCLAIMER}</p>
+          <p className="mt-6 text-center text-[11px] leading-snug text-ink-soft">{SCORE_DISCLAIMER}</p>
         </div>
-      </button>
+      </div>
 
       {/* Detail modal */}
       {open && data && (

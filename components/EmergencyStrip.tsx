@@ -78,7 +78,7 @@ export default function EmergencyStrip({ updates }: { updates: MunicipalityUpdat
               type="button"
               onClick={() => dismiss(b.id)}
               aria-label="সতর্কতা বন্ধ করুন"
-              className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/20 text-white/80 transition hover:bg-black/40 hover:text-white"
+              className="absolute right-2.5 top-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-overlay text-ink-soft transition hover:bg-overlay-strong hover:text-ink"
             >
               <IconX className="h-3.5 w-3.5" />
             </button>

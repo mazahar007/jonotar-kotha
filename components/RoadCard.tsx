@@ -68,8 +68,8 @@ export default function RoadCard({
   const isSpot = road.kind === 'spot';
 
   return (
-    <div className="h-full overflow-hidden rounded-2xl bg-surface border border-line shadow-[0_2px_12px_rgba(0,0,0,0.05)] transition hover:shadow-[0_4px_18px_rgba(0,0,0,0.09)]">
-      <Link href={`/roads/${road.id}`} className="block">
+    <div className="flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-all duration-500 hover:border-line-strong">
+      <Link href={`/roads/${road.id}`} className="block flex-1">
         {cover && (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={cover} alt="" className="h-36 w-full object-cover" loading="lazy" />
@@ -79,7 +79,7 @@ export default function RoadCard({
             <h3 className="min-w-0 flex-1 text-[15px] font-bold leading-snug text-ink">
               {road.name}
               {isSpot && (
-                <span className="ml-2 inline-block rounded-full bg-violet-500/15 px-2 py-0.5 align-middle text-[11px] font-bold text-violet-300">
+                <span className="ml-2 inline-block whitespace-nowrap rounded-full bg-violet-500/15 px-2 py-0.5 align-middle text-[11px] font-bold text-violet-300">
                   📍 মোড়
                 </span>
               )}
@@ -109,12 +109,12 @@ export default function RoadCard({
             <p className="mt-2 text-sm text-ink-soft">এখনো কোনো আপডেট আসেনি — প্রথম আপডেটটি দিন।</p>
           )}
 
-          <div className="mt-3 flex items-center justify-between text-xs text-ink-soft">
-            <span className="flex items-center gap-1">
+          <div className="mt-3 flex items-center justify-between gap-3 text-xs text-ink-soft">
+            <span className="flex min-w-0 items-center gap-1">
               <IconClock className="h-3.5 w-3.5" />
               {latest ? `সর্বশেষ আপডেট: ${latest.time_ago}` : 'আপডেট নেই'}
             </span>
-            <span className="font-semibold">{bnNum(road.update_count)}টি আপডেট</span>
+            <span className="shrink-0 font-semibold">{bnNum(road.update_count)}টি আপডেট</span>
           </div>
 
           {breadcrumb.length > 0 && (

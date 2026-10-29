@@ -4,10 +4,10 @@ import { DEFAULT_SETTINGS, type SiteSettings } from '@/lib/settings';
 
 /** Orbit badges around the red circle — glass circles, emoji only (no assets). */
 const ORBITS: { icon: string; pos: string; label: string }[] = [
-  { icon: '🩸', pos: 'left-[6%] top-[10%]', label: 'রক্ত' },
-  { icon: '🏥', pos: 'right-[5%] top-[26%]', label: 'হাসপাতাল' },
-  { icon: '🔥', pos: 'left-[3%] bottom-[22%]', label: 'জরুরি' },
-  { icon: '👥', pos: 'right-[9%] bottom-[8%]', label: 'কমিউনিটি' },
+  { icon: '🩸', pos: 'right-[14%] top-[4%]', label: 'রক্ত' },
+  { icon: '🏥', pos: 'right-[2%] top-[34%]', label: 'হাসপাতাল' },
+  { icon: '🔥', pos: 'left-[2%] bottom-[30%]', label: 'জরুরি' },
+  { icon: '👥', pos: 'left-[16%] bottom-[3%]', label: 'কমিউনিটি' },
 ];
 
 /**
@@ -49,7 +49,7 @@ export default function Hero({ settings }: { settings?: SiteSettings }) {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-28 md:pb-28 md:pt-36 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 md:pb-24 md:pt-36 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-6">
           {/* ============ LEFT: content ============ */}
           <div>
@@ -67,7 +67,7 @@ export default function Hero({ settings }: { settings?: SiteSettings }) {
             </span>
 
             {/* display headline — Phase 21d: 3 lines per user annotation */}
-            <h1 className="mt-6 text-5xl font-bold leading-[1.15] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="mt-6 text-[2.6rem] font-bold leading-[1.18] tracking-tight sm:text-6xl lg:text-7xl">
               <span className="block text-ink">{s.hero_line1}</span>
               <span className="text-gradient block">{s.hero_line2}</span>
               <span className="text-gradient block">{s.hero_line3}</span>
@@ -98,13 +98,13 @@ export default function Hero({ settings }: { settings?: SiteSettings }) {
             </div>
 
             {/* CTAs — upgraded: larger + stronger glow */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               {/* Phase 21g: solid vibrant blue (less gradient) per user —
                   matches the SOS button's flat vibrant feel */}
               <Link
                 href="/report"
                 style={{ boxShadow: '0 14px 34px -12px rgba(59,130,246,0.5), 0 6px 18px -8px rgba(59,130,246,0.35)' }}
-                className="group relative inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-[#3B82F6] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2563EB]"
+                className="group relative inline-flex min-h-14 items-center justify-center gap-x-2 rounded-2xl bg-[#3B82F6] px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2563EB]"
               >
                 📝 রিপোর্ট করুন
               </Link>
@@ -112,7 +112,7 @@ export default function Hero({ settings }: { settings?: SiteSettings }) {
                   user 2026-10-22: lighter red + softer glow; slow pulse */}
               <Link
                 href="/sos"
-                className="sos-pulse group inline-flex min-h-14 items-center gap-x-2 rounded-2xl bg-red-500 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-red-400"
+                className="sos-pulse group inline-flex min-h-14 items-center justify-center gap-x-2 rounded-2xl bg-red-500 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-red-400"
               >
                 🆘 জরুরি SOS
                 <svg

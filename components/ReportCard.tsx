@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Report } from '@/lib/types';
+import { bnNum } from '@/lib/time';
 import { IconClock, IconEye, IconPin } from './icons';
 import LikeButton from './LikeButton';
 import StatusBadge from './StatusBadge';
@@ -7,8 +8,8 @@ import VerifyButton from './VerifyButton';
 
 function distanceLabel(m: number | null): string {
   if (m == null) return '';
-  if (m >= 1000) return `${(m / 1000).toFixed(1)} কিমি`;
-  return `${m}মি`;
+  if (m >= 1000) return `${bnNum((m / 1000).toFixed(1))} কিমি`;
+  return `${bnNum(m)} মি`;
 }
 
 const VIDEO_EXT = ['.mp4', '.webm', '.mov', '.m4v'];
@@ -40,18 +41,22 @@ export default function ReportCard({
 
   return (
     <article
-      className={`overflow-hidden rounded-2xl bg-surface border border-line shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
-        roomy ? 'flex h-full flex-col' : ''
-      }`}
+      className={
+        tall
+          ? 'group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface transition-all duration-500 hover:border-line-strong'
+          : `overflow-hidden rounded-2xl bg-surface border border-line shadow-[0_2px_12px_rgba(0,0,0,0.05)] ${
+              roomy ? 'flex h-full flex-col' : ''
+            }`
+      }
     >
       {/* Cover: first uploaded photo */}
       {images.length > 0 && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={images[0]} alt="" className={`${tall ? 'h-64 lg:h-72' : large ? 'h-52' : 'h-44'} w-full object-cover`} loading="lazy" />
+        <img src={images[0]} alt="" className={`${tall ? 'h-56' : large ? 'h-52' : 'h-44'} w-full object-cover`} loading="lazy" />
       )}
 
-      <div className={tall ? 'flex flex-1 flex-col p-6 lg:p-8' : large ? 'flex flex-1 flex-col p-5 lg:p-6' : 'p-4'}>
-        <div className="mb-2 flex flex-wrap items-center gap-2">
+      <div className={tall ? 'flex flex-1 flex-col p-6' : large ? 'flex flex-1 flex-col p-5 lg:p-6' : 'p-4'}>
+        <div className={`flex flex-wrap items-center gap-2 ${tall ? 'mb-4' : 'mb-2'}`}>
           <span className="rounded-full bg-cream-dark px-2.5 py-1 text-xs font-semibold text-ink-soft">
             {report.category}
           </span>
@@ -63,12 +68,12 @@ export default function ReportCard({
             </span>
           )}
         </div>
-        <h3 className={`${tall ? 'text-2xl' : large ? 'text-xl' : 'text-[15px]'} font-bold leading-snug text-ink`}>
+        <h3 className={`${tall ? 'text-xl' : large ? 'text-xl' : 'text-[15px]'} font-bold leading-snug text-ink`}>
           {report.title}
         </h3>
         <p
           className={`leading-relaxed text-ink-soft ${
-            tall ? 'mt-3 line-clamp-4 text-base' : large ? 'mt-2 line-clamp-3 text-[15px]' : 'mt-1.5 text-sm'
+            tall ? 'mt-2 line-clamp-3 text-sm' : large ? 'mt-2 line-clamp-3 text-[15px]' : 'mt-1.5 text-sm'
           }`}
         >
           {report.description}
@@ -90,13 +95,13 @@ export default function ReportCard({
           <video key={u} src={u} controls preload="metadata" className="mt-3 w-full rounded-xl" />
         ))}
 
-        <div className="mt-3 flex items-center justify-between text-xs text-ink-soft">
-          <span className="flex items-center gap-1">
+        <div className="mt-4 flex items-center justify-between gap-3 text-xs text-ink-soft">
+          <span className="flex min-w-0 items-center gap-1 truncate">
             <IconPin className="h-3.5 w-3.5" />
             {report.location_name}
             {report.distance_m != null && `, ${distanceLabel(report.distance_m)}`}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex shrink-0 items-center gap-1">
             <IconClock className="h-3.5 w-3.5" />
             {report.time_ago}
           </span>
@@ -110,21 +115,19 @@ export default function ReportCard({
           </p>
         )}
         {/* Phase 7 — verify votes + link to detail/comments; Phase 15 — like */}
-        <div
-          className={`flex items-center justify-between gap-2 border-t border-line pt-3 ${
-            roomy ? 'mt-auto' : 'mt-3'
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <VerifyButton reportId={report.id} variant="compact" />
-            <LikeButton targetType="report" targetId={report.id} />
+        <div className={tall ? 'mt-auto pt-5' : roomy ? 'mt-auto pt-4' : 'mt-3'}>
+          <div className={`flex items-center justify-between gap-2 border-t border-line ${tall ? 'pt-4' : 'pt-3'}`}>
+            <div className="flex items-center gap-2">
+              <VerifyButton reportId={report.id} variant="compact" />
+              <LikeButton targetType="report" targetId={report.id} />
+            </div>
+            <Link
+              href={`/reports/${report.id}`}
+              className={`flex min-h-[44px] shrink-0 items-center whitespace-nowrap text-sm ${tall ? 'font-semibold text-ink-soft transition-colors hover:text-brand' : 'font-bold text-brand'}`}
+            >
+              বিস্তারিত ও মন্তব্য →
+            </Link>
           </div>
-          <Link
-            href={`/reports/${report.id}`}
-            className="flex min-h-[44px] items-center text-sm font-bold text-brand"
-          >
-            বিস্তারিত ও মন্তব্য →
-          </Link>
         </div>
       </div>
     </article>

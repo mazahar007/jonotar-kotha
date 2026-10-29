@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import Header from '@/components/Header';
 import MemberOtpLogin from '@/components/MemberOtpLogin';
 import PhoneVerify from '@/components/PhoneVerify';
 import ProfilePoints from '@/components/ProfilePoints';
@@ -57,6 +58,7 @@ export default function ProfilePage() {
 
   return (
     <>
+      <Header />
       <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         {member === undefined ? (
           <p className="py-10 text-center text-sm text-ink-soft">লোড হচ্ছে...</p>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { announceBadges } from '@/lib/badges-client';
+import { bnNum } from '@/lib/time';
 
 /**
  * Phase 15 — লাইক বাটন (🤍/❤️ + সংখ্যা)। রিপোর্ট কার্ড, রিপোর্ট বিস্তারিত
@@ -78,7 +79,7 @@ export default function LikeButton({
       <span aria-hidden className="text-base leading-none">
         {liked ? '❤️' : '🤍'}
       </span>
-      {count == null ? '…' : count}
+      {count == null ? '…' : bnNum(count)}
     </button>
   );
 }

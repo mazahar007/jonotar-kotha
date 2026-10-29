@@ -97,7 +97,7 @@ export default function CardSlider<T>({
   if (items.length === 0) return null;
 
   const arrowCls =
-    'absolute top-[36%] z-10 hidden h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-surface text-ink shadow-[0_2px_12px_rgba(0,0,0,0.18)] transition hover:bg-cream-dark disabled:pointer-events-none disabled:opacity-30 md:flex';
+    'absolute top-1/2 z-10 hidden -mt-[50px] h-11 w-11 items-center justify-center rounded-full border border-line-strong bg-surface text-ink shadow-[0_2px_12px_rgba(0,0,0,0.18)] transition hover:bg-cream-dark disabled:pointer-events-none disabled:opacity-30 md:flex';
 
   return (
     <div className="relative">
@@ -109,10 +109,10 @@ export default function CardSlider<T>({
         role="region"
         aria-roledescription="carousel"
         aria-label={ariaLabel}
-        className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
+        className="no-scrollbar -mx-4 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand/50"
       >
         {items.map((item, i) => (
-          <div key={keyOf(item, i)} className={`h-full shrink-0 snap-start ${cardClass}`}>
+          <div key={keyOf(item, i)} className={`flex shrink-0 snap-start [&>*]:w-full ${cardClass}`}>
             {renderCard(item, i)}
           </div>
         ))}
@@ -125,7 +125,7 @@ export default function CardSlider<T>({
             onClick={() => step(-1)}
             disabled={page === 0}
             aria-label="আগের স্লাইড"
-            className={`${arrowCls} left-0`}
+            className={`${arrowCls} left-0 -translate-x-1/2`}
           >
             <IconChevronLeft className="h-5 w-5" />
           </button>
@@ -134,13 +134,13 @@ export default function CardSlider<T>({
             onClick={() => step(1)}
             disabled={page >= pages - 1}
             aria-label="পরের স্লাইড"
-            className={`${arrowCls} right-0`}
+            className={`${arrowCls} right-0 translate-x-1/2`}
           >
             <IconChevronRight className="h-5 w-5" />
           </button>
 
           {/* Dot indicators — big tap targets, ≥44px */}
-          <div className="mt-2 flex items-center justify-center" aria-label="স্লাইড নির্বাচন">
+          <div className="mt-3 flex items-center justify-center" aria-label="স্লাইড নির্বাচন">
             {Array.from({ length: pages }, (_, i) => (
               <button
                 key={i}

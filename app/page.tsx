@@ -4,9 +4,10 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
 import HomeReportsSection from '@/components/HomeReportsSection';
+import HomeSection from '@/components/HomeSection';
 import { HomeSurveySection } from '@/components/HomeMemberSections';
 import { getCategories, getMunicipalityUpdates, getReports, getVolunteers } from '@/lib/store';
-import { getSettings } from '@/lib/settings';
+import { DEFAULT_SETTINGS, getSettings } from '@/lib/settings';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,30 +28,24 @@ export default async function HomePage() {
       <Hero settings={settings} />
       {/* Phase 21d — unified red emergency strip (replaces the old separate
           broadcast banner + emergency cards): 4 equal columns */}
-      <div className="mx-auto w-full max-w-7xl px-4 pt-[10px] pb-[10px]">
+      <div className="mx-auto w-full max-w-7xl px-4 py-2.5">
         <EmergencyStrip updates={updates} />
       </div>
-      {/* Phase 21x — survey as a standalone full-screen-width section
-          (user: "এটা পুরো স্ক্রিন জুড়ে হবে। একটা সেকশন।")
-          Phase 21ad — one full page per screen: min-h-screen + centered,
-          subtext→box gap 30px (user: "এক পেজে শুধু এই সেকশন টা দেখা যাবে।
-          সেভাবে px fixed করো... এই টেক্সটের পরে ৩০ px হবে বক্স টা থেকে") */}
-      <div className="section-fullbleed flex min-h-screen items-center py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-7xl px-4">
-          <HomeSurveySection />
-        </div>
-      </div>
-      {/* Phase 21ag — reports as a standalone full-page section, same rhythm
-          as the survey section (user: "এটার জন্য উপরের মত সেকশন করে দাও।
-          পুরো এক পেজ জুড়ে হবে।") */}
-      <div className="section-fullbleed flex min-h-screen items-center py-24 sm:py-32">
-        <div className="mx-auto w-full max-w-7xl px-4">
-          <HomeReportsSection categories={categories} reports={reports} />
-        </div>
-      </div>
-      <main className="pt-4">
-        <HomeFeed categories={categories} reports={reports} volunteers={volunteers} emergencyNumbers={settings.emergency_numbers} />
-      </main>
+      {/* From here down every section is one screen on desktop (Phase 23,
+          HomeSection SCREEN_CLS): জরিপ → রিপোর্ট → সেফটি → রোড →
+          কমিউনিটি → জরুরি ব্যানার + ফুটার. */}
+      <HomeSection orb="top-left" tone="brand">
+        <HomeSurveySection />
+      </HomeSection>
+      <HomeSection orb="mid-left" tone="violet">
+        <HomeReportsSection categories={categories} reports={reports} />
+      </HomeSection>
+      <HomeFeed
+        reports={reports}
+        volunteers={volunteers}
+        siteName={settings.site_name}
+        emergencyNumbers={settings.emergency_numbers.length > 0 ? settings.emergency_numbers : DEFAULT_SETTINGS.emergency_numbers}
+      />
       <BottomNav />
     </>
   );

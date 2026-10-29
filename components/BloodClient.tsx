@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import BottomNav from '@/components/BottomNav';
+import Header from '@/components/Header';
+import { bnNum } from '@/lib/time';
 import LiveBloodStrip from '@/components/LiveBloodStrip';
 import SectionHeader from '@/components/SectionHeader';
 import { IconDroplet, IconPin, IconSend } from '@/components/icons';
@@ -13,6 +15,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
 
   return (
     <>
+      <Header />
       <main className="mx-auto w-full max-w-7xl min-h-dvh bg-cream px-4 pb-10 pt-4">
         <SectionHeader
           gradient
@@ -22,7 +25,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
           title="রক্তদাতা এখনই"
           subtitle={
             <>
-              আপনার আশেপাশে <span className="font-bold text-brand">{active.length} জন</span> দাতা
+              আপনার আশেপাশে <span className="font-bold text-brand">{bnNum(active.length)} জন</span> দাতা
               সক্রিয়
             </>
           }
@@ -61,7 +64,7 @@ export default function BloodClient({ donors }: { donors: BloodDonor[] }) {
                   <span className="font-bold text-brand">{d.blood_group}</span>
                   {d.distance_m != null && (
                     <span className="flex items-center gap-0.5">
-                      <IconPin className="h-3.5 w-3.5" /> {d.distance_m}মি
+                      <IconPin className="h-3.5 w-3.5" /> {bnNum(d.distance_m)} মি
                     </span>
                   )}
                 </p>

@@ -22,14 +22,14 @@ export default function RoadStatusBadge({
   const cls = size === 'lg' ? 'px-4 py-1.5 text-sm' : 'px-2.5 py-1 text-xs';
   if (!status) {
     return (
-      <span className={`inline-flex items-center gap-1 rounded-full bg-overlay font-bold text-ink-soft ${cls}`}>
+      <span className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-overlay font-bold text-ink-soft ${cls}`}>
         আপডেট নেই
       </span>
     );
   }
   const meta = ROAD_STATUS_META[status];
   return (
-    <span className={`inline-flex items-center gap-1 rounded-full font-bold ${meta.badge} ${cls}`}>
+    <span className={`inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full font-bold ${meta.badge} ${cls}`}>
       {meta.alert && <span className="blink-dot inline-block h-1.5 w-1.5 rounded-full bg-current" />}
       {ROAD_STATUS_LABEL[status]}
     </span>

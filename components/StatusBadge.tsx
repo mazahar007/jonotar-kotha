@@ -5,8 +5,8 @@ const styles: Record<ReportStatus, string> = {
   pending: 'bg-amber-500/15 text-amber-300',
   verified: 'bg-emerald-500/15 text-emerald-300',
   in_progress: 'bg-sky-500/15 text-sky-300',
-  resolved: 'bg-teal-100 text-teal-300',
-  urgent: 'bg-red-100 text-red-700',
+  resolved: 'bg-teal-500/15 text-teal-300',
+  urgent: 'bg-red-500/15 text-red-300',
 };
 
 export default function StatusBadge({ status }: { status: ReportStatus }) {

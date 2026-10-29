@@ -1,5 +1,6 @@
 'use client';
 
+import Header from '@/components/Header';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { IconCheck, IconChevronRight, IconLock, IconSend } from '@/components/icons';
@@ -106,6 +107,8 @@ export default function ReportPage() {
   }
 
   return (
+    <>
+    <Header />
     <main className="min-h-dvh bg-cream px-4 py-6 lg:py-10">
       <div className="mx-auto w-full max-w-2xl lg:rounded-3xl lg:bg-surface lg:p-8 lg:shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
         <h1 className="text-xl font-bold text-ink">নতুন সমস্যা জানান</h1>
@@ -214,5 +217,6 @@ export default function ReportPage() {
         </div>
       </div>
     </main>
+    </>
   );
 }

@@ -6,7 +6,6 @@ import CardSlider from '@/components/CardSlider';
 import LocationPicker, { EMPTY_LOCATION, type LocationSelection } from '@/components/LocationPicker';
 import QuickPostStrip from '@/components/QuickPostStrip';
 import RoadCard from '@/components/RoadCard';
-import { SectionActionLink } from '@/components/SectionHeader';
 import SampleSectionHead from '@/components/SampleSectionHead';
 import { IconChevronRight } from '@/components/icons';
 import { bnNum } from '@/lib/time';
@@ -108,23 +107,23 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
 
   const chipCls = (active: boolean) =>
     `flex min-h-11 shrink-0 cursor-pointer items-center rounded-full px-3.5 text-xs font-bold shadow-sm transition ${
-      active ? 'btn-gradient text-white' : 'bg-surface text-ink hover:bg-cream-dark'
+      active ? 'btn-gradient text-white' : 'border border-line bg-surface text-ink hover:bg-cream-dark'
     }`;
 
-  const body = (
-    <>
-      {/* One-tap post strip at section top */}
-      <QuickPostStrip onPosted={refetch} />
+  /* One-tap post strip at section top */
+  const quickPost = <QuickPostStrip onPosted={refetch} />;
 
+  const listBody = (
+    <>
       {/* Shared area filter */}
-      <div className="rounded-2xl bg-surface border border-line p-3 shadow-[0_2px_12px_rgba(0,0,0,0.05)]">
-        <p className="mb-2 px-1 text-xs font-bold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
+      <div className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
+        <p className="mb-3 text-xs font-semibold text-ink-soft">এলাকা অনুযায়ী দেখুন</p>
         <LocationPicker compact value={area} onChange={setArea} />
       </div>
 
       {/* One status-filter chip row for the merged list */}
       {items !== null && items.length > 0 && (
-        <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-0.5">
+        <div className="no-scrollbar -mx-1 flex gap-2 overflow-x-auto px-1 py-2">
           <button
             type="button"
             onClick={() => setFilter(null)}
@@ -171,21 +170,13 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
           এই অবস্থায় কোনো জায়গা নেই।
         </p>
       ) : isHome ? (
-        <>
-          <CardSlider
-            items={display}
-            keyOf={(r) => r.id}
-            ariaLabel="রোড ও মোড়ের অবস্থা স্লাইডার"
-            renderCard={(r) => <RoadCard road={r} interactive={false} />}
-          />
-          <Link
-            href="/roads"
-            className="flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl btn-gradient text-lg font-bold text-white shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition hover:bg-overlay"
-          >
-            আরও দেখুন
-            <IconChevronRight className="h-5 w-5" />
-          </Link>
-        </>
+        <CardSlider
+          items={display}
+          keyOf={(r) => r.id}
+          ariaLabel="রোড ও মোড়ের অবস্থা স্লাইডার"
+          cardClass="w-[88%] sm:w-[70%] md:w-[calc(50%-6px)]"
+          renderCard={(r) => <RoadCard road={r} interactive={false} />}
+        />
       ) : (
         <div className={gridClassName}>
           {display.map((r) => (
@@ -196,24 +187,43 @@ export default function RoadsExplorer({ variant = 'full' }: { variant?: 'home' |
     </>
   );
 
-  if (!isHome) return <div className="space-y-6">{body}</div>;
+  if (!isHome)
+    return (
+      <div className="space-y-6">
+        {quickPost}
+        {listBody}
+      </div>
+    );
 
+  /* Phase 23 — home fits one desktop screen: heading + one-tap post on the
+     left, area filter + status chips + 2-up slider on the right. */
   return (
-    <section className="space-y-5">
-      <SampleSectionHead
-        badge="রাস্তা"
-        color="amber"
-        title="রোড ও মোড়ের"
-        gradient="অবস্থা"
-        subtext="রাস্তা ও গুরুত্বপূর্ণ মোড়ের লাইভ অবস্থা"
-        action={
-          <span className="flex items-center gap-2">
+    <section className="grid gap-10 lg:grid-cols-[400px_minmax(0,1fr)] lg:items-center lg:gap-10">
+      <div className="min-w-0 space-y-7">
+        <div>
+          <SampleSectionHead
+            badge="রাস্তা"
+            color="amber"
+            title="রোড ও মোড়ের"
+            gradient="লাইভ অবস্থা"
+            subtext="কোথায় জ্যাম, কোথায় রাস্তা ভাঙা, বিদ্যুৎ আছে কি নেই — এক ট্যাপে জানুন ও জানান।"
+            size="page"
+            stacked
+          />
+          <div className="mt-5 flex flex-wrap items-center gap-2">
             <SafetyScoreChip area={area} />
-            <SectionActionLink href="/roads">সব দেখুন</SectionActionLink>
-          </span>
-        }
-      />
-      <div className="space-y-6">{body}</div>
+            <Link
+              href="/roads"
+              className="group inline-flex min-h-11 items-center gap-x-1.5 rounded-xl border border-line-strong px-5 text-sm font-semibold text-ink transition-all duration-300 hover:bg-overlay"
+            >
+              সব রোড ও মোড় দেখুন
+              <IconChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+        {quickPost}
+      </div>
+      <div className="min-w-0 space-y-5">{listBody}</div>
     </section>
   );
 }
