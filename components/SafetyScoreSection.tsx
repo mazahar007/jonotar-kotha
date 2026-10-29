@@ -183,9 +183,11 @@ export default function SafetyScoreSection() {
   const meta = GRADE_META[grade];
 
   return (
-    <section className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      {/* LEFT — reference "নিরাপত্তা" copy block + 2×2 tool cards */}
-      <div>
+    /* Desktop: heading + 2×2 tool cards on the left, score panel on the right.
+       Phones (user: tools go below the score): heading → score → tools. */
+    <section className="grid gap-10 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-10">
+      {/* reference "নিরাপত্তা" copy block */}
+      <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
         <SampleSectionHead
           badge="নিরাপত্তা"
           color="emerald"
@@ -195,7 +197,11 @@ export default function SafetyScoreSection() {
           size="page"
           stacked
         />
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      </div>
+
+      {/* 2×2 tool cards — after the score panel on phones */}
+      <div className="order-last lg:order-none lg:col-start-1 lg:row-start-2 lg:self-start">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {SAFETY_TOOLS.map(({ href, title, text, Icon, tile }) => (
             <Link
               key={title}
@@ -212,8 +218,8 @@ export default function SafetyScoreSection() {
         </div>
       </div>
 
-      {/* RIGHT — gradient + noise panel holding the live score */}
-      <div className="relative overflow-hidden rounded-3xl border border-line">
+      {/* gradient + noise panel holding the live score (right column on lg) */}
+      <div className="relative overflow-hidden rounded-3xl border border-line lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center">
         <div aria-hidden className="absolute inset-0 bg-gradient-to-br from-brand/10 via-brand-dark/5 to-emerald-500/10" />
         <div aria-hidden className="noise absolute inset-0" />
         <div className="relative px-5 py-8 sm:px-10 sm:py-12">
